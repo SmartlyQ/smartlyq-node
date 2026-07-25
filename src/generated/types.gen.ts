@@ -5341,9 +5341,9 @@ export type CreateWebhookData = {
          */
         url: string;
         /**
-         * Event names to subscribe to.
+         * Events to subscribe to. Must be from the 25-event catalog (see the webhooks object in this spec and the Webhooks guide).
          */
-        events: Array<string>;
+        events: Array<'post.published' | 'post.partial' | 'post.failed' | 'account.connected' | 'account.disconnected' | 'account.token_expired' | 'comment.received' | 'message.received' | 'job.completed' | 'job.failed' | 'balance.low' | 'balance.depleted' | 'key.revoked' | 'wallet.recharge.succeeded' | 'wallet.recharge.failed' | 'account_billing.charged' | 'account_billing.failed' | 'contact.created' | 'contact.updated' | 'contact.tag_added' | 'contact.tag_removed' | 'deal.created' | 'deal.stage_changed' | 'deal.won' | 'deal.lost'>;
     };
     path?: never;
     query?: never;
