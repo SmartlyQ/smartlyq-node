@@ -1,0 +1,12 @@
+node_modules/
+dist/
+coverage/
+*.log
+.DS_Store
+
+# Never commit local env or key material
+.env
+.env.*
+*.pem
+*.key
+*.p12

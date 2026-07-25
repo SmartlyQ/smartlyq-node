@@ -1,0 +1,63 @@
+{
+  "name": "@smartlyqofficial/node",
+  "version": "0.1.0",
+  "description": "Official Node.js SDK for the SmartlyQ API - social posting, AI content generation, SEO, CRM, and more.",
+  "keywords": [
+    "smartlyq",
+    "social-media",
+    "api",
+    "sdk",
+    "ai",
+    "content-generation",
+    "social-posting",
+    "seo"
+  ],
+  "homepage": "https://docs.smartlyq.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SmartlyQ/smartlyq-node.git"
+  },
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "fetch-spec": "curl -f --retry 5 --retry-delay 2 --retry-all-errors --max-time 60 -o openapi.json https://docs.smartlyq.com/openapi.json",
+    "generate": "openapi-ts && npm run generate:client",
+    "generate:client": "tsx scripts/generate-client.ts",
+    "generate:readme": "tsx scripts/generate-readme-reference.ts",
+    "generate:tests": "tsx scripts/generate-endpoint-tests.ts",
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src scripts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@hey-api/openapi-ts": "^0.66.0",
+    "@types/node": "^22.0.0",
+    "eslint": "^9.0.0",
+    "tsup": "^8.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "typescript-eslint": "^8.0.0",
+    "vitest": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
