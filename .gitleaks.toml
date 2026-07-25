@@ -33,4 +33,5 @@ regexes = [
   '''(?i)YOUR_(API_KEY|TOKEN|SECRET)''',
   '''(?i)\b(example|placeholder|changeme|redacted)\b''',
   '''x{8,}''',
+  '''whsec_a1b2c3d4e5f6''',
 ]
