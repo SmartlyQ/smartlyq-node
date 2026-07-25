@@ -91,11 +91,13 @@ jobs:
             sleep $((attempt * 5))
           done
 
+      # Runs unconditionally so the FIRST version publishes even with no spec
+      # delta; later no-change runs see the version on npm and skip.
       - name: Check if version already published
-        if: steps.changes.outputs.has_changes == 'true'
         id: check_published
         run: |
           CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "version=${CURRENT_VERSION}" >> $GITHUB_OUTPUT
           if npm view "@smartlyqofficial/node@${CURRENT_VERSION}" version 2>/dev/null; then
             echo "skip=true" >> $GITHUB_OUTPUT
             echo "Version ${CURRENT_VERSION} already on npm, skipping publish."
@@ -109,17 +111,17 @@ jobs:
       # must fail the run loudly - otherwise versions keep bumping and releases
       # keep cutting while npm silently freezes.
       - name: Publish to npm
-        if: steps.changes.outputs.has_changes == 'true' && steps.check_published.outputs.skip != 'true'
+        if: steps.check_published.outputs.skip != 'true'
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
-        if: steps.changes.outputs.has_changes == 'true'
+        if: steps.check_published.outputs.skip != 'true'
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.version.outputs.new_version }}
-          name: ${{ steps.version.outputs.new_version }}
+          tag_name: v${{ steps.check_published.outputs.version }}
+          name: v${{ steps.check_published.outputs.version }}
           generate_release_notes: true
           body: |
             ## Auto-generated SDK update
@@ -127,7 +129,7 @@ jobs:
             This release was generated from the latest OpenAPI spec.
 
             ```bash
-            npm install @smartlyqofficial/node@${{ steps.version.outputs.new_version }}
+            npm install @smartlyqofficial/node@${{ steps.check_published.outputs.version }}
             ```
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
