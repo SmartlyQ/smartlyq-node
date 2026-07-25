@@ -873,6 +873,76 @@ describe('social', () => {
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/social/connect/test-id');
   });
+
+  it('social.listQueues -> GET /social/queues', async () => {
+    const { client, calls } = mockClient();
+    await client.social.listQueues();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/queues');
+  });
+
+  it('social.createQueue -> POST /social/queues', async () => {
+    const { client, calls } = mockClient();
+    await client.social.createQueue({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/queues');
+  });
+
+  it('social.getQueue -> GET /social/queues/{queue_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.social.getQueue('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/queues/test-id');
+  });
+
+  it('social.updateQueue -> PUT /social/queues/{queue_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.social.updateQueue('test-id', {} as never);
+    expect(calls[0].method).toBe('PUT');
+    expect(calls[0].path).toBe('/social/queues/test-id');
+  });
+
+  it('social.deleteQueue -> DELETE /social/queues/{queue_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.social.deleteQueue('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/social/queues/test-id');
+  });
+
+  it('social.getQueueNextSlot -> GET /social/queues/{queue_id}/next-slot', async () => {
+    const { client, calls } = mockClient();
+    await client.social.getQueueNextSlot('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/queues/test-id/next-slot');
+  });
+
+  it('social.previewQueueSlots -> GET /social/queues/{queue_id}/preview', async () => {
+    const { client, calls } = mockClient();
+    await client.social.previewQueueSlots('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/queues/test-id/preview');
+  });
+
+  it('social.unpublishPost -> POST /social/posts/{post_id}/unpublish', async () => {
+    const { client, calls } = mockClient();
+    await client.social.unpublishPost('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/posts/test-id/unpublish');
+  });
+
+  it('social.validatePost -> POST /social/validate/post', async () => {
+    const { client, calls } = mockClient();
+    await client.social.validatePost({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/validate/post');
+  });
+
+  it('social.validateMedia -> POST /social/validate/media', async () => {
+    const { client, calls } = mockClient();
+    await client.social.validateMedia({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/validate/media');
+  });
 });
 
 describe('urls', () => {
@@ -992,11 +1062,32 @@ describe('webhooks', () => {
     expect(calls[0].path).toBe('/webhooks');
   });
 
+  it('webhooks.update -> PUT /webhooks/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.webhooks.update('test-id', {} as never);
+    expect(calls[0].method).toBe('PUT');
+    expect(calls[0].path).toBe('/webhooks/test-id');
+  });
+
   it('webhooks.delete -> DELETE /webhooks/{id}', async () => {
     const { client, calls } = mockClient();
     await client.webhooks.delete('test-id');
     expect(calls[0].method).toBe('DELETE');
     expect(calls[0].path).toBe('/webhooks/test-id');
+  });
+
+  it('webhooks.listLogs -> GET /webhooks/logs', async () => {
+    const { client, calls } = mockClient();
+    await client.webhooks.listLogs();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/webhooks/logs');
+  });
+
+  it('webhooks.test -> POST /webhooks/{id}/test', async () => {
+    const { client, calls } = mockClient();
+    await client.webhooks.test('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/webhooks/test-id/test');
   });
 });
 

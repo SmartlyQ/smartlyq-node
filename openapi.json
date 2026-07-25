@@ -949,7 +949,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SocialPostScheduleRequest"
+                "$ref": "#/components/schemas/SocialPostScheduleRequest",
+                "properties": {
+                  "queue_id": {
+                    "type": "integer",
+                    "description": "Schedule into a posting queue instead of a fixed time: the queue's next open slot is resolved server-side and the post occupies it. Mutually exclusive with scheduled_time."
+                  },
+                  "timezone": {
+                    "type": "string",
+                    "description": "IANA timezone scheduled_time is expressed in (default UTC). Ignored with queue_id (the queue's own timezone applies)."
+                  }
+                }
               }
             }
           }
@@ -991,7 +1001,8 @@
           {
             "$ref": "#/components/parameters/ProfileHeader"
           }
-        ]
+        ],
+        "description": " Pass queue_id (instead of scheduled_time) to drop the post into a posting queue's next open slot."
       }
     },
     "/social/posts/{post_id}": {
@@ -6595,6 +6606,156 @@
             "$ref": "#/components/responses/NotFound"
           }
         }
+      },
+      "put": {
+        "summary": "Update webhook",
+        "operationId": "updateWebhook",
+        "tags": [
+          "Webhooks"
+        ],
+        "description": "Update a webhook's `url`, `events`, or `status`. Only supplied fields change. `url` is re-validated (public HTTPS, SSRF-guarded); `events` must all come from the 25-event catalog (unknown names are rejected); setting `status` to `active` also recovers an endpoint auto-paused as `failing`. Requires scope `webhooks:write`. Not available under X-Profile-Id delegation - webhooks live on your developer workspace and receive profile events automatically (with profile_id attached).",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Webhook id."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "Provide at least one field.",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "Public HTTPS endpoint."
+                  },
+                  "events": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "post.published",
+                        "post.partial",
+                        "post.failed",
+                        "account.connected",
+                        "account.disconnected",
+                        "account.token_expired",
+                        "comment.received",
+                        "message.received",
+                        "job.completed",
+                        "job.failed",
+                        "balance.low",
+                        "balance.depleted",
+                        "key.revoked",
+                        "wallet.recharge.succeeded",
+                        "wallet.recharge.failed",
+                        "account_billing.charged",
+                        "account_billing.failed",
+                        "contact.created",
+                        "contact.updated",
+                        "contact.tag_added",
+                        "contact.tag_removed",
+                        "deal.created",
+                        "deal.stage_changed",
+                        "deal.won",
+                        "deal.lost"
+                      ]
+                    },
+                    "description": "Full replacement list of subscribed events."
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "active",
+                      "paused"
+                    ],
+                    "description": "Pause or resume deliveries."
+                  }
+                }
+              },
+              "example": {
+                "events": [
+                  "post.published",
+                  "post.failed",
+                  "comment.received"
+                ],
+                "status": "active"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated webhook",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "events": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "status": {
+                          "type": "string",
+                          "description": "active | paused | failing"
+                        },
+                        "last_triggered_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "nullable": true
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/RequestMeta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        }
       }
     },
     "/social/connect/{platform}": {
@@ -9465,6 +9626,1301 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/webhooks/logs": {
+      "get": {
+        "summary": "List webhook delivery logs",
+        "operationId": "listWebhookLogs",
+        "tags": [
+          "Webhooks"
+        ],
+        "description": "Paginated log of webhook delivery attempts across your endpoints, newest first (90-day retention). Each row carries the full delivery envelope, the destination's response code and a response-body excerpt, the attempt count, and the next retry time when pending. Requires scope `webhooks:read`. Not available under X-Profile-Id delegation - webhooks live on your developer workspace and receive profile events automatically (with profile_id attached).",
+        "parameters": [
+          {
+            "name": "webhook_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filter to one webhook."
+          },
+          {
+            "name": "event",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by event name (e.g. post.published)."
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "delivered",
+                "dead_letter"
+              ]
+            },
+            "description": "Filter by delivery status."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 20,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delivery log",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "deliveries": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "webhook_id": {
+                                "type": "integer"
+                              },
+                              "event": {
+                                "type": "string"
+                              },
+                              "event_id": {
+                                "type": "string",
+                                "description": "The envelope's stable evt_ id (matches X-SmartlyQ-Event-Id)."
+                              },
+                              "status": {
+                                "type": "string",
+                                "enum": [
+                                  "pending",
+                                  "delivered",
+                                  "dead_letter"
+                                ]
+                              },
+                              "attempt": {
+                                "type": "integer"
+                              },
+                              "response_code": {
+                                "type": "integer",
+                                "nullable": true
+                              },
+                              "response_body": {
+                                "type": "string",
+                                "nullable": true,
+                                "description": "First 500 chars of the destination's response."
+                              },
+                              "payload": {
+                                "type": "object",
+                                "nullable": true,
+                                "description": "The delivered envelope {id, event, created_at, data}."
+                              },
+                              "created_at": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "delivered_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "nullable": true
+                              },
+                              "next_retry_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "nullable": true
+                              }
+                            }
+                          }
+                        },
+                        "pagination": {
+                          "type": "object",
+                          "properties": {
+                            "total": {
+                              "type": "integer"
+                            },
+                            "page": {
+                              "type": "integer"
+                            },
+                            "per_page": {
+                              "type": "integer"
+                            },
+                            "total_pages": {
+                              "type": "integer"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/RequestMeta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/webhooks/{id}/test": {
+      "post": {
+        "summary": "Send test webhook",
+        "operationId": "testWebhook",
+        "tags": [
+          "Webhooks"
+        ],
+        "description": "Synchronously sends a `webhook.test` delivery to the endpoint through the real signing pipeline (same headers and HMAC signature as production events) and returns the outcome. Works even when the endpoint is paused or failing. Test deliveries are never retried by the worker. Requires scope `webhooks:write`. Not available under X-Profile-Id delegation - webhooks live on your developer workspace and receive profile events automatically (with profile_id attached).",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Webhook id."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Test result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "delivered": {
+                          "type": "boolean",
+                          "description": "True when the endpoint answered 2xx."
+                        },
+                        "event_id": {
+                          "type": "string"
+                        },
+                        "delivery_id": {
+                          "type": "integer"
+                        },
+                        "response_code": {
+                          "type": "integer",
+                          "nullable": true
+                        },
+                        "response_body": {
+                          "type": "string",
+                          "nullable": true
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/RequestMeta"
+                    }
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "delivered": true,
+                    "event_id": "evt_1a2b3c",
+                    "delivery_id": 9812,
+                    "response_code": 200,
+                    "response_body": "ok"
+                  },
+                  "meta": {
+                    "request_id": "req_abc123"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/social/queues": {
+      "get": {
+        "summary": "List queues",
+        "operationId": "listQueues",
+        "tags": [
+          "Social"
+        ],
+        "description": "List the workspace's posting queues (recurring weekly slot schedules). Requires scope `social:read`.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "queues": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "slots": {
+                                "type": "object",
+                                "description": "Weekly slot map: keys Mon..Sun, values arrays of 24h \"HH:MM\" strings, e.g. {\"Mon\": [\"09:00\", \"15:00\"], \"Thu\": [\"10:30\"]}. Max 50 slots per queue.",
+                                "propertyNames": {
+                                  "enum": [
+                                    "Mon",
+                                    "Tue",
+                                    "Wed",
+                                    "Thu",
+                                    "Fri",
+                                    "Sat",
+                                    "Sun"
+                                  ]
+                                },
+                                "additionalProperties": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string",
+                                    "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                                  }
+                                }
+                              },
+                              "timezone": {
+                                "type": "string",
+                                "description": "IANA timezone the slots are interpreted in (default UTC)."
+                              },
+                              "is_active": {
+                                "type": "boolean"
+                              },
+                              "created_at": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "updated_at": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/RequestMeta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create queue",
+        "operationId": "createQueue",
+        "tags": [
+          "Social"
+        ],
+        "description": "Create a posting queue. Posts join it via `POST /social/posts/schedule` with `queue_id`; each post takes the next open slot (FIFO). Max 20 queues per workspace. Requires scope `social:write`.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "slots"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 100
+                  },
+                  "slots": {
+                    "type": "object",
+                    "description": "Weekly slot map: keys Mon..Sun, values arrays of 24h \"HH:MM\" strings, e.g. {\"Mon\": [\"09:00\", \"15:00\"], \"Thu\": [\"10:30\"]}. Max 50 slots per queue.",
+                    "propertyNames": {
+                      "enum": [
+                        "Mon",
+                        "Tue",
+                        "Wed",
+                        "Thu",
+                        "Fri",
+                        "Sat",
+                        "Sun"
+                      ]
+                    },
+                    "additionalProperties": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                      }
+                    }
+                  },
+                  "timezone": {
+                    "type": "string",
+                    "description": "IANA timezone for the slots (default UTC)."
+                  },
+                  "is_active": {
+                    "type": "boolean",
+                    "default": true
+                  }
+                }
+              },
+              "example": {
+                "name": "Weekday mornings",
+                "slots": {
+                  "Mon": [
+                    "09:00"
+                  ],
+                  "Wed": [
+                    "09:00"
+                  ],
+                  "Fri": [
+                    "09:00",
+                    "15:00"
+                  ]
+                },
+                "timezone": "Europe/Madrid"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "slots": {
+                          "type": "object",
+                          "description": "Weekly slot map: keys Mon..Sun, values arrays of 24h \"HH:MM\" strings, e.g. {\"Mon\": [\"09:00\", \"15:00\"], \"Thu\": [\"10:30\"]}. Max 50 slots per queue.",
+                          "propertyNames": {
+                            "enum": [
+                              "Mon",
+                              "Tue",
+                              "Wed",
+                              "Thu",
+                              "Fri",
+                              "Sat",
+                              "Sun"
+                            ]
+                          },
+                          "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                            }
+                          }
+                        },
+                        "timezone": {
+                          "type": "string",
+                          "description": "IANA timezone the slots are interpreted in (default UTC)."
+                        },
+                        "is_active": {
+                          "type": "boolean"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/RequestMeta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        }
+      }
+    },
+    "/social/queues/{queue_id}": {
+      "get": {
+        "summary": "Get queue",
+        "operationId": "getQueue",
+        "tags": [
+          "Social"
+        ],
+        "description": "Fetch one queue, including its next open slot. Requires scope `social:read`.",
+        "parameters": [
+          {
+            "name": "queue_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Queue id."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "data": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "slots": {
+                              "type": "object",
+                              "description": "Weekly slot map: keys Mon..Sun, values arrays of 24h \"HH:MM\" strings, e.g. {\"Mon\": [\"09:00\", \"15:00\"], \"Thu\": [\"10:30\"]}. Max 50 slots per queue.",
+                              "propertyNames": {
+                                "enum": [
+                                  "Mon",
+                                  "Tue",
+                                  "Wed",
+                                  "Thu",
+                                  "Fri",
+                                  "Sat",
+                                  "Sun"
+                                ]
+                              },
+                              "additionalProperties": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                                }
+                              }
+                            },
+                            "timezone": {
+                              "type": "string",
+                              "description": "IANA timezone the slots are interpreted in (default UTC)."
+                            },
+                            "is_active": {
+                              "type": "boolean"
+                            },
+                            "created_at": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "updated_at": {
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "next_slot": {
+                              "type": "string",
+                              "nullable": true,
+                              "description": "Next open slot, UTC 'Y-m-d H:i:s', or null when the queue has no open slots in the next 60 days."
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/RequestMeta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update queue",
+        "operationId": "updateQueue",
+        "tags": [
+          "Social"
+        ],
+        "description": "Update name, slots, timezone, or active state. Only supplied fields change; already-queued posts keep their resolved times. Requires scope `social:write`.",
+        "parameters": [
+          {
+            "name": "queue_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Queue id."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "Provide at least one field.",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 100
+                  },
+                  "slots": {
+                    "type": "object",
+                    "description": "Weekly slot map: keys Mon..Sun, values arrays of 24h \"HH:MM\" strings, e.g. {\"Mon\": [\"09:00\", \"15:00\"], \"Thu\": [\"10:30\"]}. Max 50 slots per queue.",
+                    "propertyNames": {
+                      "enum": [
+                        "Mon",
+                        "Tue",
+                        "Wed",
+                        "Thu",
+                        "Fri",
+                        "Sat",
+                        "Sun"
+                      ]
+                    },
+                    "additionalProperties": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                      }
+                    }
+                  },
+                  "timezone": {
+                    "type": "string"
+                  },
+                  "is_active": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "slots": {
+                          "type": "object",
+                          "description": "Weekly slot map: keys Mon..Sun, values arrays of 24h \"HH:MM\" strings, e.g. {\"Mon\": [\"09:00\", \"15:00\"], \"Thu\": [\"10:30\"]}. Max 50 slots per queue.",
+                          "propertyNames": {
+                            "enum": [
+                              "Mon",
+                              "Tue",
+                              "Wed",
+                              "Thu",
+                              "Fri",
+                              "Sat",
+                              "Sun"
+                            ]
+                          },
+                          "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                            }
+                          }
+                        },
+                        "timezone": {
+                          "type": "string",
+                          "description": "IANA timezone the slots are interpreted in (default UTC)."
+                        },
+                        "is_active": {
+                          "type": "boolean"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/RequestMeta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete queue",
+        "operationId": "deleteQueue",
+        "tags": [
+          "Social"
+        ],
+        "description": "Delete a queue. Posts already scheduled through it keep their resolved times. Requires scope `social:write`.",
+        "parameters": [
+          {
+            "name": "queue_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Queue id."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "data": {
+                      "type": "null"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/RequestMeta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/social/queues/{queue_id}/next-slot": {
+      "get": {
+        "summary": "Get next open slot",
+        "operationId": "getQueueNextSlot",
+        "tags": [
+          "Social"
+        ],
+        "description": "The next unoccupied slot in the queue (UTC). For preview only - to actually schedule into the queue, pass `queue_id` to `POST /social/posts/schedule` (that call resolves and occupies the slot atomically). Requires scope `social:read`.",
+        "parameters": [
+          {
+            "name": "queue_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Queue id."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "queue_id": {
+                          "type": "integer"
+                        },
+                        "next_slot": {
+                          "type": "string",
+                          "nullable": true,
+                          "description": "UTC 'Y-m-d H:i:s', or null when full for the next 60 days."
+                        },
+                        "timezone": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/RequestMeta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/social/queues/{queue_id}/preview": {
+      "get": {
+        "summary": "Preview upcoming slots",
+        "operationId": "previewQueueSlots",
+        "tags": [
+          "Social"
+        ],
+        "description": "The next N open slots (default 10, max 50), continuing the same walk `next-slot` uses. Requires scope `social:read`.",
+        "parameters": [
+          {
+            "name": "queue_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Queue id."
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "maximum": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "queue_id": {
+                          "type": "integer"
+                        },
+                        "count": {
+                          "type": "integer"
+                        },
+                        "slots": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "description": "UTC 'Y-m-d H:i:s' values, ascending."
+                        },
+                        "timezone": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/RequestMeta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/social/posts/{post_id}/unpublish": {
+      "post": {
+        "summary": "Unpublish post",
+        "operationId": "unpublishPost",
+        "tags": [
+          "Social"
+        ],
+        "description": "Delete a PUBLISHED post from its native platforms while keeping the SmartlyQ record - its status flips to `unpublished`. Optional `platforms` restricts which networks are removed. Supported for deletion: Threads, Facebook, LinkedIn, YouTube, X/Twitter, Pinterest, Tumblr, Bluesky, Google Business (Instagram, TikTok and Snapchat expose no delete API - those targets are reported as skipped). If any attempted native delete fails, nothing changes on our side and per-platform errors are returned so you can retry. Drafts and scheduled posts should use `DELETE /social/posts/{post_id}` instead. Requires scope `social:write`.",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Post id."
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "platforms": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Restrict native deletion to these platforms. Omit to remove from every platform the post published to."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Unpublished",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "post_id": {
+                          "type": "integer"
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "unpublished"
+                          ]
+                        },
+                        "platforms": {
+                          "type": "object",
+                          "additionalProperties": true,
+                          "description": "Per-platform deletion results."
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/RequestMeta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "502": {
+            "description": "One or more native deletes failed; the post is unchanged. The error details carry per-platform results.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        false
+                      ]
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "PLATFORM_DELETE_FAILED"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "details": {
+                          "type": "object"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/social/validate/post": {
+      "post": {
+        "summary": "Validate post content",
+        "operationId": "validatePost",
+        "tags": [
+          "Social"
+        ],
+        "description": "Dry-run the same declarative checks the create path uses, WITHOUT creating anything: per-platform caption limits (each limit grounded in the platform handler or the platform's documented maximum), required-media rules (e.g. Instagram), and media extension screening. Free and unbilled. Platforms with no honestly-documented ceiling (Snapchat stories carry no caption; Tumblr documents no body cap) report limit: null. Requires scope `social:read`.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "platforms"
+                ],
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "description": "Post text to check."
+                  },
+                  "platforms": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Target platforms, e.g. [\"twitter\", \"instagram\"]."
+                  },
+                  "media_urls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Media URLs the post would carry (used for required-media and extension checks)."
+                  }
+                }
+              },
+              "example": {
+                "content": "Launching today! 🚀",
+                "platforms": [
+                  "twitter",
+                  "instagram",
+                  "linkedin"
+                ],
+                "media_urls": [
+                  "https://cdn.example.com/launch.jpg"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Validation report",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "valid": {
+                          "type": "boolean"
+                        },
+                        "errors": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "description": "Human-readable, actionable problems (empty when valid)."
+                        },
+                        "platforms": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "object",
+                            "properties": {
+                              "characters": {
+                                "type": "integer"
+                              },
+                              "limit": {
+                                "type": "integer",
+                                "nullable": true,
+                                "description": "Caption limit, or null when the platform has no documented ceiling."
+                              },
+                              "within_limit": {
+                                "type": "boolean"
+                              },
+                              "requires_media": {
+                                "type": "boolean"
+                              },
+                              "media_ok": {
+                                "type": "boolean"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/RequestMeta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        }
+      }
+    },
+    "/social/validate/media": {
+      "post": {
+        "summary": "Validate media URL",
+        "operationId": "validateMedia",
+        "tags": [
+          "Social"
+        ],
+        "description": "Checks that a media URL is publicly reachable and reports its content type, byte size, and detected kind (image/video). SSRF-guarded: private and internal hosts are rejected. Uses a HEAD request with a 1-byte ranged-GET fallback for CDNs that refuse HEAD. Free and unbilled. Requires scope `social:read`.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "url"
+                ],
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "Public http(s) media URL."
+                  }
+                }
+              },
+              "example": {
+                "url": "https://cdn.example.com/launch.jpg"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Media check",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "url": {
+                          "type": "string"
+                        },
+                        "reachable": {
+                          "type": "boolean"
+                        },
+                        "http_code": {
+                          "type": "integer"
+                        },
+                        "content_type": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "size_bytes": {
+                          "type": "integer",
+                          "nullable": true
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "image",
+                            "video",
+                            "unknown"
+                          ]
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/RequestMeta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
           }
         }
       }

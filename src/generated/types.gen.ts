@@ -5434,6 +5434,74 @@ export type DeleteWebhookResponses = {
 
 export type DeleteWebhookResponse = DeleteWebhookResponses[keyof DeleteWebhookResponses];
 
+export type UpdateWebhookData = {
+    /**
+     * Provide at least one field.
+     */
+    body: {
+        /**
+         * Public HTTPS endpoint.
+         */
+        url?: string;
+        /**
+         * Full replacement list of subscribed events.
+         */
+        events?: Array<'post.published' | 'post.partial' | 'post.failed' | 'account.connected' | 'account.disconnected' | 'account.token_expired' | 'comment.received' | 'message.received' | 'job.completed' | 'job.failed' | 'balance.low' | 'balance.depleted' | 'key.revoked' | 'wallet.recharge.succeeded' | 'wallet.recharge.failed' | 'account_billing.charged' | 'account_billing.failed' | 'contact.created' | 'contact.updated' | 'contact.tag_added' | 'contact.tag_removed' | 'deal.created' | 'deal.stage_changed' | 'deal.won' | 'deal.lost'>;
+        /**
+         * Pause or resume deliveries.
+         */
+        status?: 'active' | 'paused';
+    };
+    path: {
+        /**
+         * Webhook id.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/webhooks/{id}';
+};
+
+export type UpdateWebhookErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type UpdateWebhookError = UpdateWebhookErrors[keyof UpdateWebhookErrors];
+
+export type UpdateWebhookResponses = {
+    /**
+     * Updated webhook
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            url?: string;
+            events?: Array<string>;
+            /**
+             * active | paused | failing
+             */
+            status?: string;
+            last_triggered_at?: string;
+            created_at?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type UpdateWebhookResponse = UpdateWebhookResponses[keyof UpdateWebhookResponses];
+
 export type ConnectSocialAccountStatusData = {
     body?: never;
     headers?: {
@@ -7495,6 +7563,677 @@ export type GetAccountBillingResponses = {
 };
 
 export type GetAccountBillingResponse = GetAccountBillingResponses[keyof GetAccountBillingResponses];
+
+export type ListWebhookLogsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Filter to one webhook.
+         */
+        webhook_id?: number;
+        /**
+         * Filter by event name (e.g. post.published).
+         */
+        event?: string;
+        /**
+         * Filter by delivery status.
+         */
+        status?: 'pending' | 'delivered' | 'dead_letter';
+        page?: number;
+        per_page?: number;
+    };
+    url: '/webhooks/logs';
+};
+
+export type ListWebhookLogsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+};
+
+export type ListWebhookLogsError = ListWebhookLogsErrors[keyof ListWebhookLogsErrors];
+
+export type ListWebhookLogsResponses = {
+    /**
+     * Delivery log
+     */
+    200: {
+        success?: true;
+        data?: {
+            deliveries?: Array<{
+                id?: number;
+                webhook_id?: number;
+                event?: string;
+                /**
+                 * The envelope's stable evt_ id (matches X-SmartlyQ-Event-Id).
+                 */
+                event_id?: string;
+                status?: 'pending' | 'delivered' | 'dead_letter';
+                attempt?: number;
+                response_code?: number;
+                /**
+                 * First 500 chars of the destination's response.
+                 */
+                response_body?: string;
+                /**
+                 * The delivered envelope {id, event, created_at, data}.
+                 */
+                payload?: {
+                    [key: string]: unknown;
+                };
+                created_at?: string;
+                delivered_at?: string;
+                next_retry_at?: string;
+            }>;
+            pagination?: {
+                total?: number;
+                page?: number;
+                per_page?: number;
+                total_pages?: number;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ListWebhookLogsResponse = ListWebhookLogsResponses[keyof ListWebhookLogsResponses];
+
+export type TestWebhookData = {
+    body?: never;
+    path: {
+        /**
+         * Webhook id.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/webhooks/{id}/test';
+};
+
+export type TestWebhookErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type TestWebhookError = TestWebhookErrors[keyof TestWebhookErrors];
+
+export type TestWebhookResponses = {
+    /**
+     * Test result
+     */
+    200: {
+        success?: true;
+        data?: {
+            /**
+             * True when the endpoint answered 2xx.
+             */
+            delivered?: boolean;
+            event_id?: string;
+            delivery_id?: number;
+            response_code?: number;
+            response_body?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type TestWebhookResponse = TestWebhookResponses[keyof TestWebhookResponses];
+
+export type ListQueuesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/social/queues';
+};
+
+export type ListQueuesErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+};
+
+export type ListQueuesError = ListQueuesErrors[keyof ListQueuesErrors];
+
+export type ListQueuesResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            queues?: Array<{
+                id?: number;
+                name?: string;
+                /**
+                 * Weekly slot map: keys Mon..Sun, values arrays of 24h "HH:MM" strings, e.g. {"Mon": ["09:00", "15:00"], "Thu": ["10:30"]}. Max 50 slots per queue.
+                 */
+                slots?: {
+                    [key: string]: Array<string>;
+                };
+                /**
+                 * IANA timezone the slots are interpreted in (default UTC).
+                 */
+                timezone?: string;
+                is_active?: boolean;
+                created_at?: string;
+                updated_at?: string;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ListQueuesResponse = ListQueuesResponses[keyof ListQueuesResponses];
+
+export type CreateQueueData = {
+    body: {
+        name: string;
+        /**
+         * Weekly slot map: keys Mon..Sun, values arrays of 24h "HH:MM" strings, e.g. {"Mon": ["09:00", "15:00"], "Thu": ["10:30"]}. Max 50 slots per queue.
+         */
+        slots: {
+            [key: string]: Array<string>;
+        };
+        /**
+         * IANA timezone for the slots (default UTC).
+         */
+        timezone?: string;
+        is_active?: boolean;
+    };
+    path?: never;
+    query?: never;
+    url: '/social/queues';
+};
+
+export type CreateQueueErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type CreateQueueError = CreateQueueErrors[keyof CreateQueueErrors];
+
+export type CreateQueueResponses = {
+    /**
+     * Created
+     */
+    201: {
+        success?: true;
+        data?: {
+            id?: number;
+            name?: string;
+            /**
+             * Weekly slot map: keys Mon..Sun, values arrays of 24h "HH:MM" strings, e.g. {"Mon": ["09:00", "15:00"], "Thu": ["10:30"]}. Max 50 slots per queue.
+             */
+            slots?: {
+                [key: string]: Array<string>;
+            };
+            /**
+             * IANA timezone the slots are interpreted in (default UTC).
+             */
+            timezone?: string;
+            is_active?: boolean;
+            created_at?: string;
+            updated_at?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type CreateQueueResponse = CreateQueueResponses[keyof CreateQueueResponses];
+
+export type DeleteQueueData = {
+    body?: never;
+    path: {
+        /**
+         * Queue id.
+         */
+        queue_id: number;
+    };
+    query?: never;
+    url: '/social/queues/{queue_id}';
+};
+
+export type DeleteQueueErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type DeleteQueueError = DeleteQueueErrors[keyof DeleteQueueErrors];
+
+export type DeleteQueueResponses = {
+    /**
+     * Deleted
+     */
+    200: {
+        success?: true;
+        data?: null;
+        meta?: RequestMeta;
+    };
+};
+
+export type DeleteQueueResponse = DeleteQueueResponses[keyof DeleteQueueResponses];
+
+export type GetQueueData = {
+    body?: never;
+    path: {
+        /**
+         * Queue id.
+         */
+        queue_id: number;
+    };
+    query?: never;
+    url: '/social/queues/{queue_id}';
+};
+
+export type GetQueueErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type GetQueueError = GetQueueErrors[keyof GetQueueErrors];
+
+export type GetQueueResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            name?: string;
+            /**
+             * Weekly slot map: keys Mon..Sun, values arrays of 24h "HH:MM" strings, e.g. {"Mon": ["09:00", "15:00"], "Thu": ["10:30"]}. Max 50 slots per queue.
+             */
+            slots?: {
+                [key: string]: Array<string>;
+            };
+            /**
+             * IANA timezone the slots are interpreted in (default UTC).
+             */
+            timezone?: string;
+            is_active?: boolean;
+            created_at?: string;
+            updated_at?: string;
+        } & {
+            /**
+             * Next open slot, UTC 'Y-m-d H:i:s', or null when the queue has no open slots in the next 60 days.
+             */
+            next_slot?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GetQueueResponse = GetQueueResponses[keyof GetQueueResponses];
+
+export type UpdateQueueData = {
+    /**
+     * Provide at least one field.
+     */
+    body: {
+        name?: string;
+        /**
+         * Weekly slot map: keys Mon..Sun, values arrays of 24h "HH:MM" strings, e.g. {"Mon": ["09:00", "15:00"], "Thu": ["10:30"]}. Max 50 slots per queue.
+         */
+        slots?: {
+            [key: string]: Array<string>;
+        };
+        timezone?: string;
+        is_active?: boolean;
+    };
+    path: {
+        /**
+         * Queue id.
+         */
+        queue_id: number;
+    };
+    query?: never;
+    url: '/social/queues/{queue_id}';
+};
+
+export type UpdateQueueErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type UpdateQueueError = UpdateQueueErrors[keyof UpdateQueueErrors];
+
+export type UpdateQueueResponses = {
+    /**
+     * Updated
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            name?: string;
+            /**
+             * Weekly slot map: keys Mon..Sun, values arrays of 24h "HH:MM" strings, e.g. {"Mon": ["09:00", "15:00"], "Thu": ["10:30"]}. Max 50 slots per queue.
+             */
+            slots?: {
+                [key: string]: Array<string>;
+            };
+            /**
+             * IANA timezone the slots are interpreted in (default UTC).
+             */
+            timezone?: string;
+            is_active?: boolean;
+            created_at?: string;
+            updated_at?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type UpdateQueueResponse = UpdateQueueResponses[keyof UpdateQueueResponses];
+
+export type GetQueueNextSlotData = {
+    body?: never;
+    path: {
+        /**
+         * Queue id.
+         */
+        queue_id: number;
+    };
+    query?: never;
+    url: '/social/queues/{queue_id}/next-slot';
+};
+
+export type GetQueueNextSlotErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type GetQueueNextSlotError = GetQueueNextSlotErrors[keyof GetQueueNextSlotErrors];
+
+export type GetQueueNextSlotResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            queue_id?: number;
+            /**
+             * UTC 'Y-m-d H:i:s', or null when full for the next 60 days.
+             */
+            next_slot?: string;
+            timezone?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GetQueueNextSlotResponse = GetQueueNextSlotResponses[keyof GetQueueNextSlotResponses];
+
+export type PreviewQueueSlotsData = {
+    body?: never;
+    path: {
+        /**
+         * Queue id.
+         */
+        queue_id: number;
+    };
+    query?: {
+        count?: number;
+    };
+    url: '/social/queues/{queue_id}/preview';
+};
+
+export type PreviewQueueSlotsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type PreviewQueueSlotsError = PreviewQueueSlotsErrors[keyof PreviewQueueSlotsErrors];
+
+export type PreviewQueueSlotsResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            queue_id?: number;
+            count?: number;
+            /**
+             * UTC 'Y-m-d H:i:s' values, ascending.
+             */
+            slots?: Array<string>;
+            timezone?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type PreviewQueueSlotsResponse = PreviewQueueSlotsResponses[keyof PreviewQueueSlotsResponses];
+
+export type UnpublishPostData = {
+    body?: {
+        /**
+         * Restrict native deletion to these platforms. Omit to remove from every platform the post published to.
+         */
+        platforms?: Array<string>;
+    };
+    path: {
+        /**
+         * Post id.
+         */
+        post_id: number;
+    };
+    query?: never;
+    url: '/social/posts/{post_id}/unpublish';
+};
+
+export type UnpublishPostErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * One or more native deletes failed; the post is unchanged. The error details carry per-platform results.
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_DELETE_FAILED';
+            message?: string;
+            details?: {
+                [key: string]: unknown;
+            };
+        };
+    };
+};
+
+export type UnpublishPostError = UnpublishPostErrors[keyof UnpublishPostErrors];
+
+export type UnpublishPostResponses = {
+    /**
+     * Unpublished
+     */
+    200: {
+        success?: true;
+        data?: {
+            post_id?: number;
+            status?: 'unpublished';
+            /**
+             * Per-platform deletion results.
+             */
+            platforms?: {
+                [key: string]: unknown;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type UnpublishPostResponse = UnpublishPostResponses[keyof UnpublishPostResponses];
+
+export type ValidatePostData = {
+    body: {
+        /**
+         * Post text to check.
+         */
+        content?: string;
+        /**
+         * Target platforms, e.g. ["twitter", "instagram"].
+         */
+        platforms: Array<string>;
+        /**
+         * Media URLs the post would carry (used for required-media and extension checks).
+         */
+        media_urls?: Array<string>;
+    };
+    path?: never;
+    query?: never;
+    url: '/social/validate/post';
+};
+
+export type ValidatePostErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type ValidatePostError = ValidatePostErrors[keyof ValidatePostErrors];
+
+export type ValidatePostResponses = {
+    /**
+     * Validation report
+     */
+    200: {
+        success?: true;
+        data?: {
+            valid?: boolean;
+            /**
+             * Human-readable, actionable problems (empty when valid).
+             */
+            errors?: Array<string>;
+            platforms?: {
+                [key: string]: {
+                    characters?: number;
+                    /**
+                     * Caption limit, or null when the platform has no documented ceiling.
+                     */
+                    limit?: number;
+                    within_limit?: boolean;
+                    requires_media?: boolean;
+                    media_ok?: boolean;
+                };
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ValidatePostResponse = ValidatePostResponses[keyof ValidatePostResponses];
+
+export type ValidateMediaData = {
+    body: {
+        /**
+         * Public http(s) media URL.
+         */
+        url: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/social/validate/media';
+};
+
+export type ValidateMediaErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type ValidateMediaError = ValidateMediaErrors[keyof ValidateMediaErrors];
+
+export type ValidateMediaResponses = {
+    /**
+     * Media check
+     */
+    200: {
+        success?: true;
+        data?: {
+            url?: string;
+            reachable?: boolean;
+            http_code?: number;
+            content_type?: string;
+            size_bytes?: number;
+            type?: 'image' | 'video' | 'unknown';
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ValidateMediaResponse = ValidateMediaResponses[keyof ValidateMediaResponses];
 
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});

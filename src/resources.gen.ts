@@ -685,6 +685,56 @@ export class SocialResource {
   connectAccount(platform: string, body?: t.ConnectSocialAccountData['body'], options?: RequestOptions): Promise<t.ConnectSocialAccountResponses[keyof t.ConnectSocialAccountResponses]> {
     return this._client.request('POST', `/social/connect/${encodeURIComponent(platform)}`, { body, options });
   }
+
+  /** List queues `GET /social/queues` */
+  listQueues(options?: RequestOptions): Promise<t.ListQueuesResponses[keyof t.ListQueuesResponses]> {
+    return this._client.request('GET', '/social/queues', { options });
+  }
+
+  /** Create queue `POST /social/queues` */
+  createQueue(body: t.CreateQueueData['body'], options?: RequestOptions): Promise<t.CreateQueueResponses[keyof t.CreateQueueResponses]> {
+    return this._client.request('POST', '/social/queues', { body, options });
+  }
+
+  /** Get queue `GET /social/queues/{queue_id}` */
+  getQueue(queueId: string, options?: RequestOptions): Promise<t.GetQueueResponses[keyof t.GetQueueResponses]> {
+    return this._client.request('GET', `/social/queues/${encodeURIComponent(queueId)}`, { options });
+  }
+
+  /** Update queue `PUT /social/queues/{queue_id}` */
+  updateQueue(queueId: string, body: t.UpdateQueueData['body'], options?: RequestOptions): Promise<t.UpdateQueueResponses[keyof t.UpdateQueueResponses]> {
+    return this._client.request('PUT', `/social/queues/${encodeURIComponent(queueId)}`, { body, options });
+  }
+
+  /** Delete queue `DELETE /social/queues/{queue_id}` */
+  deleteQueue(queueId: string, options?: RequestOptions): Promise<t.DeleteQueueResponses[keyof t.DeleteQueueResponses]> {
+    return this._client.request('DELETE', `/social/queues/${encodeURIComponent(queueId)}`, { options });
+  }
+
+  /** Get next open slot `GET /social/queues/{queue_id}/next-slot` */
+  getQueueNextSlot(queueId: string, options?: RequestOptions): Promise<t.GetQueueNextSlotResponses[keyof t.GetQueueNextSlotResponses]> {
+    return this._client.request('GET', `/social/queues/${encodeURIComponent(queueId)}/next-slot`, { options });
+  }
+
+  /** Preview upcoming slots `GET /social/queues/{queue_id}/preview` */
+  previewQueueSlots(queueId: string, query?: t.PreviewQueueSlotsData['query'], options?: RequestOptions): Promise<t.PreviewQueueSlotsResponses[keyof t.PreviewQueueSlotsResponses]> {
+    return this._client.request('GET', `/social/queues/${encodeURIComponent(queueId)}/preview`, { query, options });
+  }
+
+  /** Unpublish post `POST /social/posts/{post_id}/unpublish` */
+  unpublishPost(postId: string, body?: t.UnpublishPostData['body'], options?: RequestOptions): Promise<t.UnpublishPostResponses[keyof t.UnpublishPostResponses]> {
+    return this._client.request('POST', `/social/posts/${encodeURIComponent(postId)}/unpublish`, { body, options });
+  }
+
+  /** Validate post content `POST /social/validate/post` */
+  validatePost(body: t.ValidatePostData['body'], options?: RequestOptions): Promise<t.ValidatePostResponses[keyof t.ValidatePostResponses]> {
+    return this._client.request('POST', '/social/validate/post', { body, options });
+  }
+
+  /** Validate media URL `POST /social/validate/media` */
+  validateMedia(body: t.ValidateMediaData['body'], options?: RequestOptions): Promise<t.ValidateMediaResponses[keyof t.ValidateMediaResponses]> {
+    return this._client.request('POST', '/social/validate/media', { body, options });
+  }
 }
 
 /** URLs endpoints. */
@@ -781,9 +831,24 @@ export class WebhooksResource {
     return this._client.request('POST', '/webhooks', { body, options });
   }
 
+  /** Update webhook `PUT /webhooks/{id}` */
+  update(id: string, body: t.UpdateWebhookData['body'], options?: RequestOptions): Promise<t.UpdateWebhookResponses[keyof t.UpdateWebhookResponses]> {
+    return this._client.request('PUT', `/webhooks/${encodeURIComponent(id)}`, { body, options });
+  }
+
   /** Delete webhook `DELETE /webhooks/{id}` */
   delete(id: string, options?: RequestOptions): Promise<t.DeleteWebhookResponses[keyof t.DeleteWebhookResponses]> {
     return this._client.request('DELETE', `/webhooks/${encodeURIComponent(id)}`, { options });
+  }
+
+  /** List webhook delivery logs `GET /webhooks/logs` */
+  listLogs(query?: t.ListWebhookLogsData['query'], options?: RequestOptions): Promise<t.ListWebhookLogsResponses[keyof t.ListWebhookLogsResponses]> {
+    return this._client.request('GET', '/webhooks/logs', { query, options });
+  }
+
+  /** Send test webhook `POST /webhooks/{id}/test` */
+  test(id: string, options?: RequestOptions): Promise<t.TestWebhookResponses[keyof t.TestWebhookResponses]> {
+    return this._client.request('POST', `/webhooks/${encodeURIComponent(id)}/test`, { options });
   }
 }
 

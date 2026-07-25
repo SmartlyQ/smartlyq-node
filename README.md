@@ -309,6 +309,16 @@ All methods below are available on the client. Full request/response documentati
 | `sq.social.retryPost(postId, body)` | `POST /social/posts/{post_id}/retry` | Retry publishing a post |
 | `sq.social.connectAccountStatus(platform)` | `GET /social/connect/{platform}` | Poll headless connection status |
 | `sq.social.connectAccount(platform, body?)` | `POST /social/connect/{platform}` | Start headless account connection |
+| `sq.social.listQueues()` | `GET /social/queues` | List queues |
+| `sq.social.createQueue(body)` | `POST /social/queues` | Create queue |
+| `sq.social.getQueue(queueId)` | `GET /social/queues/{queue_id}` | Get queue |
+| `sq.social.updateQueue(queueId, body)` | `PUT /social/queues/{queue_id}` | Update queue |
+| `sq.social.deleteQueue(queueId)` | `DELETE /social/queues/{queue_id}` | Delete queue |
+| `sq.social.getQueueNextSlot(queueId)` | `GET /social/queues/{queue_id}/next-slot` | Get next open slot |
+| `sq.social.previewQueueSlots(queueId, query?)` | `GET /social/queues/{queue_id}/preview` | Preview upcoming slots |
+| `sq.social.unpublishPost(postId, body?)` | `POST /social/posts/{post_id}/unpublish` | Unpublish post |
+| `sq.social.validatePost(body)` | `POST /social/validate/post` | Validate post content |
+| `sq.social.validateMedia(body)` | `POST /social/validate/media` | Validate media URL |
 
 ### URLs
 
@@ -340,7 +350,10 @@ All methods below are available on the client. Full request/response documentati
 | --- | --- | --- |
 | `sq.webhooks.list()` | `GET /webhooks` | List webhooks |
 | `sq.webhooks.create(body)` | `POST /webhooks` | Create webhook |
+| `sq.webhooks.update(id, body)` | `PUT /webhooks/{id}` | Update webhook |
 | `sq.webhooks.delete(id)` | `DELETE /webhooks/{id}` | Delete webhook |
+| `sq.webhooks.listLogs(query?)` | `GET /webhooks/logs` | List webhook delivery logs |
+| `sq.webhooks.test(id)` | `POST /webhooks/{id}/test` | Send test webhook |
 
 ### Workspaces
 
