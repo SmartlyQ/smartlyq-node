@@ -351,9 +351,9 @@ export type SocialPostCreateRequest = {
      */
     content: string;
     /**
-     * Target platforms. Use `twitter` for X and `gmb` for Google Business.
+     * Target platforms. Use `twitter` for X and `gmb` for Google Business. `telegram` posts via the workspace's connected bot (created with @BotFather); `discord` posts via the connected server webhook. Both are connected in the dashboard's Social Accounts page.
      */
-    platforms: Array<'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'gmb' | 'threads' | 'bluesky' | 'tumblr'>;
+    platforms: Array<'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'gmb' | 'threads' | 'bluesky' | 'tumblr' | 'telegram' | 'discord'>;
     /**
      * IDs of connected social accounts to post to
      */
@@ -387,9 +387,9 @@ export type SocialPostScheduleRequest = {
      */
     content: string;
     /**
-     * Target platforms. Use `twitter` for X and `gmb` for Google Business.
+     * Target platforms. Use `twitter` for X and `gmb` for Google Business. `telegram` posts via the workspace's connected bot (created with @BotFather); `discord` posts via the connected server webhook. Both are connected in the dashboard's Social Accounts page.
      */
-    platforms: Array<'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'gmb' | 'threads' | 'bluesky' | 'tumblr'>;
+    platforms: Array<'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'gmb' | 'threads' | 'bluesky' | 'tumblr' | 'telegram' | 'discord'>;
     /**
      * IDs of connected social accounts
      */
@@ -449,9 +449,9 @@ export type SocialPostScheduleRequest = {
 export type SocialPostUpdateRequest = {
     content?: string;
     /**
-     * Target platforms. Use `twitter` for X and `gmb` for Google Business.
+     * Target platforms. Use `twitter` for X and `gmb` for Google Business. `telegram` posts via the workspace's connected bot (created with @BotFather); `discord` posts via the connected server webhook. Both are connected in the dashboard's Social Accounts page.
      */
-    platforms?: Array<'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'gmb' | 'threads' | 'bluesky' | 'tumblr'>;
+    platforms?: Array<'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'gmb' | 'threads' | 'bluesky' | 'tumblr' | 'telegram' | 'discord'>;
     account_ids?: Array<number>;
     scheduled_time?: string;
     media_urls?: Array<string>;
@@ -466,6 +466,22 @@ export type SocialPost = {
     scheduled_time?: string;
     published_at?: string;
     created_at?: string;
+    /**
+     * Live progress inside a publish run: validating (pre-publish checks), processing_media (auto-transcode inspecting/converting media), publishing (dispatching to platforms). null when the post is idle or has reached a final status.
+     */
+    publish_stage?: 'validating' | 'processing_media' | 'publishing';
+    /**
+     * Per-platform permalinks of the published posts, keyed by platform (arrays of URLs). Two reserved keys: _errors holds per-platform failure reasons (plus _post for a whole-post failure), and _transcodes lists what auto-transcode fixed per platform (e.g. 'Frame rate was 15fps (below the 23fps minimum); raised to 30fps.').
+     */
+    post_urls?: {
+        [key: string]: unknown;
+    };
+    /**
+     * Per-platform remote post IDs assigned by each platform, keyed by platform.
+     */
+    post_ids?: {
+        [key: string]: unknown;
+    };
 };
 
 export type SocialPostResponse = {
