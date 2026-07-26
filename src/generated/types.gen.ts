@@ -5721,6 +5721,14 @@ export type ConnectSocialAccountData = {
          * Optional URL to redirect the user to after they finish authorizing.
          */
         return_url?: string;
+        /**
+         * Telegram only (required for it): your bot's token from @BotFather (e.g. `123456:AA...`). Verified against Telegram (getMe/getChat/getChatMember - the bot must have posting rights in the chat) and stored encrypted.
+         */
+        bot_token?: string;
+        /**
+         * Telegram only (required for it): the target channel/group as `@channelusername` or a numeric chat id. Private chats are rejected.
+         */
+        chat?: string;
     };
     headers?: {
         /**
@@ -5730,9 +5738,9 @@ export type ConnectSocialAccountData = {
     };
     path: {
         /**
-         * Platform to connect. All 13 platforms are supported (use `twitter` for X, `gmb` for Google Business).
+         * Platform to connect. All 15 platforms are supported (use `twitter` for X, `gmb` for Google Business). 14 are OAuth flows returning a `connect_url` (`discord` runs the server-webhook authorize flow). `telegram` is a CREDENTIAL connect instead: pass `bot_token` + `chat` in the body and the account connects immediately - no URL to open.
          */
-        platform: 'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'threads' | 'bluesky' | 'pinterest' | 'reddit' | 'snapchat' | 'tumblr' | 'gmb';
+        platform: 'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'threads' | 'bluesky' | 'pinterest' | 'reddit' | 'snapchat' | 'tumblr' | 'gmb' | 'discord' | 'telegram';
     };
     query?: never;
     url: '/social/connect/{platform}';
@@ -5765,7 +5773,7 @@ export type ConnectSocialAccountError = ConnectSocialAccountErrors[keyof Connect
 
 export type ConnectSocialAccountResponses = {
     /**
-     * Connection link created
+     * Connection link created. For `telegram` the response has no `connect_url` - the account is connected immediately and returned as `{platform, account}`.
      */
     201: {
         success?: true;
