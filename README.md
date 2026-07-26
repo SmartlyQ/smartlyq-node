@@ -301,7 +301,7 @@ All methods below are available on the client. Full request/response documentati
 | `sq.social.getPost(postId)` | `GET /social/posts/{post_id}` | Get social post |
 | `sq.social.updatePost(postId, body)` | `PATCH /social/posts/{post_id}` | Update social post |
 | `sq.social.deletePost(postId)` | `DELETE /social/posts/{post_id}` | Delete social post |
-| `sq.social.disconnectAccount(accountId)` | `DELETE /social/accounts/{account_id}` | Disconnect a social account |
+| `sq.social.updateAccount(accountId, body)` | `PATCH /social/accounts/{account_id}` | Rename account |
 | `sq.social.getAccountHealth(accountId)` | `GET /social/accounts/{account_id}/health` | Account health |
 | `sq.social.getAccountReconnectUrl(accountId)` | `GET /social/accounts/{account_id}/reconnect-url` | Account reconnect URL |
 | `sq.social.pauseAccount(accountId)` | `POST /social/accounts/{account_id}/pause` | Pause posting to an account |
@@ -319,6 +319,18 @@ All methods below are available on the client. Full request/response documentati
 | `sq.social.unpublishPost(postId, body?)` | `POST /social/posts/{post_id}/unpublish` | Unpublish post |
 | `sq.social.validatePost(body)` | `POST /social/validate/post` | Validate post content |
 | `sq.social.validateMedia(body)` | `POST /social/validate/media` | Validate media URL |
+| `sq.social.stopPostRecycle(postId)` | `DELETE /social/posts/{post_id}/recycle` | Stop recycling |
+| `sq.social.bulkSchedulePosts(body)` | `POST /social/posts/bulk` | Bulk schedule posts |
+| `sq.social.validateBulkBatch(body)` | `POST /social/posts/bulk/validate` | Validate a bulk batch |
+| `sq.social.bulkAccountHealth()` | `GET /social/accounts/health` | Bulk account health |
+| `sq.social.accountFollowerStats(query?)` | `GET /social/accounts/follower-stats` | Follower stats |
+| `sq.social.tiktokCreatorInfo(accountId)` | `GET /social/accounts/{account_id}/tiktok/creator-info` | TikTok creator info |
+| `sq.social.moveAccount(accountId, body)` | `POST /social/accounts/{account_id}/move` | Move account to profile |
+| `sq.social.listAccountGroups()` | `GET /social/account-groups` | List account groups |
+| `sq.social.createAccountGroup(body)` | `POST /social/account-groups` | Create account group |
+| `sq.social.getAccountGroup(groupId)` | `GET /social/account-groups/{group_id}` | Get account group |
+| `sq.social.updateAccountGroup(groupId, body)` | `PUT /social/account-groups/{group_id}` | Update account group |
+| `sq.social.deleteAccountGroup(groupId)` | `DELETE /social/account-groups/{group_id}` | Delete account group |
 
 ### URLs
 

@@ -646,9 +646,9 @@ export class SocialResource {
     return this._client.request('DELETE', `/social/posts/${encodeURIComponent(postId)}`, { options });
   }
 
-  /** Disconnect a social account `DELETE /social/accounts/{account_id}` */
-  disconnectAccount(accountId: string, options?: RequestOptions): Promise<t.DisconnectSocialAccountResponses[keyof t.DisconnectSocialAccountResponses]> {
-    return this._client.request('DELETE', `/social/accounts/${encodeURIComponent(accountId)}`, { options });
+  /** Rename account `PATCH /social/accounts/{account_id}` */
+  updateAccount(accountId: string, body: t.UpdateSocialAccountData['body'], options?: RequestOptions): Promise<t.UpdateSocialAccountResponses[keyof t.UpdateSocialAccountResponses]> {
+    return this._client.request('PATCH', `/social/accounts/${encodeURIComponent(accountId)}`, { body, options });
   }
 
   /** Account health `GET /social/accounts/{account_id}/health` */
@@ -734,6 +734,66 @@ export class SocialResource {
   /** Validate media URL `POST /social/validate/media` */
   validateMedia(body: t.ValidateMediaData['body'], options?: RequestOptions): Promise<t.ValidateMediaResponses[keyof t.ValidateMediaResponses]> {
     return this._client.request('POST', '/social/validate/media', { body, options });
+  }
+
+  /** Stop recycling `DELETE /social/posts/{post_id}/recycle` */
+  stopPostRecycle(postId: string, options?: RequestOptions): Promise<t.StopPostRecycleResponses[keyof t.StopPostRecycleResponses]> {
+    return this._client.request('DELETE', `/social/posts/${encodeURIComponent(postId)}/recycle`, { options });
+  }
+
+  /** Bulk schedule posts `POST /social/posts/bulk` */
+  bulkSchedulePosts(body: t.BulkSchedulePostsData['body'], options?: RequestOptions): Promise<t.BulkSchedulePostsResponses[keyof t.BulkSchedulePostsResponses]> {
+    return this._client.request('POST', '/social/posts/bulk', { body, options });
+  }
+
+  /** Validate a bulk batch `POST /social/posts/bulk/validate` */
+  validateBulkBatch(body: t.ValidateBulkBatchData['body'], options?: RequestOptions): Promise<t.ValidateBulkBatchResponses[keyof t.ValidateBulkBatchResponses]> {
+    return this._client.request('POST', '/social/posts/bulk/validate', { body, options });
+  }
+
+  /** Bulk account health `GET /social/accounts/health` */
+  bulkAccountHealth(options?: RequestOptions): Promise<t.BulkAccountHealthResponses[keyof t.BulkAccountHealthResponses]> {
+    return this._client.request('GET', '/social/accounts/health', { options });
+  }
+
+  /** Follower stats `GET /social/accounts/follower-stats` */
+  accountFollowerStats(query?: t.AccountFollowerStatsData['query'], options?: RequestOptions): Promise<t.AccountFollowerStatsResponses[keyof t.AccountFollowerStatsResponses]> {
+    return this._client.request('GET', '/social/accounts/follower-stats', { query, options });
+  }
+
+  /** TikTok creator info `GET /social/accounts/{account_id}/tiktok/creator-info` */
+  tiktokCreatorInfo(accountId: string, options?: RequestOptions): Promise<t.TiktokCreatorInfoResponses[keyof t.TiktokCreatorInfoResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/tiktok/creator-info`, { options });
+  }
+
+  /** Move account to profile `POST /social/accounts/{account_id}/move` */
+  moveAccount(accountId: string, body: t.MoveSocialAccountData['body'], options?: RequestOptions): Promise<t.MoveSocialAccountResponses[keyof t.MoveSocialAccountResponses]> {
+    return this._client.request('POST', `/social/accounts/${encodeURIComponent(accountId)}/move`, { body, options });
+  }
+
+  /** List account groups `GET /social/account-groups` */
+  listAccountGroups(options?: RequestOptions): Promise<t.ListAccountGroupsResponses[keyof t.ListAccountGroupsResponses]> {
+    return this._client.request('GET', '/social/account-groups', { options });
+  }
+
+  /** Create account group `POST /social/account-groups` */
+  createAccountGroup(body: t.CreateAccountGroupData['body'], options?: RequestOptions): Promise<t.CreateAccountGroupResponses[keyof t.CreateAccountGroupResponses]> {
+    return this._client.request('POST', '/social/account-groups', { body, options });
+  }
+
+  /** Get account group `GET /social/account-groups/{group_id}` */
+  getAccountGroup(groupId: string, options?: RequestOptions): Promise<t.GetAccountGroupResponses[keyof t.GetAccountGroupResponses]> {
+    return this._client.request('GET', `/social/account-groups/${encodeURIComponent(groupId)}`, { options });
+  }
+
+  /** Update account group `PUT /social/account-groups/{group_id}` */
+  updateAccountGroup(groupId: string, body: t.UpdateAccountGroupData['body'], options?: RequestOptions): Promise<t.UpdateAccountGroupResponses[keyof t.UpdateAccountGroupResponses]> {
+    return this._client.request('PUT', `/social/account-groups/${encodeURIComponent(groupId)}`, { body, options });
+  }
+
+  /** Delete account group `DELETE /social/account-groups/{group_id}` */
+  deleteAccountGroup(groupId: string, options?: RequestOptions): Promise<t.DeleteAccountGroupResponses[keyof t.DeleteAccountGroupResponses]> {
+    return this._client.request('DELETE', `/social/account-groups/${encodeURIComponent(groupId)}`, { options });
   }
 }
 

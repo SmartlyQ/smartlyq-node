@@ -366,8 +366,15 @@ export type SocialPostCreateRequest = {
      * URL to include with the post
      */
     link?: string;
+    /**
+     * Skip the 24h duplicate-content guard. Without it, content identical to a post created in this workspace in the last 24 hours is rejected with 409 DUPLICATE_CONTENT (and the charge is refunded).
+     */
+    allow_duplicates?: boolean;
 };
 
+/**
+ * Schedule request. Provide scheduled_time (with optional timezone) OR queue_id (next open slot), not both.
+ */
 export type SocialPostScheduleRequest = {
     /**
      * Post text content
@@ -384,7 +391,7 @@ export type SocialPostScheduleRequest = {
     /**
      * When to publish (ISO 8601)
      */
-    scheduled_time: string;
+    scheduled_time?: string;
     /**
      * Media URLs to attach to the post
      */
@@ -393,6 +400,35 @@ export type SocialPostScheduleRequest = {
      * URL to include with the post
      */
     link?: string;
+    /**
+     * Schedule into a posting queue instead of a fixed time: the queue's next open slot is resolved server-side and the post occupies it. Mutually exclusive with scheduled_time.
+     */
+    queue_id?: number;
+    /**
+     * IANA timezone scheduled_time is expressed in (default UTC). Ignored with queue_id (the queue's own timezone applies).
+     */
+    timezone?: string;
+    /**
+     * Evergreen recycling: after this post publishes, the next occurrence is automatically scheduled interval_hours later, repeating until a bound is hit. A bound is REQUIRED - set max_repeats and/or until (no unbounded chains). Stop a chain anytime with DELETE /social/posts/{post_id}/recycle.
+     */
+    recycle?: {
+        /**
+         * Hours between occurrences (1 to 8760 = 1 year).
+         */
+        interval_hours: number;
+        /**
+         * Maximum number of automatic repeats after the original post.
+         */
+        max_repeats?: number;
+        /**
+         * UTC datetime (Y-m-d H:i:s) after which no further occurrences are scheduled. Must be within 2 years.
+         */
+        until?: string;
+    };
+    /**
+     * Skip the 24h duplicate-content guard. Without it, content identical to a post created in this workspace in the last 24 hours is rejected with 409 DUPLICATE_CONTENT (and the charge is refunded).
+     */
+    allow_duplicates?: boolean;
 };
 
 /**
@@ -1497,6 +1533,20 @@ export type CreateSocialPostErrors = {
      */
     403: ErrorResponse;
     /**
+     * Duplicate content within 24h
+     */
+    409: {
+        success?: false;
+        error?: {
+            code?: 'DUPLICATE_CONTENT';
+            message?: string;
+            details?: {
+                existing_post_id?: number;
+            };
+        };
+        meta?: RequestMeta;
+    };
+    /**
      * Validation error
      */
     422: ErrorResponse;
@@ -1551,6 +1601,20 @@ export type ScheduleSocialPostErrors = {
      * Forbidden (scope or access)
      */
     403: ErrorResponse;
+    /**
+     * Duplicate content within 24h
+     */
+    409: {
+        success?: false;
+        error?: {
+            code?: 'DUPLICATE_CONTENT';
+            message?: string;
+            details?: {
+                existing_post_id?: number;
+            };
+        };
+        meta?: RequestMeta;
+    };
     /**
      * Validation error
      */
@@ -4420,27 +4484,22 @@ export type GetMeBalanceResponses = {
 
 export type GetMeBalanceResponse = GetMeBalanceResponses[keyof GetMeBalanceResponses];
 
-export type DisconnectSocialAccountData = {
-    body?: never;
+export type UpdateSocialAccountData = {
+    body: {
+        account_name: string;
+    };
     path: {
-        /**
-         * Connected account id
-         */
         account_id: number;
     };
     query?: never;
     url: '/social/accounts/{account_id}';
 };
 
-export type DisconnectSocialAccountErrors = {
+export type UpdateSocialAccountErrors = {
     /**
      * Missing or invalid API key
      */
     401: ErrorResponse;
-    /**
-     * Forbidden (scope or access)
-     */
-    403: ErrorResponse;
     /**
      * Resource not found
      */
@@ -4449,29 +4508,26 @@ export type DisconnectSocialAccountErrors = {
      * Validation error
      */
     422: ErrorResponse;
-    /**
-     * Internal server error
-     */
-    500: ErrorResponse;
 };
 
-export type DisconnectSocialAccountError = DisconnectSocialAccountErrors[keyof DisconnectSocialAccountErrors];
+export type UpdateSocialAccountError = UpdateSocialAccountErrors[keyof UpdateSocialAccountErrors];
 
-export type DisconnectSocialAccountResponses = {
+export type UpdateSocialAccountResponses = {
     /**
-     * Success
+     * Renamed
      */
     200: {
         success?: true;
-        /**
-         * No payload on success.
-         */
-        data?: null;
+        data?: {
+            id?: number;
+            platform?: string;
+            account_name?: string;
+        };
         meta?: RequestMeta;
     };
 };
 
-export type DisconnectSocialAccountResponse = DisconnectSocialAccountResponses[keyof DisconnectSocialAccountResponses];
+export type UpdateSocialAccountResponse = UpdateSocialAccountResponses[keyof UpdateSocialAccountResponses];
 
 export type GetAccountHealthData = {
     body?: never;
@@ -8234,6 +8290,645 @@ export type ValidateMediaResponses = {
 };
 
 export type ValidateMediaResponse = ValidateMediaResponses[keyof ValidateMediaResponses];
+
+export type StopPostRecycleData = {
+    body?: never;
+    path: {
+        /**
+         * Any post id in the recycling chain.
+         */
+        post_id: number;
+    };
+    query?: never;
+    url: '/social/posts/{post_id}/recycle';
+};
+
+export type StopPostRecycleErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Post is not part of a recycling chain
+     */
+    409: {
+        success?: false;
+        error?: {
+            code?: 'NOT_RECYCLING';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type StopPostRecycleError = StopPostRecycleErrors[keyof StopPostRecycleErrors];
+
+export type StopPostRecycleResponses = {
+    /**
+     * Chain stopped
+     */
+    200: {
+        success?: true;
+        data?: {
+            stopped?: boolean;
+            /**
+             * Scheduled future occurrences moved back to draft.
+             */
+            cancelled_occurrences?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type StopPostRecycleResponse = StopPostRecycleResponses[keyof StopPostRecycleResponses];
+
+export type BulkSchedulePostsData = {
+    body: {
+        /**
+         * Up to 50 posts. Each row needs content, platforms, account_ids and scheduled_time.
+         */
+        posts?: Array<{
+            content: string;
+            platforms: Array<string>;
+            account_ids: Array<number>;
+            /**
+             * When to publish (interpreted in `timezone`, default UTC).
+             */
+            scheduled_time: string;
+            /**
+             * Optional per-row IANA timezone override.
+             */
+            timezone?: string;
+            media_urls?: Array<string>;
+            link?: string;
+        }>;
+        /**
+         * Alternative to posts: inline CSV with a header line. Columns: content, platforms, account_ids, scheduled_time, media_urls, link (list cells split on | or ,). Provide posts OR csv, not both.
+         */
+        csv?: string;
+        /**
+         * Default timezone for rows without their own (IANA name, default UTC).
+         */
+        timezone?: string;
+        /**
+         * Skip the 24h duplicate-content guard for this batch.
+         */
+        allow_duplicates?: boolean;
+    };
+    path?: never;
+    query?: never;
+    url: '/social/posts/bulk';
+};
+
+export type BulkSchedulePostsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Insufficient credits
+     */
+    402: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type BulkSchedulePostsError = BulkSchedulePostsErrors[keyof BulkSchedulePostsErrors];
+
+export type BulkSchedulePostsResponses = {
+    /**
+     * Batch processed
+     */
+    201: {
+        success?: true;
+        data?: {
+            created?: number;
+            failed?: number;
+            results?: Array<{
+                row?: number;
+                /**
+                 * Present on success.
+                 */
+                post_id?: number;
+                status?: string;
+                scheduled_time?: string;
+                /**
+                 * Present on row failure (e.g. DUPLICATE_CONTENT).
+                 */
+                error?: string;
+                message?: string;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type BulkSchedulePostsResponse = BulkSchedulePostsResponses[keyof BulkSchedulePostsResponses];
+
+export type ValidateBulkBatchData = {
+    body: {
+        /**
+         * Up to 50 posts. Each row needs content, platforms, account_ids and scheduled_time.
+         */
+        posts?: Array<{
+            content: string;
+            platforms: Array<string>;
+            account_ids: Array<number>;
+            /**
+             * When to publish (interpreted in `timezone`, default UTC).
+             */
+            scheduled_time: string;
+            /**
+             * Optional per-row IANA timezone override.
+             */
+            timezone?: string;
+            media_urls?: Array<string>;
+            link?: string;
+        }>;
+        /**
+         * Alternative to posts: inline CSV with a header line. Columns: content, platforms, account_ids, scheduled_time, media_urls, link (list cells split on | or ,). Provide posts OR csv, not both.
+         */
+        csv?: string;
+        /**
+         * Default timezone for rows without their own (IANA name, default UTC).
+         */
+        timezone?: string;
+        /**
+         * Skip the 24h duplicate-content guard for this batch.
+         */
+        allow_duplicates?: boolean;
+    };
+    path?: never;
+    query?: never;
+    url: '/social/posts/bulk/validate';
+};
+
+export type ValidateBulkBatchErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type ValidateBulkBatchError = ValidateBulkBatchErrors[keyof ValidateBulkBatchErrors];
+
+export type ValidateBulkBatchResponses = {
+    /**
+     * Batch report
+     */
+    200: {
+        success?: true;
+        data?: {
+            valid?: boolean;
+            rows?: number;
+            report?: Array<{
+                row?: number;
+                valid?: boolean;
+                errors?: Array<string>;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ValidateBulkBatchResponse = ValidateBulkBatchResponses[keyof ValidateBulkBatchResponses];
+
+export type BulkAccountHealthData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/social/accounts/health';
+};
+
+export type BulkAccountHealthErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+};
+
+export type BulkAccountHealthError = BulkAccountHealthErrors[keyof BulkAccountHealthErrors];
+
+export type BulkAccountHealthResponses = {
+    /**
+     * Health summary
+     */
+    200: {
+        success?: true;
+        data?: {
+            healthy?: number;
+            expiring?: number;
+            expired?: number;
+            paused?: number;
+            accounts?: Array<{
+                id?: number;
+                platform?: string;
+                account_name?: string;
+                is_active?: boolean;
+                status?: string;
+                token_expired?: boolean;
+                validity_days?: number;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type BulkAccountHealthResponse = BulkAccountHealthResponses[keyof BulkAccountHealthResponses];
+
+export type AccountFollowerStatsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * History window.
+         */
+        days?: number;
+        /**
+         * Limit to one account.
+         */
+        account_id?: number;
+    };
+    url: '/social/accounts/follower-stats';
+};
+
+export type AccountFollowerStatsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+};
+
+export type AccountFollowerStatsError = AccountFollowerStatsErrors[keyof AccountFollowerStatsErrors];
+
+export type AccountFollowerStatsResponses = {
+    /**
+     * Follower stats
+     */
+    200: {
+        success?: true;
+        data?: {
+            days?: number;
+            accounts?: Array<{
+                account_id?: number;
+                platform?: string;
+                account_name?: string;
+                /**
+                 * Latest snapshot.
+                 */
+                followers?: number;
+                /**
+                 * Delta over the window.
+                 */
+                growth?: number;
+                growth_pct?: number;
+                history?: Array<{
+                    date?: string;
+                    followers?: number;
+                    new_followers?: number;
+                }>;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type AccountFollowerStatsResponse = AccountFollowerStatsResponses[keyof AccountFollowerStatsResponses];
+
+export type TiktokCreatorInfoData = {
+    body?: never;
+    path: {
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/tiktok/creator-info';
+};
+
+export type TiktokCreatorInfoErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * TikTok rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type TiktokCreatorInfoError = TiktokCreatorInfoErrors[keyof TiktokCreatorInfoErrors];
+
+export type TiktokCreatorInfoResponses = {
+    /**
+     * Creator info
+     */
+    200: {
+        success?: true;
+        data?: {
+            account_id?: number;
+            creator_username?: string;
+            creator_nickname?: string;
+            privacy_level_options?: Array<string>;
+            comment_disabled?: boolean;
+            duet_disabled?: boolean;
+            stitch_disabled?: boolean;
+            max_video_post_duration_sec?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type TiktokCreatorInfoResponse = TiktokCreatorInfoResponses[keyof TiktokCreatorInfoResponses];
+
+export type MoveSocialAccountData = {
+    body: {
+        /**
+         * Target profile id; 0 = developer workspace.
+         */
+        profile_id: number;
+    };
+    path: {
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/move';
+};
+
+export type MoveSocialAccountErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict (e.g. duplicate idempotency or already-finished job)
+     */
+    409: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type MoveSocialAccountError = MoveSocialAccountErrors[keyof MoveSocialAccountErrors];
+
+export type MoveSocialAccountResponses = {
+    /**
+     * Moved
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            platform?: string;
+            account_name?: string;
+            profile_id?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type MoveSocialAccountResponse = MoveSocialAccountResponses[keyof MoveSocialAccountResponses];
+
+export type ListAccountGroupsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/social/account-groups';
+};
+
+export type ListAccountGroupsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+};
+
+export type ListAccountGroupsError = ListAccountGroupsErrors[keyof ListAccountGroupsErrors];
+
+export type ListAccountGroupsResponses = {
+    /**
+     * Groups
+     */
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            name?: string;
+            account_ids?: Array<number>;
+            created_at?: string;
+            updated_at?: string;
+        }>;
+        meta?: RequestMeta;
+    };
+};
+
+export type ListAccountGroupsResponse = ListAccountGroupsResponses[keyof ListAccountGroupsResponses];
+
+export type CreateAccountGroupData = {
+    body: {
+        name: string;
+        /**
+         * Connected account ids of this workspace (validated on every write).
+         */
+        account_ids: Array<number>;
+    };
+    path?: never;
+    query?: never;
+    url: '/social/account-groups';
+};
+
+export type CreateAccountGroupErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type CreateAccountGroupError = CreateAccountGroupErrors[keyof CreateAccountGroupErrors];
+
+export type CreateAccountGroupResponses = {
+    /**
+     * Created
+     */
+    201: {
+        success?: true;
+        data?: {
+            id?: number;
+            name?: string;
+            account_ids?: Array<number>;
+            created_at?: string;
+            updated_at?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type CreateAccountGroupResponse = CreateAccountGroupResponses[keyof CreateAccountGroupResponses];
+
+export type DeleteAccountGroupData = {
+    body?: never;
+    path: {
+        group_id: number;
+    };
+    query?: never;
+    url: '/social/account-groups/{group_id}';
+};
+
+export type DeleteAccountGroupErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type DeleteAccountGroupError = DeleteAccountGroupErrors[keyof DeleteAccountGroupErrors];
+
+export type DeleteAccountGroupResponses = {
+    /**
+     * Deleted
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeleteAccountGroupResponse = DeleteAccountGroupResponses[keyof DeleteAccountGroupResponses];
+
+export type GetAccountGroupData = {
+    body?: never;
+    path: {
+        group_id: number;
+    };
+    query?: never;
+    url: '/social/account-groups/{group_id}';
+};
+
+export type GetAccountGroupErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type GetAccountGroupError = GetAccountGroupErrors[keyof GetAccountGroupErrors];
+
+export type GetAccountGroupResponses = {
+    /**
+     * Group
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            name?: string;
+            account_ids?: Array<number>;
+            created_at?: string;
+            updated_at?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GetAccountGroupResponse = GetAccountGroupResponses[keyof GetAccountGroupResponses];
+
+export type UpdateAccountGroupData = {
+    body: {
+        name?: string;
+        /**
+         * Connected account ids of this workspace (validated on every write).
+         */
+        account_ids?: Array<number>;
+    };
+    path: {
+        group_id: number;
+    };
+    query?: never;
+    url: '/social/account-groups/{group_id}';
+};
+
+export type UpdateAccountGroupErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type UpdateAccountGroupError = UpdateAccountGroupErrors[keyof UpdateAccountGroupErrors];
+
+export type UpdateAccountGroupResponses = {
+    /**
+     * Updated
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            name?: string;
+            account_ids?: Array<number>;
+            created_at?: string;
+            updated_at?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type UpdateAccountGroupResponse = UpdateAccountGroupResponses[keyof UpdateAccountGroupResponses];
 
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});

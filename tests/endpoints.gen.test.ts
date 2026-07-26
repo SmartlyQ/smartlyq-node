@@ -818,10 +818,10 @@ describe('social', () => {
     expect(calls[0].path).toBe('/social/posts/test-id');
   });
 
-  it('social.disconnectAccount -> DELETE /social/accounts/{account_id}', async () => {
+  it('social.updateAccount -> PATCH /social/accounts/{account_id}', async () => {
     const { client, calls } = mockClient();
-    await client.social.disconnectAccount('test-id');
-    expect(calls[0].method).toBe('DELETE');
+    await client.social.updateAccount('test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
     expect(calls[0].path).toBe('/social/accounts/test-id');
   });
 
@@ -942,6 +942,90 @@ describe('social', () => {
     await client.social.validateMedia({} as never);
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/social/validate/media');
+  });
+
+  it('social.stopPostRecycle -> DELETE /social/posts/{post_id}/recycle', async () => {
+    const { client, calls } = mockClient();
+    await client.social.stopPostRecycle('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/social/posts/test-id/recycle');
+  });
+
+  it('social.bulkSchedulePosts -> POST /social/posts/bulk', async () => {
+    const { client, calls } = mockClient();
+    await client.social.bulkSchedulePosts({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/posts/bulk');
+  });
+
+  it('social.validateBulkBatch -> POST /social/posts/bulk/validate', async () => {
+    const { client, calls } = mockClient();
+    await client.social.validateBulkBatch({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/posts/bulk/validate');
+  });
+
+  it('social.bulkAccountHealth -> GET /social/accounts/health', async () => {
+    const { client, calls } = mockClient();
+    await client.social.bulkAccountHealth();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/health');
+  });
+
+  it('social.accountFollowerStats -> GET /social/accounts/follower-stats', async () => {
+    const { client, calls } = mockClient();
+    await client.social.accountFollowerStats();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/follower-stats');
+  });
+
+  it('social.tiktokCreatorInfo -> GET /social/accounts/{account_id}/tiktok/creator-info', async () => {
+    const { client, calls } = mockClient();
+    await client.social.tiktokCreatorInfo('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/tiktok/creator-info');
+  });
+
+  it('social.moveAccount -> POST /social/accounts/{account_id}/move', async () => {
+    const { client, calls } = mockClient();
+    await client.social.moveAccount('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/accounts/test-id/move');
+  });
+
+  it('social.listAccountGroups -> GET /social/account-groups', async () => {
+    const { client, calls } = mockClient();
+    await client.social.listAccountGroups();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/account-groups');
+  });
+
+  it('social.createAccountGroup -> POST /social/account-groups', async () => {
+    const { client, calls } = mockClient();
+    await client.social.createAccountGroup({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/account-groups');
+  });
+
+  it('social.getAccountGroup -> GET /social/account-groups/{group_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.social.getAccountGroup('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/account-groups/test-id');
+  });
+
+  it('social.updateAccountGroup -> PUT /social/account-groups/{group_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.social.updateAccountGroup('test-id', {} as never);
+    expect(calls[0].method).toBe('PUT');
+    expect(calls[0].path).toBe('/social/account-groups/test-id');
+  });
+
+  it('social.deleteAccountGroup -> DELETE /social/account-groups/{group_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.social.deleteAccountGroup('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/social/account-groups/test-id');
   });
 });
 
