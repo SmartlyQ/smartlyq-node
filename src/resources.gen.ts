@@ -1025,6 +1025,106 @@ export class SocialResource {
   xUnretweet(accountId: string, tweetId: string, options?: RequestOptions): Promise<t.XUnretweetResponses[keyof t.XUnretweetResponses]> {
     return this._client.request('DELETE', `/social/accounts/${encodeURIComponent(accountId)}/x/retweets/${encodeURIComponent(tweetId)}`, { options });
   }
+
+  /** Edit published post `POST /social/posts/{post_id}/edit` */
+  editPublishedPost(postId: string, body: t.EditPublishedPostData['body'], options?: RequestOptions): Promise<t.EditPublishedPostResponses[keyof t.EditPublishedPostResponses]> {
+    return this._client.request('POST', `/social/posts/${encodeURIComponent(postId)}/edit`, { body, options });
+  }
+
+  /** Update YouTube metadata `POST /social/posts/{post_id}/update-metadata` */
+  updatePostMetadata(postId: string, body: t.UpdatePostMetadataData['body'], options?: RequestOptions): Promise<t.UpdatePostMetadataResponses[keyof t.UpdatePostMetadataResponses]> {
+    return this._client.request('POST', `/social/posts/${encodeURIComponent(postId)}/update-metadata`, { body, options });
+  }
+
+  /** Sync external posts `POST /social/posts/sync-external` */
+  syncExternalPosts(body: t.SyncExternalPostsData['body'], options?: RequestOptions): Promise<t.SyncExternalPostsResponses[keyof t.SyncExternalPostsResponses]> {
+    return this._client.request('POST', '/social/posts/sync-external', { body, options });
+  }
+
+  /** Live account insights `GET /social/accounts/{account_id}/insights` */
+  accountInsights(accountId: string, options?: RequestOptions): Promise<t.AccountInsightsResponses[keyof t.AccountInsightsResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/insights`, { options });
+  }
+
+  /** List Google locations `GET /social/accounts/{account_id}/gmb/locations` */
+  gmbLocations(accountId: string, query?: t.GmbLocationsData['query'], options?: RequestOptions): Promise<t.GmbLocationsResponses[keyof t.GmbLocationsResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/gmb/locations`, { query, options });
+  }
+
+  /** Get business info `GET /social/accounts/{account_id}/gmb/location` */
+  gmbLocation(accountId: string, query?: t.GmbLocationData['query'], options?: RequestOptions): Promise<t.GmbLocationResponses[keyof t.GmbLocationResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/gmb/location`, { query, options });
+  }
+
+  /** Update business info `PATCH /social/accounts/{account_id}/gmb/location` */
+  gmbUpdateLocation(accountId: string, body: t.GmbUpdateLocationData['body'], options?: RequestOptions): Promise<t.GmbUpdateLocationResponses[keyof t.GmbUpdateLocationResponses]> {
+    return this._client.request('PATCH', `/social/accounts/${encodeURIComponent(accountId)}/gmb/location`, { body, options });
+  }
+
+  /** Get attributes `GET /social/accounts/{account_id}/gmb/attributes` */
+  gmbAttributes(accountId: string, options?: RequestOptions): Promise<t.GmbAttributesResponses[keyof t.GmbAttributesResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/gmb/attributes`, { options });
+  }
+
+  /** Update attributes `PUT /social/accounts/{account_id}/gmb/attributes` */
+  gmbUpdateAttributes(accountId: string, body: t.GmbUpdateAttributesData['body'], options?: RequestOptions): Promise<t.GmbUpdateAttributesResponses[keyof t.GmbUpdateAttributesResponses]> {
+    return this._client.request('PUT', `/social/accounts/${encodeURIComponent(accountId)}/gmb/attributes`, { body, options });
+  }
+
+  /** Available attributes `GET /social/accounts/{account_id}/gmb/attributes/metadata` */
+  gmbAttributeMetadata(accountId: string, options?: RequestOptions): Promise<t.GmbAttributeMetadataResponses[keyof t.GmbAttributeMetadataResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/gmb/attributes/metadata`, { options });
+  }
+
+  /** List media `GET /social/accounts/{account_id}/gmb/media` */
+  gmbMedia(accountId: string, options?: RequestOptions): Promise<t.GmbMediaResponses[keyof t.GmbMediaResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/gmb/media`, { options });
+  }
+
+  /** Add photo `POST /social/accounts/{account_id}/gmb/media` */
+  gmbCreateMedia(accountId: string, body: t.GmbCreateMediaData['body'], options?: RequestOptions): Promise<t.GmbCreateMediaResponses[keyof t.GmbCreateMediaResponses]> {
+    return this._client.request('POST', `/social/accounts/${encodeURIComponent(accountId)}/gmb/media`, { body, options });
+  }
+
+  /** Delete media `DELETE /social/accounts/{account_id}/gmb/media` */
+  gmbDeleteMedia(accountId: string, body: t.GmbDeleteMediaData['body'], options?: RequestOptions): Promise<t.GmbDeleteMediaResponses[keyof t.GmbDeleteMediaResponses]> {
+    return this._client.request('DELETE', `/social/accounts/${encodeURIComponent(accountId)}/gmb/media`, { body, options });
+  }
+
+  /** Get food menus `GET /social/accounts/{account_id}/gmb/food-menus` */
+  gmbFoodMenus(accountId: string, options?: RequestOptions): Promise<t.GmbFoodMenusResponses[keyof t.GmbFoodMenusResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/gmb/food-menus`, { options });
+  }
+
+  /** Update food menus `PUT /social/accounts/{account_id}/gmb/food-menus` */
+  gmbUpdateFoodMenus(accountId: string, body: t.GmbUpdateFoodMenusData['body'], options?: RequestOptions): Promise<t.GmbUpdateFoodMenusResponses[keyof t.GmbUpdateFoodMenusResponses]> {
+    return this._client.request('PUT', `/social/accounts/${encodeURIComponent(accountId)}/gmb/food-menus`, { body, options });
+  }
+
+  /** List place-action links `GET /social/accounts/{account_id}/gmb/place-actions` */
+  gmbPlaceActions(accountId: string, options?: RequestOptions): Promise<t.GmbPlaceActionsResponses[keyof t.GmbPlaceActionsResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/gmb/place-actions`, { options });
+  }
+
+  /** Create place-action link `POST /social/accounts/{account_id}/gmb/place-actions` */
+  gmbCreatePlaceAction(accountId: string, body: t.GmbCreatePlaceActionData['body'], options?: RequestOptions): Promise<t.GmbCreatePlaceActionResponses[keyof t.GmbCreatePlaceActionResponses]> {
+    return this._client.request('POST', `/social/accounts/${encodeURIComponent(accountId)}/gmb/place-actions`, { body, options });
+  }
+
+  /** Delete place-action link `DELETE /social/accounts/{account_id}/gmb/place-actions` */
+  gmbDeletePlaceAction(accountId: string, body: t.GmbDeletePlaceActionData['body'], options?: RequestOptions): Promise<t.GmbDeletePlaceActionResponses[keyof t.GmbDeletePlaceActionResponses]> {
+    return this._client.request('DELETE', `/social/accounts/${encodeURIComponent(accountId)}/gmb/place-actions`, { body, options });
+  }
+
+  /** List verifications `GET /social/accounts/{account_id}/gmb/verifications` */
+  gmbVerifications(accountId: string, options?: RequestOptions): Promise<t.GmbVerificationsResponses[keyof t.GmbVerificationsResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/gmb/verifications`, { options });
+  }
+
+  /** Verification options `POST /social/accounts/{account_id}/gmb/verifications/options` */
+  gmbVerificationOptions(accountId: string, body?: t.GmbVerificationOptionsData['body'], options?: RequestOptions): Promise<t.GmbVerificationOptionsResponses[keyof t.GmbVerificationOptionsResponses]> {
+    return this._client.request('POST', `/social/accounts/${encodeURIComponent(accountId)}/gmb/verifications/options`, { body, options });
+  }
 }
 
 /** URLs endpoints. */

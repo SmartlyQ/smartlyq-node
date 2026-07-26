@@ -1334,6 +1334,146 @@ describe('social', () => {
     expect(calls[0].method).toBe('DELETE');
     expect(calls[0].path).toBe('/social/accounts/test-id/x/retweets/test-id');
   });
+
+  it('social.editPublishedPost -> POST /social/posts/{post_id}/edit', async () => {
+    const { client, calls } = mockClient();
+    await client.social.editPublishedPost('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/posts/test-id/edit');
+  });
+
+  it('social.updatePostMetadata -> POST /social/posts/{post_id}/update-metadata', async () => {
+    const { client, calls } = mockClient();
+    await client.social.updatePostMetadata('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/posts/test-id/update-metadata');
+  });
+
+  it('social.syncExternalPosts -> POST /social/posts/sync-external', async () => {
+    const { client, calls } = mockClient();
+    await client.social.syncExternalPosts({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/posts/sync-external');
+  });
+
+  it('social.accountInsights -> GET /social/accounts/{account_id}/insights', async () => {
+    const { client, calls } = mockClient();
+    await client.social.accountInsights('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/insights');
+  });
+
+  it('social.gmbLocations -> GET /social/accounts/{account_id}/gmb/locations', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbLocations('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/locations');
+  });
+
+  it('social.gmbLocation -> GET /social/accounts/{account_id}/gmb/location', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbLocation('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/location');
+  });
+
+  it('social.gmbUpdateLocation -> PATCH /social/accounts/{account_id}/gmb/location', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbUpdateLocation('test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/location');
+  });
+
+  it('social.gmbAttributes -> GET /social/accounts/{account_id}/gmb/attributes', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbAttributes('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/attributes');
+  });
+
+  it('social.gmbUpdateAttributes -> PUT /social/accounts/{account_id}/gmb/attributes', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbUpdateAttributes('test-id', {} as never);
+    expect(calls[0].method).toBe('PUT');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/attributes');
+  });
+
+  it('social.gmbAttributeMetadata -> GET /social/accounts/{account_id}/gmb/attributes/metadata', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbAttributeMetadata('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/attributes/metadata');
+  });
+
+  it('social.gmbMedia -> GET /social/accounts/{account_id}/gmb/media', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbMedia('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/media');
+  });
+
+  it('social.gmbCreateMedia -> POST /social/accounts/{account_id}/gmb/media', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbCreateMedia('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/media');
+  });
+
+  it('social.gmbDeleteMedia -> DELETE /social/accounts/{account_id}/gmb/media', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbDeleteMedia('test-id', {} as never);
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/media');
+  });
+
+  it('social.gmbFoodMenus -> GET /social/accounts/{account_id}/gmb/food-menus', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbFoodMenus('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/food-menus');
+  });
+
+  it('social.gmbUpdateFoodMenus -> PUT /social/accounts/{account_id}/gmb/food-menus', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbUpdateFoodMenus('test-id', {} as never);
+    expect(calls[0].method).toBe('PUT');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/food-menus');
+  });
+
+  it('social.gmbPlaceActions -> GET /social/accounts/{account_id}/gmb/place-actions', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbPlaceActions('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/place-actions');
+  });
+
+  it('social.gmbCreatePlaceAction -> POST /social/accounts/{account_id}/gmb/place-actions', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbCreatePlaceAction('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/place-actions');
+  });
+
+  it('social.gmbDeletePlaceAction -> DELETE /social/accounts/{account_id}/gmb/place-actions', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbDeletePlaceAction('test-id', {} as never);
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/place-actions');
+  });
+
+  it('social.gmbVerifications -> GET /social/accounts/{account_id}/gmb/verifications', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbVerifications('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/verifications');
+  });
+
+  it('social.gmbVerificationOptions -> POST /social/accounts/{account_id}/gmb/verifications/options', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbVerificationOptions('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/verifications/options');
+  });
 });
 
 describe('urls', () => {

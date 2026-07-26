@@ -11791,6 +11791,1273 @@ export type XUnretweetResponses = {
 
 export type XUnretweetResponse = XUnretweetResponses[keyof XUnretweetResponses];
 
+export type EditPublishedPostData = {
+    body: {
+        /**
+         * Replacement text.
+         */
+        content: string;
+        /**
+         * Restrict to these platforms (default: all the post published to).
+         */
+        platforms?: Array<string>;
+    };
+    path: {
+        post_id: number;
+    };
+    query?: never;
+    url: '/social/posts/{post_id}/edit';
+};
+
+export type EditPublishedPostErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict (e.g. duplicate idempotency or already-finished job)
+     */
+    409: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type EditPublishedPostError = EditPublishedPostErrors[keyof EditPublishedPostErrors];
+
+export type EditPublishedPostResponses = {
+    /**
+     * Edit results
+     */
+    200: {
+        success?: true;
+        data?: {
+            results?: Array<{
+                platform?: string;
+                remote_post_id?: string;
+                edited?: boolean;
+                error?: string;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type EditPublishedPostResponse = EditPublishedPostResponses[keyof EditPublishedPostResponses];
+
+export type UpdatePostMetadataData = {
+    body: {
+        title?: string;
+        description?: string;
+        tags?: Array<string>;
+        playlist_id?: string;
+        thumbnail_url?: string;
+    };
+    path: {
+        post_id: number;
+    };
+    query?: never;
+    url: '/social/posts/{post_id}/update-metadata';
+};
+
+export type UpdatePostMetadataErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict (e.g. duplicate idempotency or already-finished job)
+     */
+    409: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type UpdatePostMetadataError = UpdatePostMetadataErrors[keyof UpdatePostMetadataErrors];
+
+export type UpdatePostMetadataResponses = {
+    /**
+     * Updated
+     */
+    200: {
+        success?: true;
+        data?: {
+            video_id?: string;
+            updated?: Array<'snippet' | 'playlist' | 'thumbnail'>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type UpdatePostMetadataResponse = UpdatePostMetadataResponses[keyof UpdatePostMetadataResponses];
+
+export type SyncExternalPostsData = {
+    body: {
+        account_id: number;
+        limit?: number;
+        /**
+         * Opt the account into external-post discovery.
+         */
+        enable?: boolean;
+    };
+    path?: never;
+    query?: never;
+    url: '/social/posts/sync-external';
+};
+
+export type SyncExternalPostsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict (e.g. duplicate idempotency or already-finished job)
+     */
+    409: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type SyncExternalPostsError = SyncExternalPostsErrors[keyof SyncExternalPostsErrors];
+
+export type SyncExternalPostsResponses = {
+    /**
+     * Synced
+     */
+    200: {
+        success?: true;
+        data?: {
+            posts_synced?: number;
+            enabled?: boolean;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type SyncExternalPostsResponse = SyncExternalPostsResponses[keyof SyncExternalPostsResponses];
+
+export type AccountInsightsData = {
+    body?: never;
+    path: {
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/insights';
+};
+
+export type AccountInsightsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type AccountInsightsError = AccountInsightsErrors[keyof AccountInsightsErrors];
+
+export type AccountInsightsResponses = {
+    /**
+     * Live metrics
+     */
+    200: {
+        success?: true;
+        data?: {
+            account_id?: number;
+            platform?: string;
+            metrics?: {
+                [key: string]: unknown;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type AccountInsightsResponse = AccountInsightsResponses[keyof AccountInsightsResponses];
+
+export type GmbLocationsData = {
+    body?: never;
+    path: {
+        /**
+         * Connected Google Business account id.
+         */
+        account_id: number;
+    };
+    query?: {
+        /**
+         * Comma-separated Google Location field paths.
+         */
+        read_mask?: string;
+    };
+    url: '/social/accounts/{account_id}/gmb/locations';
+};
+
+export type GmbLocationsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Google rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+            details?: {
+                google_status?: string;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbLocationsError = GmbLocationsErrors[keyof GmbLocationsErrors];
+
+export type GmbLocationsResponses = {
+    /**
+     * List Google locations
+     */
+    200: {
+        success?: true;
+        data?: {
+            locations?: Array<{
+                [key: string]: unknown;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbLocationsResponse = GmbLocationsResponses[keyof GmbLocationsResponses];
+
+export type GmbLocationData = {
+    body?: never;
+    path: {
+        /**
+         * Connected Google Business account id.
+         */
+        account_id: number;
+    };
+    query?: {
+        read_mask?: string;
+    };
+    url: '/social/accounts/{account_id}/gmb/location';
+};
+
+export type GmbLocationErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Google rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+            details?: {
+                google_status?: string;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbLocationError = GmbLocationErrors[keyof GmbLocationErrors];
+
+export type GmbLocationResponses = {
+    /**
+     * Get business info
+     */
+    200: {
+        success?: true;
+        /**
+         * Google Location resource.
+         */
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbLocationResponse = GmbLocationResponses[keyof GmbLocationResponses];
+
+export type GmbUpdateLocationData = {
+    body: {
+        /**
+         * Google Location fields to write.
+         */
+        location: {
+            [key: string]: unknown;
+        };
+        /**
+         * Comma-separated field paths, e.g. regularHours,phoneNumbers.
+         */
+        update_mask: string;
+    };
+    path: {
+        /**
+         * Connected Google Business account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/gmb/location';
+};
+
+export type GmbUpdateLocationErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Google rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+            details?: {
+                google_status?: string;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbUpdateLocationError = GmbUpdateLocationErrors[keyof GmbUpdateLocationErrors];
+
+export type GmbUpdateLocationResponses = {
+    /**
+     * Update business info
+     */
+    200: {
+        success?: true;
+        /**
+         * The updated Google Location resource.
+         */
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbUpdateLocationResponse = GmbUpdateLocationResponses[keyof GmbUpdateLocationResponses];
+
+export type GmbAttributesData = {
+    body?: never;
+    path: {
+        /**
+         * Connected Google Business account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/gmb/attributes';
+};
+
+export type GmbAttributesErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Google rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+            details?: {
+                google_status?: string;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbAttributesError = GmbAttributesErrors[keyof GmbAttributesErrors];
+
+export type GmbAttributesResponses = {
+    /**
+     * Get attributes
+     */
+    200: {
+        success?: true;
+        /**
+         * Google Attributes resource.
+         */
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbAttributesResponse = GmbAttributesResponses[keyof GmbAttributesResponses];
+
+export type GmbUpdateAttributesData = {
+    body: {
+        /**
+         * Google Attribute objects.
+         */
+        attributes: Array<{
+            [key: string]: unknown;
+        }>;
+        /**
+         * Comma-separated attribute names, e.g. attributes/has_wifi_free.
+         */
+        attribute_mask: string;
+    };
+    path: {
+        /**
+         * Connected Google Business account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/gmb/attributes';
+};
+
+export type GmbUpdateAttributesErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Google rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+            details?: {
+                google_status?: string;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbUpdateAttributesError = GmbUpdateAttributesErrors[keyof GmbUpdateAttributesErrors];
+
+export type GmbUpdateAttributesResponses = {
+    /**
+     * Update attributes
+     */
+    200: {
+        success?: true;
+        /**
+         * The updated Attributes resource.
+         */
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbUpdateAttributesResponse = GmbUpdateAttributesResponses[keyof GmbUpdateAttributesResponses];
+
+export type GmbAttributeMetadataData = {
+    body?: never;
+    path: {
+        /**
+         * Connected Google Business account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/gmb/attributes/metadata';
+};
+
+export type GmbAttributeMetadataErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Google rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+            details?: {
+                google_status?: string;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbAttributeMetadataError = GmbAttributeMetadataErrors[keyof GmbAttributeMetadataErrors];
+
+export type GmbAttributeMetadataResponses = {
+    /**
+     * Available attributes
+     */
+    200: {
+        success?: true;
+        data?: {
+            attributes?: Array<{
+                [key: string]: unknown;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbAttributeMetadataResponse = GmbAttributeMetadataResponses[keyof GmbAttributeMetadataResponses];
+
+export type GmbDeleteMediaData = {
+    body: {
+        /**
+         * Full media resource name (accounts/.../locations/.../media/...).
+         */
+        name: string;
+    };
+    path: {
+        /**
+         * Connected Google Business account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/gmb/media';
+};
+
+export type GmbDeleteMediaErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Google rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+            details?: {
+                google_status?: string;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbDeleteMediaError = GmbDeleteMediaErrors[keyof GmbDeleteMediaErrors];
+
+export type GmbDeleteMediaResponses = {
+    /**
+     * Delete media
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbDeleteMediaResponse = GmbDeleteMediaResponses[keyof GmbDeleteMediaResponses];
+
+export type GmbMediaData = {
+    body?: never;
+    path: {
+        /**
+         * Connected Google Business account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/gmb/media';
+};
+
+export type GmbMediaErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Google rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+            details?: {
+                google_status?: string;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbMediaError = GmbMediaErrors[keyof GmbMediaErrors];
+
+export type GmbMediaResponses = {
+    /**
+     * List media
+     */
+    200: {
+        success?: true;
+        data?: {
+            media?: Array<{
+                [key: string]: unknown;
+            }>;
+            total?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbMediaResponse = GmbMediaResponses[keyof GmbMediaResponses];
+
+export type GmbCreateMediaData = {
+    body: {
+        source_url: string;
+        /**
+         * COVER, PROFILE, LOGO, EXTERIOR, INTERIOR, PRODUCT, MENU, TEAMS, ADDITIONAL...
+         */
+        category?: string;
+    };
+    path: {
+        /**
+         * Connected Google Business account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/gmb/media';
+};
+
+export type GmbCreateMediaErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Google rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+            details?: {
+                google_status?: string;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbCreateMediaError = GmbCreateMediaErrors[keyof GmbCreateMediaErrors];
+
+export type GmbCreateMediaResponses = {
+    /**
+     * Add photo
+     */
+    201: {
+        success?: true;
+        /**
+         * The created Google MediaItem.
+         */
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbCreateMediaResponse = GmbCreateMediaResponses[keyof GmbCreateMediaResponses];
+
+export type GmbFoodMenusData = {
+    body?: never;
+    path: {
+        /**
+         * Connected Google Business account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/gmb/food-menus';
+};
+
+export type GmbFoodMenusErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Google rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+            details?: {
+                google_status?: string;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbFoodMenusError = GmbFoodMenusErrors[keyof GmbFoodMenusErrors];
+
+export type GmbFoodMenusResponses = {
+    /**
+     * Get food menus
+     */
+    200: {
+        success?: true;
+        /**
+         * Google FoodMenus resource.
+         */
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbFoodMenusResponse = GmbFoodMenusResponses[keyof GmbFoodMenusResponses];
+
+export type GmbUpdateFoodMenusData = {
+    body: {
+        menus: Array<{
+            [key: string]: unknown;
+        }>;
+    };
+    path: {
+        /**
+         * Connected Google Business account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/gmb/food-menus';
+};
+
+export type GmbUpdateFoodMenusErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Google rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+            details?: {
+                google_status?: string;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbUpdateFoodMenusError = GmbUpdateFoodMenusErrors[keyof GmbUpdateFoodMenusErrors];
+
+export type GmbUpdateFoodMenusResponses = {
+    /**
+     * Update food menus
+     */
+    200: {
+        success?: true;
+        /**
+         * The updated FoodMenus resource.
+         */
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbUpdateFoodMenusResponse = GmbUpdateFoodMenusResponses[keyof GmbUpdateFoodMenusResponses];
+
+export type GmbDeletePlaceActionData = {
+    body: {
+        name: string;
+    };
+    path: {
+        /**
+         * Connected Google Business account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/gmb/place-actions';
+};
+
+export type GmbDeletePlaceActionErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Google rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+            details?: {
+                google_status?: string;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbDeletePlaceActionError = GmbDeletePlaceActionErrors[keyof GmbDeletePlaceActionErrors];
+
+export type GmbDeletePlaceActionResponses = {
+    /**
+     * Delete place-action link
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbDeletePlaceActionResponse = GmbDeletePlaceActionResponses[keyof GmbDeletePlaceActionResponses];
+
+export type GmbPlaceActionsData = {
+    body?: never;
+    path: {
+        /**
+         * Connected Google Business account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/gmb/place-actions';
+};
+
+export type GmbPlaceActionsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Google rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+            details?: {
+                google_status?: string;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbPlaceActionsError = GmbPlaceActionsErrors[keyof GmbPlaceActionsErrors];
+
+export type GmbPlaceActionsResponses = {
+    /**
+     * List place-action links
+     */
+    200: {
+        success?: true;
+        data?: {
+            place_action_links?: Array<{
+                [key: string]: unknown;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbPlaceActionsResponse = GmbPlaceActionsResponses[keyof GmbPlaceActionsResponses];
+
+export type GmbCreatePlaceActionData = {
+    body: {
+        uri: string;
+        place_action_type: string;
+    };
+    path: {
+        /**
+         * Connected Google Business account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/gmb/place-actions';
+};
+
+export type GmbCreatePlaceActionErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Google rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+            details?: {
+                google_status?: string;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbCreatePlaceActionError = GmbCreatePlaceActionErrors[keyof GmbCreatePlaceActionErrors];
+
+export type GmbCreatePlaceActionResponses = {
+    /**
+     * Create place-action link
+     */
+    201: {
+        success?: true;
+        /**
+         * The created PlaceActionLink.
+         */
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbCreatePlaceActionResponse = GmbCreatePlaceActionResponses[keyof GmbCreatePlaceActionResponses];
+
+export type GmbVerificationsData = {
+    body?: never;
+    path: {
+        /**
+         * Connected Google Business account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/gmb/verifications';
+};
+
+export type GmbVerificationsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Google rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+            details?: {
+                google_status?: string;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbVerificationsError = GmbVerificationsErrors[keyof GmbVerificationsErrors];
+
+export type GmbVerificationsResponses = {
+    /**
+     * List verifications
+     */
+    200: {
+        success?: true;
+        data?: {
+            verifications?: Array<{
+                [key: string]: unknown;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbVerificationsResponse = GmbVerificationsResponses[keyof GmbVerificationsResponses];
+
+export type GmbVerificationOptionsData = {
+    body?: {
+        language_code?: string;
+    };
+    path: {
+        /**
+         * Connected Google Business account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/gmb/verifications/options';
+};
+
+export type GmbVerificationOptionsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Google rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+            details?: {
+                google_status?: string;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbVerificationOptionsError = GmbVerificationOptionsErrors[keyof GmbVerificationOptionsErrors];
+
+export type GmbVerificationOptionsResponses = {
+    /**
+     * Verification options
+     */
+    200: {
+        success?: true;
+        data?: {
+            options?: Array<{
+                [key: string]: unknown;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbVerificationOptionsResponse = GmbVerificationOptionsResponses[keyof GmbVerificationOptionsResponses];
+
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});
 };

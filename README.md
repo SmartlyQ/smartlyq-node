@@ -389,6 +389,26 @@ All methods below are available on the client. Full request/response documentati
 | `sq.social.instagramStoryInsights(accountId, storyId, query?)` | `GET /social/accounts/{account_id}/instagram/stories/{story_id}/insights` | Instagram story insights |
 | `sq.social.xRetweet(accountId, body)` | `POST /social/accounts/{account_id}/x/retweets` | Retweet on X |
 | `sq.social.xUnretweet(accountId, tweetId)` | `DELETE /social/accounts/{account_id}/x/retweets/{tweet_id}` | Undo retweet |
+| `sq.social.editPublishedPost(postId, body)` | `POST /social/posts/{post_id}/edit` | Edit published post |
+| `sq.social.updatePostMetadata(postId, body)` | `POST /social/posts/{post_id}/update-metadata` | Update YouTube metadata |
+| `sq.social.syncExternalPosts(body)` | `POST /social/posts/sync-external` | Sync external posts |
+| `sq.social.accountInsights(accountId)` | `GET /social/accounts/{account_id}/insights` | Live account insights |
+| `sq.social.gmbLocations(accountId, query?)` | `GET /social/accounts/{account_id}/gmb/locations` | List Google locations |
+| `sq.social.gmbLocation(accountId, query?)` | `GET /social/accounts/{account_id}/gmb/location` | Get business info |
+| `sq.social.gmbUpdateLocation(accountId, body)` | `PATCH /social/accounts/{account_id}/gmb/location` | Update business info |
+| `sq.social.gmbAttributes(accountId)` | `GET /social/accounts/{account_id}/gmb/attributes` | Get attributes |
+| `sq.social.gmbUpdateAttributes(accountId, body)` | `PUT /social/accounts/{account_id}/gmb/attributes` | Update attributes |
+| `sq.social.gmbAttributeMetadata(accountId)` | `GET /social/accounts/{account_id}/gmb/attributes/metadata` | Available attributes |
+| `sq.social.gmbMedia(accountId)` | `GET /social/accounts/{account_id}/gmb/media` | List media |
+| `sq.social.gmbCreateMedia(accountId, body)` | `POST /social/accounts/{account_id}/gmb/media` | Add photo |
+| `sq.social.gmbDeleteMedia(accountId, body)` | `DELETE /social/accounts/{account_id}/gmb/media` | Delete media |
+| `sq.social.gmbFoodMenus(accountId)` | `GET /social/accounts/{account_id}/gmb/food-menus` | Get food menus |
+| `sq.social.gmbUpdateFoodMenus(accountId, body)` | `PUT /social/accounts/{account_id}/gmb/food-menus` | Update food menus |
+| `sq.social.gmbPlaceActions(accountId)` | `GET /social/accounts/{account_id}/gmb/place-actions` | List place-action links |
+| `sq.social.gmbCreatePlaceAction(accountId, body)` | `POST /social/accounts/{account_id}/gmb/place-actions` | Create place-action link |
+| `sq.social.gmbDeletePlaceAction(accountId, body)` | `DELETE /social/accounts/{account_id}/gmb/place-actions` | Delete place-action link |
+| `sq.social.gmbVerifications(accountId)` | `GET /social/accounts/{account_id}/gmb/verifications` | List verifications |
+| `sq.social.gmbVerificationOptions(accountId, body?)` | `POST /social/accounts/{account_id}/gmb/verifications/options` | Verification options |
 
 ### URLs
 
