@@ -311,9 +311,19 @@ export class CrmResource {
     return this._client.request('DELETE', `/contacts/${encodeURIComponent(id)}`, { options });
   }
 
+  /** Update custom field `PATCH /custom-fields/{id}` */
+  updateCustomField(id: string, body: t.UpdateCustomFieldData['body'], options?: RequestOptions): Promise<t.UpdateCustomFieldResponses[keyof t.UpdateCustomFieldResponses]> {
+    return this._client.request('PATCH', `/custom-fields/${encodeURIComponent(id)}`, { body, options });
+  }
+
   /** Bulk import contacts `POST /contacts/bulk` */
   bulkImportContacts(body: t.BulkImportContactsData['body'], options?: RequestOptions): Promise<t.BulkImportContactsResponses[keyof t.BulkImportContactsResponses]> {
     return this._client.request('POST', '/contacts/bulk', { body, options });
+  }
+
+  /** Contact channels `GET /contacts/{id}/channels` */
+  contactChannels(id: string, options?: RequestOptions): Promise<t.ContactChannelsResponses[keyof t.ContactChannelsResponses]> {
+    return this._client.request('GET', `/contacts/${encodeURIComponent(id)}/channels`, { options });
   }
 }
 
@@ -1111,6 +1121,11 @@ export class SocialResource {
     return this._client.request('POST', `/social/accounts/${encodeURIComponent(accountId)}/gmb/place-actions`, { body, options });
   }
 
+  /** Update place-action link `PATCH /social/accounts/{account_id}/gmb/place-actions` */
+  gmbUpdatePlaceAction(accountId: string, body: t.GmbUpdatePlaceActionData['body'], options?: RequestOptions): Promise<t.GmbUpdatePlaceActionResponses[keyof t.GmbUpdatePlaceActionResponses]> {
+    return this._client.request('PATCH', `/social/accounts/${encodeURIComponent(accountId)}/gmb/place-actions`, { body, options });
+  }
+
   /** Delete place-action link `DELETE /social/accounts/{account_id}/gmb/place-actions` */
   gmbDeletePlaceAction(accountId: string, body: t.GmbDeletePlaceActionData['body'], options?: RequestOptions): Promise<t.GmbDeletePlaceActionResponses[keyof t.GmbDeletePlaceActionResponses]> {
     return this._client.request('DELETE', `/social/accounts/${encodeURIComponent(accountId)}/gmb/place-actions`, { body, options });
@@ -1124,6 +1139,16 @@ export class SocialResource {
   /** Verification options `POST /social/accounts/{account_id}/gmb/verifications/options` */
   gmbVerificationOptions(accountId: string, body?: t.GmbVerificationOptionsData['body'], options?: RequestOptions): Promise<t.GmbVerificationOptionsResponses[keyof t.GmbVerificationOptionsResponses]> {
     return this._client.request('POST', `/social/accounts/${encodeURIComponent(accountId)}/gmb/verifications/options`, { body, options });
+  }
+
+  /** Subreddit info + eligibility `GET /social/accounts/{account_id}/reddit/subreddits/{subreddit}` */
+  redditSubredditInfo(accountId: string, subreddit: string, options?: RequestOptions): Promise<t.RedditSubredditInfoResponses[keyof t.RedditSubredditInfoResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/reddit/subreddits/${encodeURIComponent(subreddit)}`, { options });
+  }
+
+  /** X mentions `GET /social/accounts/{account_id}/x/mentions` */
+  xMentions(accountId: string, query?: t.XMentionsData['query'], options?: RequestOptions): Promise<t.XMentionsResponses[keyof t.XMentionsResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/x/mentions`, { query, options });
   }
 }
 

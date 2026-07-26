@@ -194,7 +194,9 @@ All methods below are available on the client. Full request/response documentati
 | Method | Endpoint | Description |
 | --- | --- | --- |
 | `sq.crm.deleteContact(id)` | `DELETE /contacts/{id}` | Delete contact |
+| `sq.crm.updateCustomField(id, body)` | `PATCH /custom-fields/{id}` | Update custom field |
 | `sq.crm.bulkImportContacts(body)` | `POST /contacts/bulk` | Bulk import contacts |
+| `sq.crm.contactChannels(id)` | `GET /contacts/{id}/channels` | Contact channels |
 
 ### CRM Contacts
 
@@ -406,9 +408,12 @@ All methods below are available on the client. Full request/response documentati
 | `sq.social.gmbUpdateFoodMenus(accountId, body)` | `PUT /social/accounts/{account_id}/gmb/food-menus` | Update food menus |
 | `sq.social.gmbPlaceActions(accountId)` | `GET /social/accounts/{account_id}/gmb/place-actions` | List place-action links |
 | `sq.social.gmbCreatePlaceAction(accountId, body)` | `POST /social/accounts/{account_id}/gmb/place-actions` | Create place-action link |
+| `sq.social.gmbUpdatePlaceAction(accountId, body)` | `PATCH /social/accounts/{account_id}/gmb/place-actions` | Update place-action link |
 | `sq.social.gmbDeletePlaceAction(accountId, body)` | `DELETE /social/accounts/{account_id}/gmb/place-actions` | Delete place-action link |
 | `sq.social.gmbVerifications(accountId)` | `GET /social/accounts/{account_id}/gmb/verifications` | List verifications |
 | `sq.social.gmbVerificationOptions(accountId, body?)` | `POST /social/accounts/{account_id}/gmb/verifications/options` | Verification options |
+| `sq.social.redditSubredditInfo(accountId, subreddit)` | `GET /social/accounts/{account_id}/reddit/subreddits/{subreddit}` | Subreddit info + eligibility |
+| `sq.social.xMentions(accountId, query?)` | `GET /social/accounts/{account_id}/x/mentions` | X mentions |
 
 ### URLs
 

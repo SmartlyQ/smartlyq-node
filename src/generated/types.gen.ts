@@ -7811,6 +7811,54 @@ export type DeleteCustomFieldResponses = {
 
 export type DeleteCustomFieldResponse = DeleteCustomFieldResponses[keyof DeleteCustomFieldResponses];
 
+export type UpdateCustomFieldData = {
+    body: {
+        label?: string;
+        type?: string;
+        options?: Array<string>;
+        default_value?: string;
+        group_name?: string;
+        sort_order?: number;
+    };
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/custom-fields/{id}';
+};
+
+export type UpdateCustomFieldErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type UpdateCustomFieldError = UpdateCustomFieldErrors[keyof UpdateCustomFieldErrors];
+
+export type UpdateCustomFieldResponses = {
+    /**
+     * Updated field
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type UpdateCustomFieldResponse = UpdateCustomFieldResponses[keyof UpdateCustomFieldResponses];
+
 export type ListPresentationsData = {
     body?: never;
     path?: never;
@@ -12872,6 +12920,64 @@ export type GmbPlaceActionsResponses = {
 
 export type GmbPlaceActionsResponse = GmbPlaceActionsResponses[keyof GmbPlaceActionsResponses];
 
+export type GmbUpdatePlaceActionData = {
+    body: {
+        name: string;
+        uri: string;
+    };
+    path: {
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/gmb/place-actions';
+};
+
+export type GmbUpdatePlaceActionErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbUpdatePlaceActionError = GmbUpdatePlaceActionErrors[keyof GmbUpdatePlaceActionErrors];
+
+export type GmbUpdatePlaceActionResponses = {
+    /**
+     * Updated
+     */
+    200: {
+        success?: true;
+        /**
+         * The updated PlaceActionLink.
+         */
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbUpdatePlaceActionResponse = GmbUpdatePlaceActionResponses[keyof GmbUpdatePlaceActionResponses];
+
 export type GmbCreatePlaceActionData = {
     body: {
         uri: string;
@@ -13057,6 +13163,166 @@ export type GmbVerificationOptionsResponses = {
 };
 
 export type GmbVerificationOptionsResponse = GmbVerificationOptionsResponses[keyof GmbVerificationOptionsResponses];
+
+export type RedditSubredditInfoData = {
+    body?: never;
+    path: {
+        account_id: number;
+        subreddit: string;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/reddit/subreddits/{subreddit}';
+};
+
+export type RedditSubredditInfoErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type RedditSubredditInfoError = RedditSubredditInfoErrors[keyof RedditSubredditInfoErrors];
+
+export type RedditSubredditInfoResponses = {
+    /**
+     * Subreddit info
+     */
+    200: {
+        success?: true;
+        data?: {
+            name?: string;
+            title?: string;
+            subscribers?: number;
+            over_18?: boolean;
+            subreddit_type?: string;
+            submission_type?: string;
+            user_is_banned?: boolean;
+            user_is_subscriber?: boolean;
+            can_post?: boolean;
+            url?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type RedditSubredditInfoResponse = RedditSubredditInfoResponses[keyof RedditSubredditInfoResponses];
+
+export type XMentionsData = {
+    body?: never;
+    path: {
+        account_id: number;
+    };
+    query?: {
+        limit?: number;
+    };
+    url: '/social/accounts/{account_id}/x/mentions';
+};
+
+export type XMentionsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type XMentionsError = XMentionsErrors[keyof XMentionsErrors];
+
+export type XMentionsResponses = {
+    /**
+     * Mentions
+     */
+    200: {
+        success?: true;
+        data?: {
+            mentions?: Array<{
+                [key: string]: unknown;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type XMentionsResponse = XMentionsResponses[keyof XMentionsResponses];
+
+export type ContactChannelsData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/contacts/{id}/channels';
+};
+
+export type ContactChannelsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type ContactChannelsError = ContactChannelsErrors[keyof ContactChannelsErrors];
+
+export type ContactChannelsResponses = {
+    /**
+     * Channels
+     */
+    200: {
+        success?: true;
+        data?: {
+            channels?: Array<{
+                channel?: string;
+                incoming?: number;
+                outgoing?: number;
+                last_message_at?: string;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ContactChannelsResponse = ContactChannelsResponses[keyof ContactChannelsResponses];
 
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});

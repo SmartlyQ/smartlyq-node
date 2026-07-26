@@ -399,11 +399,25 @@ describe('crm', () => {
     expect(calls[0].path).toBe('/contacts/test-id');
   });
 
+  it('crm.updateCustomField -> PATCH /custom-fields/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.crm.updateCustomField('test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/custom-fields/test-id');
+  });
+
   it('crm.bulkImportContacts -> POST /contacts/bulk', async () => {
     const { client, calls } = mockClient();
     await client.crm.bulkImportContacts({} as never);
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/contacts/bulk');
+  });
+
+  it('crm.contactChannels -> GET /contacts/{id}/channels', async () => {
+    const { client, calls } = mockClient();
+    await client.crm.contactChannels('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/contacts/test-id/channels');
   });
 });
 
@@ -1454,6 +1468,13 @@ describe('social', () => {
     expect(calls[0].path).toBe('/social/accounts/test-id/gmb/place-actions');
   });
 
+  it('social.gmbUpdatePlaceAction -> PATCH /social/accounts/{account_id}/gmb/place-actions', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbUpdatePlaceAction('test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/place-actions');
+  });
+
   it('social.gmbDeletePlaceAction -> DELETE /social/accounts/{account_id}/gmb/place-actions', async () => {
     const { client, calls } = mockClient();
     await client.social.gmbDeletePlaceAction('test-id', {} as never);
@@ -1473,6 +1494,20 @@ describe('social', () => {
     await client.social.gmbVerificationOptions('test-id', {} as never);
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/social/accounts/test-id/gmb/verifications/options');
+  });
+
+  it('social.redditSubredditInfo -> GET /social/accounts/{account_id}/reddit/subreddits/{subreddit}', async () => {
+    const { client, calls } = mockClient();
+    await client.social.redditSubredditInfo('test-id', 'test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/reddit/subreddits/test-id');
+  });
+
+  it('social.xMentions -> GET /social/accounts/{account_id}/x/mentions', async () => {
+    const { client, calls } = mockClient();
+    await client.social.xMentions('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/x/mentions');
   });
 });
 
