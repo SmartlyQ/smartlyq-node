@@ -1229,6 +1229,83 @@ describe('social', () => {
     expect(calls[0].method).toBe('GET');
     expect(calls[0].path).toBe('/social/conversations/search');
   });
+
+  it('social.pinterestBoards -> GET /social/accounts/{account_id}/pinterest/boards', async () => {
+    const { client, calls } = mockClient();
+    await client.social.pinterestBoards('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/pinterest/boards');
+  });
+
+  it('social.youtubePlaylists -> GET /social/accounts/{account_id}/youtube/playlists', async () => {
+    const { client, calls } = mockClient();
+    await client.social.youtubePlaylists('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/youtube/playlists');
+  });
+
+  it('social.instagramPublishingLimit -> GET /social/accounts/{account_id}/instagram/publishing-limit', async () => {
+    const { client, calls } = mockClient();
+    await client.social.instagramPublishingLimit('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/instagram/publishing-limit');
+  });
+
+  it('social.gmbPerformance -> GET /social/accounts/{account_id}/gmb/performance', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbPerformance('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/performance');
+  });
+
+  it('social.gmbSearchKeywords -> GET /social/accounts/{account_id}/gmb/search-keywords', async () => {
+    const { client, calls } = mockClient();
+    await client.social.gmbSearchKeywords('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/gmb/search-keywords');
+  });
+
+  it('social.redditSearch -> GET /social/accounts/{account_id}/reddit/search', async () => {
+    const { client, calls } = mockClient();
+    await client.social.redditSearch('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/reddit/search');
+  });
+
+  it('social.redditFeed -> GET /social/accounts/{account_id}/reddit/feed', async () => {
+    const { client, calls } = mockClient();
+    await client.social.redditFeed('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/reddit/feed');
+  });
+
+  it('social.redditSubreddits -> GET /social/accounts/{account_id}/reddit/subreddits', async () => {
+    const { client, calls } = mockClient();
+    await client.social.redditSubreddits('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/reddit/subreddits');
+  });
+
+  it('social.redditSubredditRules -> GET /social/accounts/{account_id}/reddit/subreddits/{subreddit}/rules', async () => {
+    const { client, calls } = mockClient();
+    await client.social.redditSubredditRules('test-id', 'test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/reddit/subreddits/test-id/rules');
+  });
+
+  it('social.instagramStories -> GET /social/accounts/{account_id}/instagram/stories', async () => {
+    const { client, calls } = mockClient();
+    await client.social.instagramStories('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/instagram/stories');
+  });
+
+  it('social.facebookPostReactions -> GET /social/accounts/{account_id}/facebook/post-reactions', async () => {
+    const { client, calls } = mockClient();
+    await client.social.facebookPostReactions('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/facebook/post-reactions');
+  });
 });
 
 describe('urls', () => {

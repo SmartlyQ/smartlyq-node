@@ -950,6 +950,61 @@ export class SocialResource {
   searchConversations(query?: t.SearchConversationsData['query'], options?: RequestOptions): Promise<t.SearchConversationsResponses[keyof t.SearchConversationsResponses]> {
     return this._client.request('GET', '/social/conversations/search', { query, options });
   }
+
+  /** Pinterest boards `GET /social/accounts/{account_id}/pinterest/boards` */
+  pinterestBoards(accountId: string, options?: RequestOptions): Promise<t.PinterestBoardsResponses[keyof t.PinterestBoardsResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/pinterest/boards`, { options });
+  }
+
+  /** YouTube playlists `GET /social/accounts/{account_id}/youtube/playlists` */
+  youtubePlaylists(accountId: string, options?: RequestOptions): Promise<t.YoutubePlaylistsResponses[keyof t.YoutubePlaylistsResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/youtube/playlists`, { options });
+  }
+
+  /** Instagram publishing limit `GET /social/accounts/{account_id}/instagram/publishing-limit` */
+  instagramPublishingLimit(accountId: string, options?: RequestOptions): Promise<t.InstagramPublishingLimitResponses[keyof t.InstagramPublishingLimitResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/instagram/publishing-limit`, { options });
+  }
+
+  /** Google Business performance `GET /social/accounts/{account_id}/gmb/performance` */
+  gmbPerformance(accountId: string, query?: t.GmbPerformanceData['query'], options?: RequestOptions): Promise<t.GmbPerformanceResponses[keyof t.GmbPerformanceResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/gmb/performance`, { query, options });
+  }
+
+  /** Google Business search keywords `GET /social/accounts/{account_id}/gmb/search-keywords` */
+  gmbSearchKeywords(accountId: string, query?: t.GmbSearchKeywordsData['query'], options?: RequestOptions): Promise<t.GmbSearchKeywordsResponses[keyof t.GmbSearchKeywordsResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/gmb/search-keywords`, { query, options });
+  }
+
+  /** Reddit search `GET /social/accounts/{account_id}/reddit/search` */
+  redditSearch(accountId: string, query?: t.RedditSearchData['query'], options?: RequestOptions): Promise<t.RedditSearchResponses[keyof t.RedditSearchResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/reddit/search`, { query, options });
+  }
+
+  /** Reddit feed `GET /social/accounts/{account_id}/reddit/feed` */
+  redditFeed(accountId: string, query?: t.RedditFeedData['query'], options?: RequestOptions): Promise<t.RedditFeedResponses[keyof t.RedditFeedResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/reddit/feed`, { query, options });
+  }
+
+  /** Subscribed subreddits `GET /social/accounts/{account_id}/reddit/subreddits` */
+  redditSubreddits(accountId: string, options?: RequestOptions): Promise<t.RedditSubredditsResponses[keyof t.RedditSubredditsResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/reddit/subreddits`, { options });
+  }
+
+  /** Subreddit rules `GET /social/accounts/{account_id}/reddit/subreddits/{subreddit}/rules` */
+  redditSubredditRules(accountId: string, subreddit: string, options?: RequestOptions): Promise<t.RedditSubredditRulesResponses[keyof t.RedditSubredditRulesResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/reddit/subreddits/${encodeURIComponent(subreddit)}/rules`, { options });
+  }
+
+  /** Instagram stories `GET /social/accounts/{account_id}/instagram/stories` */
+  instagramStories(accountId: string, options?: RequestOptions): Promise<t.InstagramStoriesResponses[keyof t.InstagramStoriesResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/instagram/stories`, { options });
+  }
+
+  /** Facebook post reactions `GET /social/accounts/{account_id}/facebook/post-reactions` */
+  facebookPostReactions(accountId: string, query?: t.FacebookPostReactionsData['query'], options?: RequestOptions): Promise<t.FacebookPostReactionsResponses[keyof t.FacebookPostReactionsResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/facebook/post-reactions`, { query, options });
+  }
 }
 
 /** URLs endpoints. */

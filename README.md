@@ -374,6 +374,17 @@ All methods below are available on the client. Full request/response documentati
 | `sq.social.getConversation(conversationId)` | `GET /social/conversations/{conversation_id}` | Get conversation |
 | `sq.social.updateConversation(conversationId, body)` | `PATCH /social/conversations/{conversation_id}` | Archive / reopen conversation |
 | `sq.social.searchConversations(query?)` | `GET /social/conversations/search` | Search conversations |
+| `sq.social.pinterestBoards(accountId)` | `GET /social/accounts/{account_id}/pinterest/boards` | Pinterest boards |
+| `sq.social.youtubePlaylists(accountId)` | `GET /social/accounts/{account_id}/youtube/playlists` | YouTube playlists |
+| `sq.social.instagramPublishingLimit(accountId)` | `GET /social/accounts/{account_id}/instagram/publishing-limit` | Instagram publishing limit |
+| `sq.social.gmbPerformance(accountId, query?)` | `GET /social/accounts/{account_id}/gmb/performance` | Google Business performance |
+| `sq.social.gmbSearchKeywords(accountId, query?)` | `GET /social/accounts/{account_id}/gmb/search-keywords` | Google Business search keywords |
+| `sq.social.redditSearch(accountId, query?)` | `GET /social/accounts/{account_id}/reddit/search` | Reddit search |
+| `sq.social.redditFeed(accountId, query?)` | `GET /social/accounts/{account_id}/reddit/feed` | Reddit feed |
+| `sq.social.redditSubreddits(accountId)` | `GET /social/accounts/{account_id}/reddit/subreddits` | Subscribed subreddits |
+| `sq.social.redditSubredditRules(accountId, subreddit)` | `GET /social/accounts/{account_id}/reddit/subreddits/{subreddit}/rules` | Subreddit rules |
+| `sq.social.instagramStories(accountId)` | `GET /social/accounts/{account_id}/instagram/stories` | Instagram stories |
+| `sq.social.facebookPostReactions(accountId, query?)` | `GET /social/accounts/{account_id}/facebook/post-reactions` | Facebook post reactions |
 
 ### URLs
 

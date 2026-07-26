@@ -10247,6 +10247,695 @@ export type BulkImportContactsResponses = {
 
 export type BulkImportContactsResponse = BulkImportContactsResponses[keyof BulkImportContactsResponses];
 
+export type PinterestBoardsData = {
+    body?: never;
+    path: {
+        /**
+         * Connected account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/pinterest/boards';
+};
+
+export type PinterestBoardsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type PinterestBoardsError = PinterestBoardsErrors[keyof PinterestBoardsErrors];
+
+export type PinterestBoardsResponses = {
+    /**
+     * Pinterest boards
+     */
+    200: {
+        success?: true;
+        data?: {
+            boards?: Array<{
+                [key: string]: unknown;
+            }>;
+            sandbox?: boolean;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type PinterestBoardsResponse = PinterestBoardsResponses[keyof PinterestBoardsResponses];
+
+export type YoutubePlaylistsData = {
+    body?: never;
+    path: {
+        /**
+         * Connected account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/youtube/playlists';
+};
+
+export type YoutubePlaylistsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type YoutubePlaylistsError = YoutubePlaylistsErrors[keyof YoutubePlaylistsErrors];
+
+export type YoutubePlaylistsResponses = {
+    /**
+     * YouTube playlists
+     */
+    200: {
+        success?: true;
+        data?: {
+            playlists?: Array<{
+                id?: string;
+                title?: string;
+                description?: string;
+                privacy?: string;
+                item_count?: number;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type YoutubePlaylistsResponse = YoutubePlaylistsResponses[keyof YoutubePlaylistsResponses];
+
+export type InstagramPublishingLimitData = {
+    body?: never;
+    path: {
+        /**
+         * Connected account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/instagram/publishing-limit';
+};
+
+export type InstagramPublishingLimitErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type InstagramPublishingLimitError = InstagramPublishingLimitErrors[keyof InstagramPublishingLimitErrors];
+
+export type InstagramPublishingLimitResponses = {
+    /**
+     * Instagram publishing limit
+     */
+    200: {
+        success?: true;
+        data?: {
+            account_id?: number;
+            quota_total?: number;
+            quota_remaining?: number;
+            can_publish?: boolean;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type InstagramPublishingLimitResponse = InstagramPublishingLimitResponses[keyof InstagramPublishingLimitResponses];
+
+export type GmbPerformanceData = {
+    body?: never;
+    path: {
+        /**
+         * Connected account id.
+         */
+        account_id: number;
+    };
+    query?: {
+        days?: number;
+    };
+    url: '/social/accounts/{account_id}/gmb/performance';
+};
+
+export type GmbPerformanceErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbPerformanceError = GmbPerformanceErrors[keyof GmbPerformanceErrors];
+
+export type GmbPerformanceResponses = {
+    /**
+     * Google Business performance
+     */
+    200: {
+        success?: true;
+        /**
+         * account_id, days + the performance report (impressions, sources, daily series, deltas).
+         */
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbPerformanceResponse = GmbPerformanceResponses[keyof GmbPerformanceResponses];
+
+export type GmbSearchKeywordsData = {
+    body?: never;
+    path: {
+        /**
+         * Connected account id.
+         */
+        account_id: number;
+    };
+    query?: {
+        limit?: number;
+    };
+    url: '/social/accounts/{account_id}/gmb/search-keywords';
+};
+
+export type GmbSearchKeywordsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbSearchKeywordsError = GmbSearchKeywordsErrors[keyof GmbSearchKeywordsErrors];
+
+export type GmbSearchKeywordsResponses = {
+    /**
+     * Google Business search keywords
+     */
+    200: {
+        success?: true;
+        data?: {
+            account_id?: number;
+            keywords?: Array<{
+                [key: string]: unknown;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GmbSearchKeywordsResponse = GmbSearchKeywordsResponses[keyof GmbSearchKeywordsResponses];
+
+export type RedditSearchData = {
+    body?: never;
+    path: {
+        /**
+         * Connected account id.
+         */
+        account_id: number;
+    };
+    query: {
+        q: string;
+        subreddit?: string;
+        sort?: 'relevance' | 'hot' | 'top' | 'new' | 'comments';
+        limit?: number;
+    };
+    url: '/social/accounts/{account_id}/reddit/search';
+};
+
+export type RedditSearchErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type RedditSearchError = RedditSearchErrors[keyof RedditSearchErrors];
+
+export type RedditSearchResponses = {
+    /**
+     * Reddit search
+     */
+    200: {
+        success?: true;
+        data?: {
+            results?: Array<{
+                id?: string;
+                title?: string;
+                subreddit?: string;
+                author?: string;
+                score?: number;
+                num_comments?: number;
+                created_utc?: number;
+                over_18?: boolean;
+                url?: string;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type RedditSearchResponse = RedditSearchResponses[keyof RedditSearchResponses];
+
+export type RedditFeedData = {
+    body?: never;
+    path: {
+        /**
+         * Connected account id.
+         */
+        account_id: number;
+    };
+    query?: {
+        subreddit?: string;
+        sort?: 'hot' | 'new' | 'top' | 'rising';
+        limit?: number;
+    };
+    url: '/social/accounts/{account_id}/reddit/feed';
+};
+
+export type RedditFeedErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type RedditFeedError = RedditFeedErrors[keyof RedditFeedErrors];
+
+export type RedditFeedResponses = {
+    /**
+     * Reddit feed
+     */
+    200: {
+        success?: true;
+        data?: {
+            posts?: Array<{
+                id?: string;
+                title?: string;
+                subreddit?: string;
+                author?: string;
+                score?: number;
+                num_comments?: number;
+                created_utc?: number;
+                over_18?: boolean;
+                url?: string;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type RedditFeedResponse = RedditFeedResponses[keyof RedditFeedResponses];
+
+export type RedditSubredditsData = {
+    body?: never;
+    path: {
+        /**
+         * Connected account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/reddit/subreddits';
+};
+
+export type RedditSubredditsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type RedditSubredditsError = RedditSubredditsErrors[keyof RedditSubredditsErrors];
+
+export type RedditSubredditsResponses = {
+    /**
+     * Subscribed subreddits
+     */
+    200: {
+        success?: true;
+        data?: {
+            subreddits?: Array<{
+                name?: string;
+                title?: string;
+                subscribers?: number;
+                over_18?: boolean;
+                url?: string;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type RedditSubredditsResponse = RedditSubredditsResponses[keyof RedditSubredditsResponses];
+
+export type RedditSubredditRulesData = {
+    body?: never;
+    path: {
+        /**
+         * Connected account id.
+         */
+        account_id: number;
+        subreddit: string;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/reddit/subreddits/{subreddit}/rules';
+};
+
+export type RedditSubredditRulesErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type RedditSubredditRulesError = RedditSubredditRulesErrors[keyof RedditSubredditRulesErrors];
+
+export type RedditSubredditRulesResponses = {
+    /**
+     * Rules
+     */
+    200: {
+        success?: true;
+        data?: {
+            subreddit?: string;
+            rules?: Array<{
+                short_name?: string;
+                description?: string;
+                kind?: string;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type RedditSubredditRulesResponse = RedditSubredditRulesResponses[keyof RedditSubredditRulesResponses];
+
+export type InstagramStoriesData = {
+    body?: never;
+    path: {
+        /**
+         * Connected account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/instagram/stories';
+};
+
+export type InstagramStoriesErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type InstagramStoriesError = InstagramStoriesErrors[keyof InstagramStoriesErrors];
+
+export type InstagramStoriesResponses = {
+    /**
+     * Instagram stories
+     */
+    200: {
+        success?: true;
+        data?: {
+            stories?: Array<{
+                [key: string]: unknown;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type InstagramStoriesResponse = InstagramStoriesResponses[keyof InstagramStoriesResponses];
+
+export type FacebookPostReactionsData = {
+    body?: never;
+    path: {
+        /**
+         * Connected account id.
+         */
+        account_id: number;
+    };
+    query?: {
+        /**
+         * SmartlyQ post id.
+         */
+        post_id?: number;
+        /**
+         * Raw Facebook post id.
+         */
+        remote_post_id?: string;
+    };
+    url: '/social/accounts/{account_id}/facebook/post-reactions';
+};
+
+export type FacebookPostReactionsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type FacebookPostReactionsError = FacebookPostReactionsErrors[keyof FacebookPostReactionsErrors];
+
+export type FacebookPostReactionsResponses = {
+    /**
+     * Facebook post reactions
+     */
+    200: {
+        success?: true;
+        data?: {
+            remote_post_id?: string;
+            total?: number;
+            reactions?: {
+                like?: number;
+                love?: number;
+                wow?: number;
+                haha?: number;
+                sad?: number;
+                angry?: number;
+                care?: number;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type FacebookPostReactionsResponse = FacebookPostReactionsResponses[keyof FacebookPostReactionsResponses];
+
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});
 };
