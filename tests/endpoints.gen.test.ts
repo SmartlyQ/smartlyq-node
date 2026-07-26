@@ -790,6 +790,13 @@ describe('reviews', () => {
     expect(calls[0].path).toBe('/reviews/test-id/reply');
   });
 
+  it('reviews.deleteReply -> DELETE /reviews/{review_id}/reply', async () => {
+    const { client, calls } = mockClient();
+    await client.reviews.deleteReply('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/reviews/test-id/reply');
+  });
+
   it('reviews.sync -> POST /reviews/sync', async () => {
     const { client, calls } = mockClient();
     await client.reviews.sync({} as never);
@@ -1305,6 +1312,27 @@ describe('social', () => {
     await client.social.facebookPostReactions('test-id');
     expect(calls[0].method).toBe('GET');
     expect(calls[0].path).toBe('/social/accounts/test-id/facebook/post-reactions');
+  });
+
+  it('social.instagramStoryInsights -> GET /social/accounts/{account_id}/instagram/stories/{story_id}/insights', async () => {
+    const { client, calls } = mockClient();
+    await client.social.instagramStoryInsights('test-id', 'test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/instagram/stories/test-id/insights');
+  });
+
+  it('social.xRetweet -> POST /social/accounts/{account_id}/x/retweets', async () => {
+    const { client, calls } = mockClient();
+    await client.social.xRetweet('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/accounts/test-id/x/retweets');
+  });
+
+  it('social.xUnretweet -> DELETE /social/accounts/{account_id}/x/retweets/{tweet_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.social.xUnretweet('test-id', 'test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/social/accounts/test-id/x/retweets/test-id');
   });
 });
 

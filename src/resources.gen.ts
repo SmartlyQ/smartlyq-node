@@ -626,6 +626,11 @@ export class ReviewsResource {
     return this._client.request('POST', `/reviews/${encodeURIComponent(reviewId)}/reply`, { body, options });
   }
 
+  /** Delete review reply `DELETE /reviews/{review_id}/reply` */
+  deleteReply(reviewId: string, options?: RequestOptions): Promise<t.DeleteReviewReplyResponses[keyof t.DeleteReviewReplyResponses]> {
+    return this._client.request('DELETE', `/reviews/${encodeURIComponent(reviewId)}/reply`, { options });
+  }
+
   /** Sync reviews `POST /reviews/sync` */
   sync(body?: t.SyncReviewsData['body'], options?: RequestOptions): Promise<t.SyncReviewsResponses[keyof t.SyncReviewsResponses]> {
     return this._client.request('POST', '/reviews/sync', { body, options });
@@ -1004,6 +1009,21 @@ export class SocialResource {
   /** Facebook post reactions `GET /social/accounts/{account_id}/facebook/post-reactions` */
   facebookPostReactions(accountId: string, query?: t.FacebookPostReactionsData['query'], options?: RequestOptions): Promise<t.FacebookPostReactionsResponses[keyof t.FacebookPostReactionsResponses]> {
     return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/facebook/post-reactions`, { query, options });
+  }
+
+  /** Instagram story insights `GET /social/accounts/{account_id}/instagram/stories/{story_id}/insights` */
+  instagramStoryInsights(accountId: string, storyId: string, query?: t.InstagramStoryInsightsData['query'], options?: RequestOptions): Promise<t.InstagramStoryInsightsResponses[keyof t.InstagramStoryInsightsResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/instagram/stories/${encodeURIComponent(storyId)}/insights`, { query, options });
+  }
+
+  /** Retweet on X `POST /social/accounts/{account_id}/x/retweets` */
+  xRetweet(accountId: string, body: t.XRetweetData['body'], options?: RequestOptions): Promise<t.XRetweetResponses[keyof t.XRetweetResponses]> {
+    return this._client.request('POST', `/social/accounts/${encodeURIComponent(accountId)}/x/retweets`, { body, options });
+  }
+
+  /** Undo retweet `DELETE /social/accounts/{account_id}/x/retweets/{tweet_id}` */
+  xUnretweet(accountId: string, tweetId: string, options?: RequestOptions): Promise<t.XUnretweetResponses[keyof t.XUnretweetResponses]> {
+    return this._client.request('DELETE', `/social/accounts/${encodeURIComponent(accountId)}/x/retweets/${encodeURIComponent(tweetId)}`, { options });
   }
 }
 

@@ -370,6 +370,12 @@ export type SocialPostCreateRequest = {
      * Skip the 24h duplicate-content guard. Without it, content identical to a post created in this workspace in the last 24 hours is rejected with 409 DUPLICATE_CONTENT (and the charge is refunded).
      */
     allow_duplicates?: boolean;
+    /**
+     * Per-platform composer options - the same payload the web composer stores; publish handlers read it as-is (unknown keys are ignored, max 20KB). Keyed by platform, e.g. {"tiktok": {"privacy_level": "SELF_ONLY"}, "instagram": {"content": "IG-specific caption"}, "_thumbnail": {"timestamp_ms": 3000}}. Common keys: per-platform `content` override; tiktok privacy/duet/stitch options; `_thumbnail` custom video cover.
+     */
+    platform_options?: {
+        [key: string]: unknown;
+    };
 };
 
 /**
@@ -429,6 +435,12 @@ export type SocialPostScheduleRequest = {
      * Skip the 24h duplicate-content guard. Without it, content identical to a post created in this workspace in the last 24 hours is rejected with 409 DUPLICATE_CONTENT (and the charge is refunded).
      */
     allow_duplicates?: boolean;
+    /**
+     * Per-platform composer options - the same payload the web composer stores; publish handlers read it as-is (unknown keys are ignored, max 20KB). Keyed by platform, e.g. {"tiktok": {"privacy_level": "SELF_ONLY"}, "instagram": {"content": "IG-specific caption"}, "_thumbnail": {"timestamp_ms": 3000}}. Common keys: per-platform `content` override; tiktok privacy/duet/stitch options; `_thumbnail` custom video cover.
+     */
+    platform_options?: {
+        [key: string]: unknown;
+    };
 };
 
 /**
@@ -5783,8 +5795,16 @@ export type GenerateVideoHookResponses = {
     /**
      * The generated hook line.
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            hook?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type GenerateVideoHookResponse = GenerateVideoHookResponses[keyof GenerateVideoHookResponses];
 
 export type SuggestBrollData = {
     body: {
@@ -5837,8 +5857,21 @@ export type SuggestBrollResponses = {
     /**
      * B-roll suggestions.
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            suggestions?: Array<{
+                start_ms?: number;
+                end_ms?: number;
+                query?: string;
+                reason?: string;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type SuggestBrollResponse = SuggestBrollResponses[keyof SuggestBrollResponses];
 
 export type SuggestEmphasisData = {
     body: {
@@ -5891,8 +5924,20 @@ export type SuggestEmphasisResponses = {
     /**
      * Emphasis picks.
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            emphasis?: Array<{
+                word?: string;
+                start_ms?: number;
+                style?: string;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type SuggestEmphasisResponse = SuggestEmphasisResponses[keyof SuggestEmphasisResponses];
 
 export type GenerateViralThumbnailData = {
     body: {
@@ -5939,8 +5984,16 @@ export type GenerateViralThumbnailResponses = {
     /**
      * The generated thumbnail (image_url + media_id).
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            image_url?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type GenerateViralThumbnailResponse = GenerateViralThumbnailResponses[keyof GenerateViralThumbnailResponses];
 
 export type GenerateCaptionData = {
     body?: {
@@ -5993,8 +6046,16 @@ export type GenerateCaptionResponses = {
     /**
      * The generated caption.
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            caption?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type GenerateCaptionResponse = GenerateCaptionResponses[keyof GenerateCaptionResponses];
 
 export type GenerateShortsData = {
     body?: {
@@ -6045,8 +6106,18 @@ export type GenerateShortsResponses = {
     /**
      * Accepted — poll GET /v1/shorts/{uid} for the ranked clips
      */
-    202: unknown;
+    202: {
+        success?: true;
+        data?: {
+            job_uid?: string;
+            status?: string;
+            clip_count?: number;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type GenerateShortsResponse = GenerateShortsResponses[keyof GenerateShortsResponses];
 
 export type ListShortsData = {
     body?: never;
@@ -6077,8 +6148,28 @@ export type ListShortsResponses = {
     /**
      * A list of shorts jobs.
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            shorts?: Array<{
+                job_uid?: string;
+                status?: string;
+                clip_count?: number;
+                clips?: Array<{
+                    url?: string;
+                    title?: string;
+                    score?: number;
+                    start?: number;
+                    end?: number;
+                }>;
+                created_at?: string;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type ListShortsResponse = ListShortsResponses[keyof ListShortsResponses];
 
 export type GetShortsData = {
     body?: never;
@@ -6113,8 +6204,26 @@ export type GetShortsResponses = {
     /**
      * The shorts job and its clips.
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            job_uid?: string;
+            status?: string;
+            clip_count?: number;
+            clips?: Array<{
+                url?: string;
+                title?: string;
+                score?: number;
+                start?: number;
+                end?: number;
+            }>;
+            created_at?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type GetShortsResponse = GetShortsResponses[keyof GetShortsResponses];
 
 export type GeneratePresentationData = {
     body: {
@@ -6218,8 +6327,32 @@ export type ListContactsResponses = {
     /**
      * Paginated contacts
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            name?: string;
+            first_name?: string;
+            last_name?: string;
+            email?: string;
+            phone?: string;
+            company?: string;
+            role?: string;
+            status?: string;
+            tags?: Array<string>;
+            attributes?: {
+                [key: string]: unknown;
+            };
+            source?: string;
+            created_at?: string;
+            updated_at?: string;
+        }>;
+        pagination?: PaginationMeta;
+        meta?: RequestMeta;
+    };
 };
+
+export type ListContactsResponse = ListContactsResponses[keyof ListContactsResponses];
 
 export type CreateContactData = {
     body: {
@@ -6271,12 +6404,59 @@ export type CreateContactResponses = {
     /**
      * Existing contact updated (matched by email)
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            name?: string;
+            first_name?: string;
+            last_name?: string;
+            email?: string;
+            phone?: string;
+            company?: string;
+            role?: string;
+            status?: string;
+            tags?: Array<string>;
+            attributes?: {
+                [key: string]: unknown;
+            };
+            source?: string;
+            created_at?: string;
+            updated_at?: string;
+        };
+        meta?: RequestMeta;
+    };
     /**
      * Contact created
      */
-    201: unknown;
+    201: {
+        success?: true;
+        /**
+         * The created (or upserted) contact; matched_by is set when an existing contact was matched by email/phone.
+         */
+        data?: {
+            id?: number;
+            name?: string;
+            first_name?: string;
+            last_name?: string;
+            email?: string;
+            phone?: string;
+            company?: string;
+            role?: string;
+            status?: string;
+            tags?: Array<string>;
+            attributes?: {
+                [key: string]: unknown;
+            };
+            source?: string;
+            created_at?: string;
+            updated_at?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type CreateContactResponse = CreateContactResponses[keyof CreateContactResponses];
 
 export type DeleteContactData = {
     body?: never;
@@ -6337,8 +6517,31 @@ export type GetContactResponses = {
     /**
      * Contact
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            name?: string;
+            first_name?: string;
+            last_name?: string;
+            email?: string;
+            phone?: string;
+            company?: string;
+            role?: string;
+            status?: string;
+            tags?: Array<string>;
+            attributes?: {
+                [key: string]: unknown;
+            };
+            source?: string;
+            created_at?: string;
+            updated_at?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type GetContactResponse = GetContactResponses[keyof GetContactResponses];
 
 export type UpdateContactData = {
     body: {
@@ -6382,8 +6585,31 @@ export type UpdateContactResponses = {
     /**
      * Updated contact
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            name?: string;
+            first_name?: string;
+            last_name?: string;
+            email?: string;
+            phone?: string;
+            company?: string;
+            role?: string;
+            status?: string;
+            tags?: Array<string>;
+            attributes?: {
+                [key: string]: unknown;
+            };
+            source?: string;
+            created_at?: string;
+            updated_at?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type UpdateContactResponse = UpdateContactResponses[keyof UpdateContactResponses];
 
 export type RemoveContactTagsData = {
     body: {
@@ -6409,8 +6635,16 @@ export type RemoveContactTagsResponses = {
     /**
      * The contact's remaining tag list
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            tags?: Array<string>;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type RemoveContactTagsResponse = RemoveContactTagsResponses[keyof RemoveContactTagsResponses];
 
 export type AddContactTagsData = {
     body: {
@@ -6440,8 +6674,19 @@ export type AddContactTagsResponses = {
     /**
      * The contact's full tag list after adding
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            /**
+             * The contact's full tag list after the change.
+             */
+            tags?: Array<string>;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type AddContactTagsResponse = AddContactTagsResponses[keyof AddContactTagsResponses];
 
 export type ListContactNotesData = {
     body?: never;
@@ -6456,8 +6701,20 @@ export type ListContactNotesResponses = {
     /**
      * Notes for the contact, newest first
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            body?: string;
+            author_name?: string;
+            created_at?: string;
+        }>;
+        pagination?: PaginationMeta;
+        meta?: RequestMeta;
+    };
 };
+
+export type ListContactNotesResponse = ListContactNotesResponses[keyof ListContactNotesResponses];
 
 export type AddContactNoteData = {
     body: {
@@ -6488,8 +6745,17 @@ export type AddContactNoteResponses = {
     /**
      * Note created
      */
-    201: unknown;
+    201: {
+        success?: true;
+        data?: {
+            id?: number;
+            body?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type AddContactNoteResponse = AddContactNoteResponses[keyof AddContactNoteResponses];
 
 export type ListPipelinesData = {
     body?: never;
@@ -6502,8 +6768,23 @@ export type ListPipelinesResponses = {
     /**
      * Pipelines with stages
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            name?: string;
+            is_default?: boolean;
+            stages?: Array<{
+                stage_key?: string;
+                label?: string;
+                sort_order?: number;
+            }>;
+        }>;
+        meta?: RequestMeta;
+    };
 };
+
+export type ListPipelinesResponse = ListPipelinesResponses[keyof ListPipelinesResponses];
 
 export type CreatePipelineData = {
     body: {
@@ -6531,8 +6812,23 @@ export type CreatePipelineResponses = {
     /**
      * Pipeline created (with stages)
      */
-    201: unknown;
+    201: {
+        success?: true;
+        data?: {
+            id?: number;
+            name?: string;
+            is_default?: boolean;
+            stages?: Array<{
+                stage_key?: string;
+                label?: string;
+                sort_order?: number;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type CreatePipelineResponse = CreatePipelineResponses[keyof CreatePipelineResponses];
 
 export type ListOpportunitiesData = {
     body?: never;
@@ -6552,8 +6848,26 @@ export type ListOpportunitiesResponses = {
     /**
      * Paginated opportunities
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            pipeline_id?: number;
+            name?: string;
+            contact_email?: string;
+            company?: string;
+            value?: number;
+            stage?: string;
+            status?: string;
+            assigned_user_id?: number;
+            created_at?: string;
+        }>;
+        pagination?: PaginationMeta;
+        meta?: RequestMeta;
+    };
 };
+
+export type ListOpportunitiesResponse = ListOpportunitiesResponses[keyof ListOpportunitiesResponses];
 
 export type CreateOpportunityData = {
     body: {
@@ -6595,8 +6909,25 @@ export type CreateOpportunityResponses = {
     /**
      * Opportunity created
      */
-    201: unknown;
+    201: {
+        success?: true;
+        data?: {
+            id?: number;
+            pipeline_id?: number;
+            name?: string;
+            contact_email?: string;
+            company?: string;
+            value?: number;
+            stage?: string;
+            status?: string;
+            assigned_user_id?: number;
+            created_at?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type CreateOpportunityResponse = CreateOpportunityResponses[keyof CreateOpportunityResponses];
 
 export type DeleteOpportunityData = {
     body?: never;
@@ -6620,8 +6951,16 @@ export type DeleteOpportunityResponses = {
     /**
      * Deleted
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type DeleteOpportunityResponse = DeleteOpportunityResponses[keyof DeleteOpportunityResponses];
 
 export type GetOpportunityData = {
     body?: never;
@@ -6645,8 +6984,25 @@ export type GetOpportunityResponses = {
     /**
      * Opportunity
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            pipeline_id?: number;
+            name?: string;
+            contact_email?: string;
+            company?: string;
+            value?: number;
+            stage?: string;
+            status?: string;
+            assigned_user_id?: number;
+            created_at?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type GetOpportunityResponse = GetOpportunityResponses[keyof GetOpportunityResponses];
 
 export type UpdateOpportunityData = {
     body: {
@@ -6681,8 +7037,25 @@ export type UpdateOpportunityResponses = {
     /**
      * Updated opportunity
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            pipeline_id?: number;
+            name?: string;
+            contact_email?: string;
+            company?: string;
+            value?: number;
+            stage?: string;
+            status?: string;
+            assigned_user_id?: number;
+            created_at?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type UpdateOpportunityResponse = UpdateOpportunityResponses[keyof UpdateOpportunityResponses];
 
 export type UpdateOpportunityStatusData = {
     body: {
@@ -6712,8 +7085,25 @@ export type UpdateOpportunityStatusResponses = {
     /**
      * Updated opportunity
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            pipeline_id?: number;
+            name?: string;
+            contact_email?: string;
+            company?: string;
+            value?: number;
+            stage?: string;
+            status?: string;
+            assigned_user_id?: number;
+            created_at?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type UpdateOpportunityStatusResponse = UpdateOpportunityStatusResponses[keyof UpdateOpportunityStatusResponses];
 
 export type ListWorkspacesData = {
     body?: never;
@@ -6733,8 +7123,22 @@ export type ListWorkspacesResponses = {
     /**
      * List of sub-accounts
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            workspaces?: Array<{
+                id?: number;
+                name?: string;
+                hash_id?: string;
+                status?: string;
+                created_at?: string;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type ListWorkspacesResponse = ListWorkspacesResponses[keyof ListWorkspacesResponses];
 
 export type CreateWorkspaceData = {
     body: {
@@ -6767,8 +7171,20 @@ export type CreateWorkspaceResponses = {
     /**
      * Workspace created
      */
-    201: unknown;
+    201: {
+        success?: true;
+        data?: {
+            id?: number;
+            name?: string;
+            hash_id?: string;
+            status?: string;
+            created_at?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type CreateWorkspaceResponse = CreateWorkspaceResponses[keyof CreateWorkspaceResponses];
 
 export type BulkWorkspaceActionData = {
     body: {
@@ -6812,8 +7228,19 @@ export type BulkWorkspaceActionResponses = {
     /**
      * Bulk action applied; body reports applied/failed and per-workspace results
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            results?: Array<{
+                workspace_id?: number;
+                ok?: boolean;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type BulkWorkspaceActionResponse = BulkWorkspaceActionResponses[keyof BulkWorkspaceActionResponses];
 
 export type DeleteWorkspaceData = {
     body: {
@@ -6849,8 +7276,17 @@ export type DeleteWorkspaceResponses = {
     /**
      * Sub-account scheduled for deletion
      */
-    202: unknown;
+    202: {
+        success?: true;
+        data?: {
+            workspace_id?: number;
+            scheduled?: boolean;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type DeleteWorkspaceResponse = DeleteWorkspaceResponses[keyof DeleteWorkspaceResponses];
 
 export type GetWorkspaceData = {
     body?: never;
@@ -6875,8 +7311,20 @@ export type GetWorkspaceResponses = {
     /**
      * Sub-account detail
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            name?: string;
+            hash_id?: string;
+            status?: string;
+            created_at?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type GetWorkspaceResponse = GetWorkspaceResponses[keyof GetWorkspaceResponses];
 
 export type DisableWorkspaceSaasData = {
     body?: {
@@ -6910,8 +7358,17 @@ export type DisableWorkspaceSaasResponses = {
     /**
      * SaaS mode disabled
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            ok?: boolean;
+            state?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type DisableWorkspaceSaasResponse = DisableWorkspaceSaasResponses[keyof DisableWorkspaceSaasResponses];
 
 export type PauseWorkspaceData = {
     body?: never;
@@ -6936,8 +7393,18 @@ export type PauseWorkspaceResponses = {
     /**
      * Sub-account paused
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            ok?: boolean;
+            paused?: boolean;
+            workspace_id?: number;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type PauseWorkspaceResponse = PauseWorkspaceResponses[keyof PauseWorkspaceResponses];
 
 export type ResumeWorkspaceData = {
     body?: never;
@@ -6962,8 +7429,18 @@ export type ResumeWorkspaceResponses = {
     /**
      * Sub-account resumed
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            ok?: boolean;
+            paused?: boolean;
+            workspace_id?: number;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type ResumeWorkspaceResponse = ResumeWorkspaceResponses[keyof ResumeWorkspaceResponses];
 
 export type GetWorkspaceSubscriptionData = {
     body?: never;
@@ -6988,8 +7465,25 @@ export type GetWorkspaceSubscriptionResponses = {
     /**
      * Subscription + billing snapshot
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            workspace_id?: number;
+            tenant_id?: number;
+            plan_id?: number;
+            subscription_status?: string;
+            billing_cycle?: string;
+            billing_mode?: string;
+            state?: string;
+            rebilling_enabled?: boolean;
+            balance_sqc?: number;
+            sub_wallet_balance?: number;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type GetWorkspaceSubscriptionResponse = GetWorkspaceSubscriptionResponses[keyof GetWorkspaceSubscriptionResponses];
 
 export type GetWorkspaceWalletData = {
     body?: never;
@@ -7014,8 +7508,22 @@ export type GetWorkspaceWalletResponses = {
     /**
      * Wallet balance
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            ok?: boolean;
+            workspace_id?: number;
+            status?: string;
+            state?: string;
+            billing_mode?: string;
+            rebilling_enabled?: boolean;
+            balance_sqc?: number;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type GetWorkspaceWalletResponse = GetWorkspaceWalletResponses[keyof GetWorkspaceWalletResponses];
 
 export type ListSaasPlansData = {
     body?: never;
@@ -7035,8 +7543,28 @@ export type ListSaasPlansResponses = {
     /**
      * List of SaaS plans
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            plans?: Array<{
+                id?: number;
+                tenant_id?: number;
+                name?: string;
+                description?: string;
+                price?: number;
+                setup_fee?: number;
+                currency?: string;
+                interval?: string;
+                credits_per_period?: number;
+                workspaces_limit?: number;
+                features?: Array<string>;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type ListSaasPlansResponse = ListSaasPlansResponses[keyof ListSaasPlansResponses];
 
 export type GetSaasPlanData = {
     body?: never;
@@ -7061,8 +7589,26 @@ export type GetSaasPlanResponses = {
     /**
      * SaaS plan
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            tenant_id?: number;
+            name?: string;
+            description?: string;
+            price?: number;
+            setup_fee?: number;
+            currency?: string;
+            interval?: string;
+            credits_per_period?: number;
+            workspaces_limit?: number;
+            features?: Array<string>;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type GetSaasPlanResponse = GetSaasPlanResponses[keyof GetSaasPlanResponses];
 
 export type EnrollContactData = {
     body: {
@@ -7099,8 +7645,18 @@ export type EnrollContactResponses = {
     /**
      * Contact enrolled (run queued)
      */
-    202: unknown;
+    202: {
+        success?: true;
+        data?: {
+            enrolled?: boolean;
+            contact_id?: number;
+            automation_id?: number;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type EnrollContactResponse = EnrollContactResponses[keyof EnrollContactResponses];
 
 export type AddContactMessageData = {
     body: {
@@ -7136,8 +7692,19 @@ export type AddContactMessageResponses = {
     /**
      * Message logged
      */
-    201: unknown;
+    201: {
+        success?: true;
+        data?: {
+            id?: number;
+            direction?: string;
+            channel?: string;
+            body_text?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type AddContactMessageResponse = AddContactMessageResponses[keyof AddContactMessageResponses];
 
 export type ListCustomFieldsData = {
     body?: never;
@@ -7150,8 +7717,20 @@ export type ListCustomFieldsResponses = {
     /**
      * Custom field definitions
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            attr_key?: string;
+            label?: string;
+            created_at?: string;
+        }>;
+        pagination?: PaginationMeta;
+        meta?: RequestMeta;
+    };
 };
+
+export type ListCustomFieldsResponse = ListCustomFieldsResponses[keyof ListCustomFieldsResponses];
 
 export type CreateCustomFieldData = {
     body: {
@@ -7186,8 +7765,18 @@ export type CreateCustomFieldResponses = {
     /**
      * Custom field created
      */
-    201: unknown;
+    201: {
+        success?: true;
+        data?: {
+            id?: number;
+            attr_key?: string;
+            label?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type CreateCustomFieldResponse = CreateCustomFieldResponses[keyof CreateCustomFieldResponses];
 
 export type DeleteCustomFieldData = {
     body?: never;
@@ -7211,8 +7800,16 @@ export type DeleteCustomFieldResponses = {
     /**
      * Deleted
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type DeleteCustomFieldResponse = DeleteCustomFieldResponses[keyof DeleteCustomFieldResponses];
 
 export type ListPresentationsData = {
     body?: never;
@@ -7447,8 +8044,17 @@ export type DeleteProfileResponses = {
     /**
      * Deletion scheduled
      */
-    202: unknown;
+    202: {
+        success?: true;
+        data?: {
+            profile_id?: number;
+            scheduled?: boolean;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type DeleteProfileResponse = DeleteProfileResponses[keyof DeleteProfileResponses];
 
 export type GetProfileData = {
     body?: never;
@@ -7544,8 +8150,17 @@ export type PauseProfileResponses = {
     /**
      * OK
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            ok?: boolean;
+            status?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type PauseProfileResponse = PauseProfileResponses[keyof PauseProfileResponses];
 
 export type ResumeProfileData = {
     body?: never;
@@ -7572,8 +8187,17 @@ export type ResumeProfileResponses = {
     /**
      * OK
      */
-    200: unknown;
+    200: {
+        success?: true;
+        data?: {
+            ok?: boolean;
+            status?: string;
+        };
+        meta?: RequestMeta;
+    };
 };
+
+export type ResumeProfileResponse = ResumeProfileResponses[keyof ResumeProfileResponses];
 
 export type CreateProfileConnectLinkData = {
     body?: {
@@ -8455,6 +9079,12 @@ export type BulkSchedulePostsData = {
             timezone?: string;
             media_urls?: Array<string>;
             link?: string;
+            /**
+             * Per-platform composer options - the same payload the web composer stores; publish handlers read it as-is (unknown keys are ignored, max 20KB). Keyed by platform, e.g. {"tiktok": {"privacy_level": "SELF_ONLY"}, "instagram": {"content": "IG-specific caption"}, "_thumbnail": {"timestamp_ms": 3000}}. Common keys: per-platform `content` override; tiktok privacy/duet/stitch options; `_thumbnail` custom video cover.
+             */
+            platform_options?: {
+                [key: string]: unknown;
+            };
         }>;
         /**
          * Alternative to posts: inline CSV with a header line. Columns: content, platforms, account_ids, scheduled_time, media_urls, link (list cells split on | or ,). Provide posts OR csv, not both.
@@ -8540,6 +9170,12 @@ export type ValidateBulkBatchData = {
             timezone?: string;
             media_urls?: Array<string>;
             link?: string;
+            /**
+             * Per-platform composer options - the same payload the web composer stores; publish handlers read it as-is (unknown keys are ignored, max 20KB). Keyed by platform, e.g. {"tiktok": {"privacy_level": "SELF_ONLY"}, "instagram": {"content": "IG-specific caption"}, "_thumbnail": {"timestamp_ms": 3000}}. Common keys: per-platform `content` override; tiktok privacy/duet/stitch options; `_thumbnail` custom video cover.
+             */
+            platform_options?: {
+                [key: string]: unknown;
+            };
         }>;
         /**
          * Alternative to posts: inline CSV with a header line. Columns: content, platforms, account_ids, scheduled_time, media_urls, link (list cells split on | or ,). Provide posts OR csv, not both.
@@ -9539,6 +10175,58 @@ export type ListReviewsResponses = {
 };
 
 export type ListReviewsResponse = ListReviewsResponses[keyof ListReviewsResponses];
+
+export type DeleteReviewReplyData = {
+    body?: never;
+    path: {
+        review_id: number;
+    };
+    query?: never;
+    url: '/reviews/{review_id}/reply';
+};
+
+export type DeleteReviewReplyErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict (e.g. duplicate idempotency or already-finished job)
+     */
+    409: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeleteReviewReplyError = DeleteReviewReplyErrors[keyof DeleteReviewReplyErrors];
+
+export type DeleteReviewReplyResponses = {
+    /**
+     * Reply deleted
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeleteReviewReplyResponse = DeleteReviewReplyResponses[keyof DeleteReviewReplyResponses];
 
 export type ReplyToReviewData = {
     body: {
@@ -10935,6 +11623,173 @@ export type FacebookPostReactionsResponses = {
 };
 
 export type FacebookPostReactionsResponse = FacebookPostReactionsResponses[keyof FacebookPostReactionsResponses];
+
+export type InstagramStoryInsightsData = {
+    body?: never;
+    path: {
+        account_id: number;
+        story_id: string;
+    };
+    query?: {
+        metrics?: string;
+    };
+    url: '/social/accounts/{account_id}/instagram/stories/{story_id}/insights';
+};
+
+export type InstagramStoryInsightsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type InstagramStoryInsightsError = InstagramStoryInsightsErrors[keyof InstagramStoryInsightsErrors];
+
+export type InstagramStoryInsightsResponses = {
+    /**
+     * Story insights
+     */
+    200: {
+        success?: true;
+        data?: {
+            story_id?: string;
+            insights?: {
+                [key: string]: unknown;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type InstagramStoryInsightsResponse = InstagramStoryInsightsResponses[keyof InstagramStoryInsightsResponses];
+
+export type XRetweetData = {
+    body: {
+        tweet_id: string;
+    };
+    path: {
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/x/retweets';
+};
+
+export type XRetweetErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type XRetweetError = XRetweetErrors[keyof XRetweetErrors];
+
+export type XRetweetResponses = {
+    /**
+     * Retweeted
+     */
+    200: {
+        success?: true;
+        data?: {
+            tweet_id?: string;
+            retweeted?: boolean;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type XRetweetResponse = XRetweetResponses[keyof XRetweetResponses];
+
+export type XUnretweetData = {
+    body?: never;
+    path: {
+        account_id: number;
+        tweet_id: string;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/x/retweets/{tweet_id}';
+};
+
+export type XUnretweetErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type XUnretweetError = XUnretweetErrors[keyof XUnretweetErrors];
+
+export type XUnretweetResponses = {
+    /**
+     * Retweet removed
+     */
+    200: {
+        success?: true;
+        data?: {
+            tweet_id?: string;
+            retweeted?: boolean;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type XUnretweetResponse = XUnretweetResponses[keyof XUnretweetResponses];
 
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});
