@@ -1150,6 +1150,66 @@ export class SocialResource {
   xMentions(accountId: string, query?: t.XMentionsData['query'], options?: RequestOptions): Promise<t.XMentionsResponses[keyof t.XMentionsResponses]> {
     return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/x/mentions`, { query, options });
   }
+
+  /** Typing indicator `POST /social/conversations/{conversation_id}/typing` */
+  sendTypingIndicator(conversationId: string, options?: RequestOptions): Promise<t.SendTypingIndicatorResponses[keyof t.SendTypingIndicatorResponses]> {
+    return this._client.request('POST', `/social/conversations/${encodeURIComponent(conversationId)}/typing`, { options });
+  }
+
+  /** Private reply (comment-to-DM) `POST /social/comments/{comment_id}/private-reply` */
+  commentPrivateReply(commentId: string, body: t.CommentPrivateReplyData['body'], options?: RequestOptions): Promise<t.CommentPrivateReplyResponses[keyof t.CommentPrivateReplyResponses]> {
+    return this._client.request('POST', `/social/comments/${encodeURIComponent(commentId)}/private-reply`, { body, options });
+  }
+
+  /** Get Messenger menu `GET /social/accounts/{account_id}/messenger/menu` */
+  getMessengerMenu(accountId: string, options?: RequestOptions): Promise<t.GetMessengerMenuResponses[keyof t.GetMessengerMenuResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/messenger/menu`, { options });
+  }
+
+  /** Set Messenger menu `PUT /social/accounts/{account_id}/messenger/menu` */
+  setMessengerMenu(accountId: string, body: t.SetMessengerMenuData['body'], options?: RequestOptions): Promise<t.SetMessengerMenuResponses[keyof t.SetMessengerMenuResponses]> {
+    return this._client.request('PUT', `/social/accounts/${encodeURIComponent(accountId)}/messenger/menu`, { body, options });
+  }
+
+  /** Delete Messenger menu `DELETE /social/accounts/{account_id}/messenger/menu` */
+  deleteMessengerMenu(accountId: string, options?: RequestOptions): Promise<t.DeleteMessengerMenuResponses[keyof t.DeleteMessengerMenuResponses]> {
+    return this._client.request('DELETE', `/social/accounts/${encodeURIComponent(accountId)}/messenger/menu`, { options });
+  }
+
+  /** Get ice breakers `GET /social/accounts/{account_id}/instagram/ice-breakers` */
+  getIceBreakers(accountId: string, options?: RequestOptions): Promise<t.GetIceBreakersResponses[keyof t.GetIceBreakersResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/instagram/ice-breakers`, { options });
+  }
+
+  /** Set ice breakers `PUT /social/accounts/{account_id}/instagram/ice-breakers` */
+  setIceBreakers(accountId: string, body: t.SetIceBreakersData['body'], options?: RequestOptions): Promise<t.SetIceBreakersResponses[keyof t.SetIceBreakersResponses]> {
+    return this._client.request('PUT', `/social/accounts/${encodeURIComponent(accountId)}/instagram/ice-breakers`, { body, options });
+  }
+
+  /** Delete ice breakers `DELETE /social/accounts/{account_id}/instagram/ice-breakers` */
+  deleteIceBreakers(accountId: string, options?: RequestOptions): Promise<t.DeleteIceBreakersResponses[keyof t.DeleteIceBreakersResponses]> {
+    return this._client.request('DELETE', `/social/accounts/${encodeURIComponent(accountId)}/instagram/ice-breakers`, { options });
+  }
+
+  /** Facebook page insights `GET /social/accounts/{account_id}/facebook/page-insights` */
+  facebookPageInsights(accountId: string, query?: t.FacebookPageInsightsData['query'], options?: RequestOptions): Promise<t.FacebookPageInsightsResponses[keyof t.FacebookPageInsightsResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/facebook/page-insights`, { query, options });
+  }
+
+  /** Instagram audience demographics `GET /social/accounts/{account_id}/instagram/audience` */
+  instagramAudience(accountId: string, query?: t.InstagramAudienceData['query'], options?: RequestOptions): Promise<t.InstagramAudienceResponses[keyof t.InstagramAudienceResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/instagram/audience`, { query, options });
+  }
+
+  /** Connection target options `GET /social/accounts/{account_id}/connect-options` */
+  connectOptions(accountId: string, options?: RequestOptions): Promise<t.ConnectOptionsResponses[keyof t.ConnectOptionsResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/connect-options`, { options });
+  }
+
+  /** Select connection target `POST /social/accounts/{account_id}/connect-select` */
+  connectSelect(accountId: string, body: t.ConnectSelectData['body'], options?: RequestOptions): Promise<t.ConnectSelectResponses[keyof t.ConnectSelectResponses]> {
+    return this._client.request('POST', `/social/accounts/${encodeURIComponent(accountId)}/connect-select`, { body, options });
+  }
 }
 
 /** URLs endpoints. */

@@ -1509,6 +1509,90 @@ describe('social', () => {
     expect(calls[0].method).toBe('GET');
     expect(calls[0].path).toBe('/social/accounts/test-id/x/mentions');
   });
+
+  it('social.sendTypingIndicator -> POST /social/conversations/{conversation_id}/typing', async () => {
+    const { client, calls } = mockClient();
+    await client.social.sendTypingIndicator('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/conversations/test-id/typing');
+  });
+
+  it('social.commentPrivateReply -> POST /social/comments/{comment_id}/private-reply', async () => {
+    const { client, calls } = mockClient();
+    await client.social.commentPrivateReply('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/comments/test-id/private-reply');
+  });
+
+  it('social.getMessengerMenu -> GET /social/accounts/{account_id}/messenger/menu', async () => {
+    const { client, calls } = mockClient();
+    await client.social.getMessengerMenu('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/messenger/menu');
+  });
+
+  it('social.setMessengerMenu -> PUT /social/accounts/{account_id}/messenger/menu', async () => {
+    const { client, calls } = mockClient();
+    await client.social.setMessengerMenu('test-id', {} as never);
+    expect(calls[0].method).toBe('PUT');
+    expect(calls[0].path).toBe('/social/accounts/test-id/messenger/menu');
+  });
+
+  it('social.deleteMessengerMenu -> DELETE /social/accounts/{account_id}/messenger/menu', async () => {
+    const { client, calls } = mockClient();
+    await client.social.deleteMessengerMenu('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/social/accounts/test-id/messenger/menu');
+  });
+
+  it('social.getIceBreakers -> GET /social/accounts/{account_id}/instagram/ice-breakers', async () => {
+    const { client, calls } = mockClient();
+    await client.social.getIceBreakers('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/instagram/ice-breakers');
+  });
+
+  it('social.setIceBreakers -> PUT /social/accounts/{account_id}/instagram/ice-breakers', async () => {
+    const { client, calls } = mockClient();
+    await client.social.setIceBreakers('test-id', {} as never);
+    expect(calls[0].method).toBe('PUT');
+    expect(calls[0].path).toBe('/social/accounts/test-id/instagram/ice-breakers');
+  });
+
+  it('social.deleteIceBreakers -> DELETE /social/accounts/{account_id}/instagram/ice-breakers', async () => {
+    const { client, calls } = mockClient();
+    await client.social.deleteIceBreakers('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/social/accounts/test-id/instagram/ice-breakers');
+  });
+
+  it('social.facebookPageInsights -> GET /social/accounts/{account_id}/facebook/page-insights', async () => {
+    const { client, calls } = mockClient();
+    await client.social.facebookPageInsights('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/facebook/page-insights');
+  });
+
+  it('social.instagramAudience -> GET /social/accounts/{account_id}/instagram/audience', async () => {
+    const { client, calls } = mockClient();
+    await client.social.instagramAudience('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/instagram/audience');
+  });
+
+  it('social.connectOptions -> GET /social/accounts/{account_id}/connect-options', async () => {
+    const { client, calls } = mockClient();
+    await client.social.connectOptions('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/connect-options');
+  });
+
+  it('social.connectSelect -> POST /social/accounts/{account_id}/connect-select', async () => {
+    const { client, calls } = mockClient();
+    await client.social.connectSelect('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/accounts/test-id/connect-select');
+  });
 });
 
 describe('urls', () => {

@@ -5283,6 +5283,21 @@ export type SendDirectMessageData = {
          * Optional image URL
          */
         image_url?: string;
+        /**
+         * Type of the attached media.
+         */
+        media_type?: 'image' | 'video' | 'audio' | 'file' | 'document';
+        /**
+         * Up to 3 link buttons under the text (Facebook button template; Instagram rejects buttons - use quick_replies).
+         */
+        buttons?: Array<{
+            title?: string;
+            url?: string;
+        }>;
+        /**
+         * Tappable text chips (Facebook + Instagram).
+         */
+        quick_replies?: Array<string>;
     };
     path: {
         /**
@@ -13323,6 +13338,671 @@ export type ContactChannelsResponses = {
 };
 
 export type ContactChannelsResponse = ContactChannelsResponses[keyof ContactChannelsResponses];
+
+export type SendTypingIndicatorData = {
+    body?: never;
+    path: {
+        conversation_id: number;
+    };
+    query?: never;
+    url: '/social/conversations/{conversation_id}/typing';
+};
+
+export type SendTypingIndicatorErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type SendTypingIndicatorError = SendTypingIndicatorErrors[keyof SendTypingIndicatorErrors];
+
+export type SendTypingIndicatorResponses = {
+    /**
+     * Indicator sent
+     */
+    200: {
+        success?: true;
+        data?: {
+            typing?: boolean;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type SendTypingIndicatorResponse = SendTypingIndicatorResponses[keyof SendTypingIndicatorResponses];
+
+export type CommentPrivateReplyData = {
+    body: {
+        message: string;
+    };
+    path: {
+        /**
+         * SmartlyQ comment id (from GET /social/comments).
+         */
+        comment_id: number;
+    };
+    query?: never;
+    url: '/social/comments/{comment_id}/private-reply';
+};
+
+export type CommentPrivateReplyErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type CommentPrivateReplyError = CommentPrivateReplyErrors[keyof CommentPrivateReplyErrors];
+
+export type CommentPrivateReplyResponses = {
+    /**
+     * Reply sent
+     */
+    200: {
+        success?: true;
+        data?: {
+            sent?: boolean;
+            remote_message_id?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type CommentPrivateReplyResponse = CommentPrivateReplyResponses[keyof CommentPrivateReplyResponses];
+
+export type DeleteMessengerMenuData = {
+    body?: never;
+    path: {
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/messenger/menu';
+};
+
+export type DeleteMessengerMenuErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeleteMessengerMenuError = DeleteMessengerMenuErrors[keyof DeleteMessengerMenuErrors];
+
+export type DeleteMessengerMenuResponses = {
+    /**
+     * Menu removed
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeleteMessengerMenuResponse = DeleteMessengerMenuResponses[keyof DeleteMessengerMenuResponses];
+
+export type GetMessengerMenuData = {
+    body?: never;
+    path: {
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/messenger/menu';
+};
+
+export type GetMessengerMenuErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GetMessengerMenuError = GetMessengerMenuErrors[keyof GetMessengerMenuErrors];
+
+export type GetMessengerMenuResponses = {
+    /**
+     * Menu
+     */
+    200: {
+        success?: true;
+        data?: {
+            persistent_menu?: Array<{
+                [key: string]: unknown;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GetMessengerMenuResponse = GetMessengerMenuResponses[keyof GetMessengerMenuResponses];
+
+export type SetMessengerMenuData = {
+    body: {
+        persistent_menu: Array<{
+            [key: string]: unknown;
+        }>;
+    };
+    path: {
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/messenger/menu';
+};
+
+export type SetMessengerMenuErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type SetMessengerMenuError = SetMessengerMenuErrors[keyof SetMessengerMenuErrors];
+
+export type SetMessengerMenuResponses = {
+    /**
+     * Menu set
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type SetMessengerMenuResponse = SetMessengerMenuResponses[keyof SetMessengerMenuResponses];
+
+export type DeleteIceBreakersData = {
+    body?: never;
+    path: {
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/instagram/ice-breakers';
+};
+
+export type DeleteIceBreakersErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeleteIceBreakersError = DeleteIceBreakersErrors[keyof DeleteIceBreakersErrors];
+
+export type DeleteIceBreakersResponses = {
+    /**
+     * Ice breakers removed
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeleteIceBreakersResponse = DeleteIceBreakersResponses[keyof DeleteIceBreakersResponses];
+
+export type GetIceBreakersData = {
+    body?: never;
+    path: {
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/instagram/ice-breakers';
+};
+
+export type GetIceBreakersErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GetIceBreakersError = GetIceBreakersErrors[keyof GetIceBreakersErrors];
+
+export type GetIceBreakersResponses = {
+    /**
+     * Ice breakers
+     */
+    200: {
+        success?: true;
+        data?: {
+            ice_breakers?: Array<{
+                [key: string]: unknown;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GetIceBreakersResponse = GetIceBreakersResponses[keyof GetIceBreakersResponses];
+
+export type SetIceBreakersData = {
+    body: {
+        ice_breakers: Array<{
+            [key: string]: unknown;
+        }>;
+    };
+    path: {
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/instagram/ice-breakers';
+};
+
+export type SetIceBreakersErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type SetIceBreakersError = SetIceBreakersErrors[keyof SetIceBreakersErrors];
+
+export type SetIceBreakersResponses = {
+    /**
+     * Ice breakers set
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type SetIceBreakersResponse = SetIceBreakersResponses[keyof SetIceBreakersResponses];
+
+export type FacebookPageInsightsData = {
+    body?: never;
+    path: {
+        account_id: number;
+    };
+    query?: {
+        metrics?: string;
+        period?: 'day' | 'week' | 'days_28';
+    };
+    url: '/social/accounts/{account_id}/facebook/page-insights';
+};
+
+export type FacebookPageInsightsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type FacebookPageInsightsError = FacebookPageInsightsErrors[keyof FacebookPageInsightsErrors];
+
+export type FacebookPageInsightsResponses = {
+    /**
+     * Page insights
+     */
+    200: {
+        success?: true;
+        data?: {
+            account_id?: number;
+            period?: string;
+            insights?: {
+                [key: string]: unknown;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type FacebookPageInsightsResponse = FacebookPageInsightsResponses[keyof FacebookPageInsightsResponses];
+
+export type InstagramAudienceData = {
+    body?: never;
+    path: {
+        account_id: number;
+    };
+    query?: {
+        breakdown?: 'city' | 'country' | 'age' | 'gender';
+    };
+    url: '/social/accounts/{account_id}/instagram/audience';
+};
+
+export type InstagramAudienceErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type InstagramAudienceError = InstagramAudienceErrors[keyof InstagramAudienceErrors];
+
+export type InstagramAudienceResponses = {
+    /**
+     * Audience
+     */
+    200: {
+        success?: true;
+        data?: {
+            account_id?: number;
+            breakdown?: string;
+            audience?: {
+                [key: string]: unknown;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type InstagramAudienceResponse = InstagramAudienceResponses[keyof InstagramAudienceResponses];
+
+export type ConnectOptionsData = {
+    body?: never;
+    path: {
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/connect-options';
+};
+
+export type ConnectOptionsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ConnectOptionsError = ConnectOptionsErrors[keyof ConnectOptionsErrors];
+
+export type ConnectOptionsResponses = {
+    /**
+     * Options
+     */
+    200: {
+        success?: true;
+        data?: {
+            platform?: string;
+            current?: string;
+            supported?: boolean;
+            reason?: string;
+            options?: Array<{
+                [key: string]: unknown;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ConnectOptionsResponse = ConnectOptionsResponses[keyof ConnectOptionsResponses];
+
+export type ConnectSelectData = {
+    body: {
+        target_id: string;
+    };
+    path: {
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/connect-select';
+};
+
+export type ConnectSelectErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Platform rejected the request
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ConnectSelectError = ConnectSelectErrors[keyof ConnectSelectErrors];
+
+export type ConnectSelectResponses = {
+    /**
+     * Re-pointed
+     */
+    200: {
+        success?: true;
+        data?: {
+            account_id?: number;
+            target_id?: string;
+            title?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ConnectSelectResponse = ConnectSelectResponses[keyof ConnectSelectResponses];
 
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});
