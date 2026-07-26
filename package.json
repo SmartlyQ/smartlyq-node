@@ -1,6 +1,6 @@
 {
   "name": "@smartlyqofficial/node",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Official Node.js SDK for the SmartlyQ API - social posting, AI content generation, SEO, CRM, and more.",
   "keywords": [
     "smartlyq",

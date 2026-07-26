@@ -8930,6 +8930,248 @@ export type UpdateAccountGroupResponses = {
 
 export type UpdateAccountGroupResponse = UpdateAccountGroupResponses[keyof UpdateAccountGroupResponses];
 
+export type AnalyticsDailyMetricsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Window in days.
+         */
+        days?: number;
+    };
+    url: '/analytics/daily-metrics';
+};
+
+export type AnalyticsDailyMetricsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+};
+
+export type AnalyticsDailyMetricsError = AnalyticsDailyMetricsErrors[keyof AnalyticsDailyMetricsErrors];
+
+export type AnalyticsDailyMetricsResponses = {
+    /**
+     * Daily metrics
+     */
+    200: {
+        success?: true;
+        data?: {
+            days?: number;
+            daily?: Array<{
+                date?: string;
+                impressions?: number;
+                reach?: number;
+                engagements?: number;
+                new_followers?: number;
+                followers?: number;
+                posts?: number;
+            }>;
+            platforms?: Array<{
+                platform?: string;
+                impressions?: number;
+                reach?: number;
+                engagements?: number;
+                new_followers?: number;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type AnalyticsDailyMetricsResponse = AnalyticsDailyMetricsResponses[keyof AnalyticsDailyMetricsResponses];
+
+export type AnalyticsBestTimeData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Window in days.
+         */
+        days?: number;
+        /**
+         * IANA timezone for the buckets.
+         */
+        timezone?: string;
+    };
+    url: '/analytics/best-time';
+};
+
+export type AnalyticsBestTimeErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type AnalyticsBestTimeError = AnalyticsBestTimeErrors[keyof AnalyticsBestTimeErrors];
+
+export type AnalyticsBestTimeResponses = {
+    /**
+     * Best-time report
+     */
+    200: {
+        success?: true;
+        data?: {
+            days?: number;
+            timezone?: string;
+            /**
+             * Posts in the sample.
+             */
+            sample?: number;
+            best_slots?: Array<{
+                weekday?: string;
+                hour?: number;
+                avg_engagements?: number;
+                posts?: number;
+            }>;
+            /**
+             * weekday -> hour -> {avg_engagements, posts}
+             */
+            heatmap?: {
+                [key: string]: unknown;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type AnalyticsBestTimeResponse = AnalyticsBestTimeResponses[keyof AnalyticsBestTimeResponses];
+
+export type AnalyticsContentDecayData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Window in days.
+         */
+        days?: number;
+    };
+    url: '/analytics/content-decay';
+};
+
+export type AnalyticsContentDecayErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+};
+
+export type AnalyticsContentDecayError = AnalyticsContentDecayErrors[keyof AnalyticsContentDecayErrors];
+
+export type AnalyticsContentDecayResponses = {
+    /**
+     * Decay curve
+     */
+    200: {
+        success?: true;
+        data?: {
+            days?: number;
+            posts?: number;
+            curve?: Array<{
+                age_days?: number;
+                avg_share_of_final?: number;
+                sample?: number;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type AnalyticsContentDecayResponse = AnalyticsContentDecayResponses[keyof AnalyticsContentDecayResponses];
+
+export type AnalyticsPostingFrequencyData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Window in days.
+         */
+        days?: number;
+    };
+    url: '/analytics/posting-frequency';
+};
+
+export type AnalyticsPostingFrequencyErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+};
+
+export type AnalyticsPostingFrequencyError = AnalyticsPostingFrequencyErrors[keyof AnalyticsPostingFrequencyErrors];
+
+export type AnalyticsPostingFrequencyResponses = {
+    /**
+     * Frequency report
+     */
+    200: {
+        success?: true;
+        data?: {
+            days?: number;
+            weeks?: Array<{
+                week?: string;
+                posts?: number;
+                total_engagements?: number;
+                avg_engagements_per_post?: number;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type AnalyticsPostingFrequencyResponse = AnalyticsPostingFrequencyResponses[keyof AnalyticsPostingFrequencyResponses];
+
+export type AnalyticsPostTimelineData = {
+    body?: never;
+    path: {
+        post_id: number;
+    };
+    query?: never;
+    url: '/analytics/posts/{post_id}/timeline';
+};
+
+export type AnalyticsPostTimelineErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type AnalyticsPostTimelineError = AnalyticsPostTimelineErrors[keyof AnalyticsPostTimelineErrors];
+
+export type AnalyticsPostTimelineResponses = {
+    /**
+     * Timeline
+     */
+    200: {
+        success?: true;
+        data?: {
+            post_id?: number;
+            status?: string;
+            published_at?: string;
+            /**
+             * platform -> array of snapshots
+             */
+            platforms?: {
+                [key: string]: unknown;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type AnalyticsPostTimelineResponse = AnalyticsPostTimelineResponses[keyof AnalyticsPostTimelineResponses];
+
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});
 };

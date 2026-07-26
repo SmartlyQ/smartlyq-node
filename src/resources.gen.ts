@@ -60,6 +60,31 @@ export class AnalyticsResource {
   getAccount(accountId: string, query?: t.GetAnalyticsAccountData['query'], options?: RequestOptions): Promise<t.GetAnalyticsAccountResponses[keyof t.GetAnalyticsAccountResponses]> {
     return this._client.request('GET', `/analytics/accounts/${encodeURIComponent(accountId)}`, { query, options });
   }
+
+  /** Daily metrics `GET /analytics/daily-metrics` */
+  dailyMetrics(query?: t.AnalyticsDailyMetricsData['query'], options?: RequestOptions): Promise<t.AnalyticsDailyMetricsResponses[keyof t.AnalyticsDailyMetricsResponses]> {
+    return this._client.request('GET', '/analytics/daily-metrics', { query, options });
+  }
+
+  /** Best time to post `GET /analytics/best-time` */
+  bestTime(query?: t.AnalyticsBestTimeData['query'], options?: RequestOptions): Promise<t.AnalyticsBestTimeResponses[keyof t.AnalyticsBestTimeResponses]> {
+    return this._client.request('GET', '/analytics/best-time', { query, options });
+  }
+
+  /** Content decay `GET /analytics/content-decay` */
+  contentDecay(query?: t.AnalyticsContentDecayData['query'], options?: RequestOptions): Promise<t.AnalyticsContentDecayResponses[keyof t.AnalyticsContentDecayResponses]> {
+    return this._client.request('GET', '/analytics/content-decay', { query, options });
+  }
+
+  /** Posting frequency vs engagement `GET /analytics/posting-frequency` */
+  postingFrequency(query?: t.AnalyticsPostingFrequencyData['query'], options?: RequestOptions): Promise<t.AnalyticsPostingFrequencyResponses[keyof t.AnalyticsPostingFrequencyResponses]> {
+    return this._client.request('GET', '/analytics/posting-frequency', { query, options });
+  }
+
+  /** Post metric timeline `GET /analytics/posts/{post_id}/timeline` */
+  postTimeline(postId: string, options?: RequestOptions): Promise<t.AnalyticsPostTimelineResponses[keyof t.AnalyticsPostTimelineResponses]> {
+    return this._client.request('GET', `/analytics/posts/${encodeURIComponent(postId)}/timeline`, { options });
+  }
 }
 
 /** Articles endpoints. */

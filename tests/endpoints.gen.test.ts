@@ -83,6 +83,41 @@ describe('analytics', () => {
     expect(calls[0].method).toBe('GET');
     expect(calls[0].path).toBe('/analytics/accounts/test-id');
   });
+
+  it('analytics.dailyMetrics -> GET /analytics/daily-metrics', async () => {
+    const { client, calls } = mockClient();
+    await client.analytics.dailyMetrics();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/analytics/daily-metrics');
+  });
+
+  it('analytics.bestTime -> GET /analytics/best-time', async () => {
+    const { client, calls } = mockClient();
+    await client.analytics.bestTime();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/analytics/best-time');
+  });
+
+  it('analytics.contentDecay -> GET /analytics/content-decay', async () => {
+    const { client, calls } = mockClient();
+    await client.analytics.contentDecay();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/analytics/content-decay');
+  });
+
+  it('analytics.postingFrequency -> GET /analytics/posting-frequency', async () => {
+    const { client, calls } = mockClient();
+    await client.analytics.postingFrequency();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/analytics/posting-frequency');
+  });
+
+  it('analytics.postTimeline -> GET /analytics/posts/{post_id}/timeline', async () => {
+    const { client, calls } = mockClient();
+    await client.analytics.postTimeline('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/analytics/posts/test-id/timeline');
+  });
 });
 
 describe('articles', () => {
