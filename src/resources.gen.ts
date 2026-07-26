@@ -85,6 +85,41 @@ export class AnalyticsResource {
   postTimeline(postId: string, options?: RequestOptions): Promise<t.AnalyticsPostTimelineResponses[keyof t.AnalyticsPostTimelineResponses]> {
     return this._client.request('GET', `/analytics/posts/${encodeURIComponent(postId)}/timeline`, { options });
   }
+
+  /** Inbox volume `GET /analytics/inbox/volume` */
+  inboxVolume(query?: t.InboxVolumeData['query'], options?: RequestOptions): Promise<t.InboxVolumeResponses[keyof t.InboxVolumeResponses]> {
+    return this._client.request('GET', '/analytics/inbox/volume', { query, options });
+  }
+
+  /** Inbox heatmap `GET /analytics/inbox/heatmap` */
+  inboxHeatmap(query?: t.InboxHeatmapData['query'], options?: RequestOptions): Promise<t.InboxHeatmapResponses[keyof t.InboxHeatmapResponses]> {
+    return this._client.request('GET', '/analytics/inbox/heatmap', { query, options });
+  }
+
+  /** Inbox source breakdown `GET /analytics/inbox/source-breakdown` */
+  inboxSourceBreakdown(query?: t.InboxSourceBreakdownData['query'], options?: RequestOptions): Promise<t.InboxSourceBreakdownResponses[keyof t.InboxSourceBreakdownResponses]> {
+    return this._client.request('GET', '/analytics/inbox/source-breakdown', { query, options });
+  }
+
+  /** Inbox response time `GET /analytics/inbox/response-time` */
+  inboxResponseTime(query?: t.InboxResponseTimeData['query'], options?: RequestOptions): Promise<t.InboxResponseTimeResponses[keyof t.InboxResponseTimeResponses]> {
+    return this._client.request('GET', '/analytics/inbox/response-time', { query, options });
+  }
+
+  /** Inbox top accounts `GET /analytics/inbox/top-accounts` */
+  inboxTopAccounts(query?: t.InboxTopAccountsData['query'], options?: RequestOptions): Promise<t.InboxTopAccountsResponses[keyof t.InboxTopAccountsResponses]> {
+    return this._client.request('GET', '/analytics/inbox/top-accounts', { query, options });
+  }
+
+  /** Inbox conversation stats `GET /analytics/inbox/conversations` */
+  inboxConversations(query?: t.InboxConversationsData['query'], options?: RequestOptions): Promise<t.InboxConversationsResponses[keyof t.InboxConversationsResponses]> {
+    return this._client.request('GET', '/analytics/inbox/conversations', { query, options });
+  }
+
+  /** Conversation analytics `GET /analytics/inbox/conversations/{conversation_id}` */
+  inboxConversationDetail(conversationId: string, options?: RequestOptions): Promise<t.InboxConversationDetailResponses[keyof t.InboxConversationDetailResponses]> {
+    return this._client.request('GET', `/analytics/inbox/conversations/${encodeURIComponent(conversationId)}`, { options });
+  }
 }
 
 /** Articles endpoints. */
@@ -129,6 +164,46 @@ export class AudioResource {
   /** Get audio `GET /audio/{audio_id}` */
   get(audioId: string, options?: RequestOptions): Promise<t.GetAudioResponses[keyof t.GetAudioResponses]> {
     return this._client.request('GET', `/audio/${encodeURIComponent(audioId)}`, { options });
+  }
+}
+
+/** Automations endpoints. */
+export class AutomationsResource {
+  constructor(private readonly _client: CoreClient) {}
+
+  /** List automations `GET /automations` */
+  list(query?: t.ListAutomationsData['query'], options?: RequestOptions): Promise<t.ListAutomationsResponses[keyof t.ListAutomationsResponses]> {
+    return this._client.request('GET', '/automations', { query, options });
+  }
+
+  /** Get automation `GET /automations/{automation_id}` */
+  get(automationId: string, options?: RequestOptions): Promise<t.GetAutomationResponses[keyof t.GetAutomationResponses]> {
+    return this._client.request('GET', `/automations/${encodeURIComponent(automationId)}`, { options });
+  }
+
+  /** Activate automation `POST /automations/{automation_id}/activate` */
+  activate(automationId: string, options?: RequestOptions): Promise<t.ActivateAutomationResponses[keyof t.ActivateAutomationResponses]> {
+    return this._client.request('POST', `/automations/${encodeURIComponent(automationId)}/activate`, { options });
+  }
+
+  /** Pause automation `POST /automations/{automation_id}/deactivate` */
+  deactivate(automationId: string, options?: RequestOptions): Promise<t.DeactivateAutomationResponses[keyof t.DeactivateAutomationResponses]> {
+    return this._client.request('POST', `/automations/${encodeURIComponent(automationId)}/deactivate`, { options });
+  }
+
+  /** Trigger automation `POST /automations/{automation_id}/trigger` */
+  trigger(automationId: string, body?: t.TriggerAutomationData['body'], options?: RequestOptions): Promise<t.TriggerAutomationResponses[keyof t.TriggerAutomationResponses]> {
+    return this._client.request('POST', `/automations/${encodeURIComponent(automationId)}/trigger`, { body, options });
+  }
+
+  /** List runs `GET /automations/{automation_id}/runs` */
+  listRuns(automationId: string, query?: t.ListAutomationRunsData['query'], options?: RequestOptions): Promise<t.ListAutomationRunsResponses[keyof t.ListAutomationRunsResponses]> {
+    return this._client.request('GET', `/automations/${encodeURIComponent(automationId)}/runs`, { query, options });
+  }
+
+  /** Get run `GET /automations/{automation_id}/runs/{run_id}` */
+  getRun(automationId: string, runId: string, options?: RequestOptions): Promise<t.GetAutomationRunResponses[keyof t.GetAutomationRunResponses]> {
+    return this._client.request('GET', `/automations/${encodeURIComponent(automationId)}/runs/${encodeURIComponent(runId)}`, { options });
   }
 }
 
@@ -224,6 +299,21 @@ export class ContentResource {
   /** Generate a social caption `POST /content/caption` */
   generateCaption(body?: t.GenerateCaptionData['body'], options?: RequestOptions): Promise<t.GenerateCaptionResponses[keyof t.GenerateCaptionResponses]> {
     return this._client.request('POST', '/content/caption', { body, options });
+  }
+}
+
+/** CRM endpoints. */
+export class CrmResource {
+  constructor(private readonly _client: CoreClient) {}
+
+  /** Delete contact `DELETE /contacts/{id}` */
+  deleteContact(id: string, options?: RequestOptions): Promise<t.DeleteContactResponses[keyof t.DeleteContactResponses]> {
+    return this._client.request('DELETE', `/contacts/${encodeURIComponent(id)}`, { options });
+  }
+
+  /** Bulk import contacts `POST /contacts/bulk` */
+  bulkImportContacts(body: t.BulkImportContactsData['body'], options?: RequestOptions): Promise<t.BulkImportContactsResponses[keyof t.BulkImportContactsResponses]> {
+    return this._client.request('POST', '/contacts/bulk', { body, options });
   }
 }
 
@@ -522,6 +612,26 @@ export class ProfilesResource {
   }
 }
 
+/** Reviews endpoints. */
+export class ReviewsResource {
+  constructor(private readonly _client: CoreClient) {}
+
+  /** List reviews `GET /reviews` */
+  list(query?: t.ListReviewsData['query'], options?: RequestOptions): Promise<t.ListReviewsResponses[keyof t.ListReviewsResponses]> {
+    return this._client.request('GET', '/reviews', { query, options });
+  }
+
+  /** Reply to review `POST /reviews/{review_id}/reply` */
+  replyTo(reviewId: string, body: t.ReplyToReviewData['body'], options?: RequestOptions): Promise<t.ReplyToReviewResponses[keyof t.ReplyToReviewResponses]> {
+    return this._client.request('POST', `/reviews/${encodeURIComponent(reviewId)}/reply`, { body, options });
+  }
+
+  /** Sync reviews `POST /reviews/sync` */
+  sync(body?: t.SyncReviewsData['body'], options?: RequestOptions): Promise<t.SyncReviewsResponses[keyof t.SyncReviewsResponses]> {
+    return this._client.request('POST', '/reviews/sync', { body, options });
+  }
+}
+
 /** SEO endpoints. */
 export class SeoResource {
   constructor(private readonly _client: CoreClient) {}
@@ -676,6 +786,11 @@ export class SocialResource {
     return this._client.request('PATCH', `/social/accounts/${encodeURIComponent(accountId)}`, { body, options });
   }
 
+  /** Disconnect a social account `DELETE /social/accounts/{account_id}` */
+  disconnectAccount(accountId: string, options?: RequestOptions): Promise<t.DisconnectSocialAccountResponses[keyof t.DisconnectSocialAccountResponses]> {
+    return this._client.request('DELETE', `/social/accounts/${encodeURIComponent(accountId)}`, { options });
+  }
+
   /** Account health `GET /social/accounts/{account_id}/health` */
   getAccountHealth(accountId: string, options?: RequestOptions): Promise<t.GetAccountHealthResponses[keyof t.GetAccountHealthResponses]> {
     return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/health`, { options });
@@ -819,6 +934,21 @@ export class SocialResource {
   /** Delete account group `DELETE /social/account-groups/{group_id}` */
   deleteAccountGroup(groupId: string, options?: RequestOptions): Promise<t.DeleteAccountGroupResponses[keyof t.DeleteAccountGroupResponses]> {
     return this._client.request('DELETE', `/social/account-groups/${encodeURIComponent(groupId)}`, { options });
+  }
+
+  /** Get conversation `GET /social/conversations/{conversation_id}` */
+  getConversation(conversationId: string, options?: RequestOptions): Promise<t.GetConversationResponses[keyof t.GetConversationResponses]> {
+    return this._client.request('GET', `/social/conversations/${encodeURIComponent(conversationId)}`, { options });
+  }
+
+  /** Archive / reopen conversation `PATCH /social/conversations/{conversation_id}` */
+  updateConversation(conversationId: string, body: t.UpdateConversationData['body'], options?: RequestOptions): Promise<t.UpdateConversationResponses[keyof t.UpdateConversationResponses]> {
+    return this._client.request('PATCH', `/social/conversations/${encodeURIComponent(conversationId)}`, { body, options });
+  }
+
+  /** Search conversations `GET /social/conversations/search` */
+  searchConversations(query?: t.SearchConversationsData['query'], options?: RequestOptions): Promise<t.SearchConversationsResponses[keyof t.SearchConversationsResponses]> {
+    return this._client.request('GET', '/social/conversations/search', { query, options });
   }
 }
 
@@ -1009,9 +1139,11 @@ export function createResources(client: CoreClient) {
     analytics: new AnalyticsResource(client),
     articles: new ArticlesResource(client),
     audio: new AudioResource(client),
+    automations: new AutomationsResource(client),
     chatbots: new ChatbotsResource(client),
     comments: new CommentsResource(client),
     content: new ContentResource(client),
+    crm: new CrmResource(client),
     contacts: new ContactsResource(client),
     customFields: new CustomFieldsResource(client),
     opportunities: new OpportunitiesResource(client),
@@ -1021,6 +1153,7 @@ export function createResources(client: CoreClient) {
     media: new MediaResource(client),
     presentations: new PresentationsResource(client),
     profiles: new ProfilesResource(client),
+    reviews: new ReviewsResource(client),
     seo: new SeoResource(client),
     shorts: new ShortsResource(client),
     social: new SocialResource(client),

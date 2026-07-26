@@ -4484,6 +4484,59 @@ export type GetMeBalanceResponses = {
 
 export type GetMeBalanceResponse = GetMeBalanceResponses[keyof GetMeBalanceResponses];
 
+export type DisconnectSocialAccountData = {
+    body?: never;
+    path: {
+        /**
+         * Connected account id
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}';
+};
+
+export type DisconnectSocialAccountErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Internal server error
+     */
+    500: ErrorResponse;
+};
+
+export type DisconnectSocialAccountError = DisconnectSocialAccountErrors[keyof DisconnectSocialAccountErrors];
+
+export type DisconnectSocialAccountResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        /**
+         * No payload on success.
+         */
+        data?: null;
+        meta?: RequestMeta;
+    };
+};
+
+export type DisconnectSocialAccountResponse = DisconnectSocialAccountResponses[keyof DisconnectSocialAccountResponses];
+
 export type UpdateSocialAccountData = {
     body: {
         account_name: string;
@@ -6224,6 +6277,43 @@ export type CreateContactResponses = {
      */
     201: unknown;
 };
+
+export type DeleteContactData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/contacts/{id}';
+};
+
+export type DeleteContactErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type DeleteContactError = DeleteContactErrors[keyof DeleteContactErrors];
+
+export type DeleteContactResponses = {
+    /**
+     * Deleted
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeleteContactResponse = DeleteContactResponses[keyof DeleteContactResponses];
 
 export type GetContactData = {
     body?: never;
@@ -9171,6 +9261,991 @@ export type AnalyticsPostTimelineResponses = {
 };
 
 export type AnalyticsPostTimelineResponse = AnalyticsPostTimelineResponses[keyof AnalyticsPostTimelineResponses];
+
+export type InboxVolumeData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Window in days.
+         */
+        days?: number;
+    };
+    url: '/analytics/inbox/volume';
+};
+
+export type InboxVolumeErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+};
+
+export type InboxVolumeError = InboxVolumeErrors[keyof InboxVolumeErrors];
+
+export type InboxVolumeResponses = {
+    /**
+     * Volume
+     */
+    200: {
+        success?: true;
+        data?: {
+            days?: number;
+            daily?: Array<{
+                date?: string;
+                incoming?: number;
+                outgoing?: number;
+                new_conversations?: number;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type InboxVolumeResponse = InboxVolumeResponses[keyof InboxVolumeResponses];
+
+export type InboxHeatmapData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Window in days.
+         */
+        days?: number;
+        timezone?: string;
+    };
+    url: '/analytics/inbox/heatmap';
+};
+
+export type InboxHeatmapErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type InboxHeatmapError = InboxHeatmapErrors[keyof InboxHeatmapErrors];
+
+export type InboxHeatmapResponses = {
+    /**
+     * Heatmap
+     */
+    200: {
+        success?: true;
+        data?: {
+            days?: number;
+            timezone?: string;
+            sample?: number;
+            /**
+             * weekday -> array of 24 hourly counts
+             */
+            heatmap?: {
+                [key: string]: unknown;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type InboxHeatmapResponse = InboxHeatmapResponses[keyof InboxHeatmapResponses];
+
+export type InboxSourceBreakdownData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Window in days.
+         */
+        days?: number;
+    };
+    url: '/analytics/inbox/source-breakdown';
+};
+
+export type InboxSourceBreakdownErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+};
+
+export type InboxSourceBreakdownError = InboxSourceBreakdownErrors[keyof InboxSourceBreakdownErrors];
+
+export type InboxSourceBreakdownResponses = {
+    /**
+     * Breakdown
+     */
+    200: {
+        success?: true;
+        data?: {
+            days?: number;
+            platforms?: Array<{
+                platform?: string;
+                conversations?: number;
+                incoming?: number;
+                outgoing?: number;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type InboxSourceBreakdownResponse = InboxSourceBreakdownResponses[keyof InboxSourceBreakdownResponses];
+
+export type InboxResponseTimeData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Window in days.
+         */
+        days?: number;
+    };
+    url: '/analytics/inbox/response-time';
+};
+
+export type InboxResponseTimeErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+};
+
+export type InboxResponseTimeError = InboxResponseTimeErrors[keyof InboxResponseTimeErrors];
+
+export type InboxResponseTimeResponses = {
+    /**
+     * Response times
+     */
+    200: {
+        success?: true;
+        data?: {
+            days?: number;
+            answered?: number;
+            avg_response_seconds?: number;
+            median_response_seconds?: number;
+            histogram?: {
+                under_15m?: number;
+                '15m_1h'?: number;
+                '1h_4h'?: number;
+                '4h_24h'?: number;
+                over_24h?: number;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type InboxResponseTimeResponse = InboxResponseTimeResponses[keyof InboxResponseTimeResponses];
+
+export type InboxTopAccountsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Window in days.
+         */
+        days?: number;
+        limit?: number;
+    };
+    url: '/analytics/inbox/top-accounts';
+};
+
+export type InboxTopAccountsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+};
+
+export type InboxTopAccountsError = InboxTopAccountsErrors[keyof InboxTopAccountsErrors];
+
+export type InboxTopAccountsResponses = {
+    /**
+     * Top accounts
+     */
+    200: {
+        success?: true;
+        data?: {
+            days?: number;
+            accounts?: Array<{
+                account_id?: number;
+                platform?: string;
+                account_name?: string;
+                conversations?: number;
+                incoming?: number;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type InboxTopAccountsResponse = InboxTopAccountsResponses[keyof InboxTopAccountsResponses];
+
+export type ListReviewsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Limit to one connected Google Business account.
+         */
+        account_id?: number;
+        rating?: number;
+        status?: 'pending' | 'replied';
+        page?: number;
+        per_page?: number;
+    };
+    url: '/reviews';
+};
+
+export type ListReviewsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type ListReviewsError = ListReviewsErrors[keyof ListReviewsErrors];
+
+export type ListReviewsResponses = {
+    /**
+     * Reviews
+     */
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            account_id?: number;
+            author_name?: string;
+            author_photo?: string;
+            rating?: number;
+            comment?: string;
+            created_at?: string;
+            reply_comment?: string;
+            reply_at?: string;
+            reply_source?: string;
+            status?: 'pending' | 'replied';
+        }>;
+        pagination?: PaginationMeta;
+        meta?: RequestMeta;
+    };
+};
+
+export type ListReviewsResponse = ListReviewsResponses[keyof ListReviewsResponses];
+
+export type ReplyToReviewData = {
+    body: {
+        comment: string;
+    };
+    path: {
+        review_id: number;
+    };
+    query?: never;
+    url: '/reviews/{review_id}/reply';
+};
+
+export type ReplyToReviewErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Google rejected the reply
+     */
+    502: {
+        success?: false;
+        error?: {
+            code?: 'PLATFORM_ERROR';
+            message?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ReplyToReviewError = ReplyToReviewErrors[keyof ReplyToReviewErrors];
+
+export type ReplyToReviewResponses = {
+    /**
+     * Replied
+     */
+    200: {
+        success?: true;
+        data?: {
+            replied?: boolean;
+            review_id?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ReplyToReviewResponse = ReplyToReviewResponses[keyof ReplyToReviewResponses];
+
+export type SyncReviewsData = {
+    body?: {
+        /**
+         * Optional: sync only this connected account.
+         */
+        account_id?: number;
+    };
+    path?: never;
+    query?: never;
+    url: '/reviews/sync';
+};
+
+export type SyncReviewsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type SyncReviewsError = SyncReviewsErrors[keyof SyncReviewsErrors];
+
+export type SyncReviewsResponses = {
+    /**
+     * Synced
+     */
+    200: {
+        success?: true;
+        data?: {
+            /**
+             * Reviews inserted or updated.
+             */
+            synced?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type SyncReviewsResponse = SyncReviewsResponses[keyof SyncReviewsResponses];
+
+export type GetConversationData = {
+    body?: never;
+    path: {
+        conversation_id: number;
+    };
+    query?: never;
+    url: '/social/conversations/{conversation_id}';
+};
+
+export type GetConversationErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type GetConversationError = GetConversationErrors[keyof GetConversationErrors];
+
+export type GetConversationResponses = {
+    /**
+     * Conversation
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            platform?: string;
+            account_id?: number;
+            participant_name?: string;
+            status?: 'open' | 'archived';
+            unread_count?: number;
+            snippet?: string;
+            incoming?: number;
+            outgoing?: number;
+            created_at?: string;
+            last_message_at?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GetConversationResponse = GetConversationResponses[keyof GetConversationResponses];
+
+export type UpdateConversationData = {
+    body: {
+        status: 'open' | 'archived';
+    };
+    path: {
+        conversation_id: number;
+    };
+    query?: never;
+    url: '/social/conversations/{conversation_id}';
+};
+
+export type UpdateConversationErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type UpdateConversationError = UpdateConversationErrors[keyof UpdateConversationErrors];
+
+export type UpdateConversationResponses = {
+    /**
+     * Updated
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            status?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type UpdateConversationResponse = UpdateConversationResponses[keyof UpdateConversationResponses];
+
+export type SearchConversationsData = {
+    body?: never;
+    path?: never;
+    query: {
+        q: string;
+        page?: number;
+        per_page?: number;
+    };
+    url: '/social/conversations/search';
+};
+
+export type SearchConversationsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type SearchConversationsError = SearchConversationsErrors[keyof SearchConversationsErrors];
+
+export type SearchConversationsResponses = {
+    /**
+     * Matches
+     */
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            platform?: string;
+            account_id?: number;
+            participant_name?: string;
+            status?: string;
+            snippet?: string;
+            matched_message?: string;
+            last_message_at?: string;
+        }>;
+        pagination?: PaginationMeta;
+        meta?: RequestMeta;
+    };
+};
+
+export type SearchConversationsResponse = SearchConversationsResponses[keyof SearchConversationsResponses];
+
+export type InboxConversationsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        days?: number;
+        page?: number;
+        per_page?: number;
+    };
+    url: '/analytics/inbox/conversations';
+};
+
+export type InboxConversationsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+};
+
+export type InboxConversationsError = InboxConversationsErrors[keyof InboxConversationsErrors];
+
+export type InboxConversationsResponses = {
+    /**
+     * Stats
+     */
+    200: {
+        success?: true;
+        data?: {
+            days?: number;
+            page?: number;
+            per_page?: number;
+            conversations?: Array<{
+                id?: number;
+                platform?: string;
+                account_id?: number;
+                participant_name?: string;
+                status?: string;
+                incoming?: number;
+                outgoing?: number;
+                created_at?: string;
+                last_message_at?: string;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type InboxConversationsResponse = InboxConversationsResponses[keyof InboxConversationsResponses];
+
+export type InboxConversationDetailData = {
+    body?: never;
+    path: {
+        conversation_id: number;
+    };
+    query?: never;
+    url: '/analytics/inbox/conversations/{conversation_id}';
+};
+
+export type InboxConversationDetailErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type InboxConversationDetailError = InboxConversationDetailErrors[keyof InboxConversationDetailErrors];
+
+export type InboxConversationDetailResponses = {
+    /**
+     * Conversation analytics
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            platform?: string;
+            account_id?: number;
+            participant_name?: string;
+            status?: string;
+            incoming?: number;
+            outgoing?: number;
+            answered?: number;
+            avg_response_seconds?: number;
+            median_response_seconds?: number;
+            created_at?: string;
+            last_message_at?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type InboxConversationDetailResponse = InboxConversationDetailResponses[keyof InboxConversationDetailResponses];
+
+export type ListAutomationsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        status?: 'draft' | 'active' | 'paused' | 'archived';
+    };
+    url: '/automations';
+};
+
+export type ListAutomationsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+};
+
+export type ListAutomationsError = ListAutomationsErrors[keyof ListAutomationsErrors];
+
+export type ListAutomationsResponses = {
+    /**
+     * Automations
+     */
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            name?: string;
+            description?: string;
+            trigger_type?: string;
+            status?: 'draft' | 'active' | 'paused' | 'archived';
+            last_run_at?: string;
+            run_count?: number;
+            error_count?: number;
+            created?: string;
+            updated?: string;
+        }>;
+        meta?: RequestMeta;
+    };
+};
+
+export type ListAutomationsResponse = ListAutomationsResponses[keyof ListAutomationsResponses];
+
+export type GetAutomationData = {
+    body?: never;
+    path: {
+        automation_id: number;
+    };
+    query?: never;
+    url: '/automations/{automation_id}';
+};
+
+export type GetAutomationErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type GetAutomationError = GetAutomationErrors[keyof GetAutomationErrors];
+
+export type GetAutomationResponses = {
+    /**
+     * Automation
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            name?: string;
+            description?: string;
+            trigger_type?: string;
+            status?: 'draft' | 'active' | 'paused' | 'archived';
+            last_run_at?: string;
+            run_count?: number;
+            error_count?: number;
+            created?: string;
+            updated?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GetAutomationResponse = GetAutomationResponses[keyof GetAutomationResponses];
+
+export type ActivateAutomationData = {
+    body?: never;
+    path: {
+        automation_id: number;
+    };
+    query?: never;
+    url: '/automations/{automation_id}/activate';
+};
+
+export type ActivateAutomationErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type ActivateAutomationError = ActivateAutomationErrors[keyof ActivateAutomationErrors];
+
+export type ActivateAutomationResponses = {
+    /**
+     * Activated
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            name?: string;
+            description?: string;
+            trigger_type?: string;
+            status?: 'draft' | 'active' | 'paused' | 'archived';
+            last_run_at?: string;
+            run_count?: number;
+            error_count?: number;
+            created?: string;
+            updated?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ActivateAutomationResponse = ActivateAutomationResponses[keyof ActivateAutomationResponses];
+
+export type DeactivateAutomationData = {
+    body?: never;
+    path: {
+        automation_id: number;
+    };
+    query?: never;
+    url: '/automations/{automation_id}/deactivate';
+};
+
+export type DeactivateAutomationErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type DeactivateAutomationError = DeactivateAutomationErrors[keyof DeactivateAutomationErrors];
+
+export type DeactivateAutomationResponses = {
+    /**
+     * Paused
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            name?: string;
+            description?: string;
+            trigger_type?: string;
+            status?: 'draft' | 'active' | 'paused' | 'archived';
+            last_run_at?: string;
+            run_count?: number;
+            error_count?: number;
+            created?: string;
+            updated?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeactivateAutomationResponse = DeactivateAutomationResponses[keyof DeactivateAutomationResponses];
+
+export type TriggerAutomationData = {
+    body?: {
+        /**
+         * Arbitrary JSON passed to the run.
+         */
+        payload?: {
+            [key: string]: unknown;
+        };
+    };
+    path: {
+        automation_id: number;
+    };
+    query?: never;
+    url: '/automations/{automation_id}/trigger';
+};
+
+export type TriggerAutomationErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict (e.g. duplicate idempotency or already-finished job)
+     */
+    409: ErrorResponse;
+};
+
+export type TriggerAutomationError = TriggerAutomationErrors[keyof TriggerAutomationErrors];
+
+export type TriggerAutomationResponses = {
+    /**
+     * Run queued
+     */
+    202: {
+        success?: true;
+        data?: {
+            queued?: boolean;
+            automation_id?: number;
+            run_id?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type TriggerAutomationResponse = TriggerAutomationResponses[keyof TriggerAutomationResponses];
+
+export type ListAutomationRunsData = {
+    body?: never;
+    path: {
+        automation_id: number;
+    };
+    query?: {
+        limit?: number;
+    };
+    url: '/automations/{automation_id}/runs';
+};
+
+export type ListAutomationRunsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type ListAutomationRunsError = ListAutomationRunsErrors[keyof ListAutomationRunsErrors];
+
+export type ListAutomationRunsResponses = {
+    /**
+     * Runs
+     */
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            automation_id?: number;
+            trigger_kind?: string;
+            status?: string;
+            attempts?: number;
+            queued_at?: string;
+            started_at?: string;
+            finished_at?: string;
+            error?: string;
+        }>;
+        meta?: RequestMeta;
+    };
+};
+
+export type ListAutomationRunsResponse = ListAutomationRunsResponses[keyof ListAutomationRunsResponses];
+
+export type GetAutomationRunData = {
+    body?: never;
+    path: {
+        automation_id: number;
+        run_id: number;
+    };
+    query?: never;
+    url: '/automations/{automation_id}/runs/{run_id}';
+};
+
+export type GetAutomationRunErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type GetAutomationRunError = GetAutomationRunErrors[keyof GetAutomationRunErrors];
+
+export type GetAutomationRunResponses = {
+    /**
+     * Run
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            automation_id?: number;
+            trigger_kind?: string;
+            status?: string;
+            attempts?: number;
+            queued_at?: string;
+            started_at?: string;
+            finished_at?: string;
+            error?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GetAutomationRunResponse = GetAutomationRunResponses[keyof GetAutomationRunResponses];
+
+export type BulkImportContactsData = {
+    body: {
+        contacts: Array<{
+            [key: string]: unknown;
+        }>;
+    };
+    path?: never;
+    query?: never;
+    url: '/contacts/bulk';
+};
+
+export type BulkImportContactsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type BulkImportContactsError = BulkImportContactsErrors[keyof BulkImportContactsErrors];
+
+export type BulkImportContactsResponses = {
+    /**
+     * Import results
+     */
+    201: {
+        success?: true;
+        data?: {
+            created?: number;
+            updated?: number;
+            failed?: number;
+            results?: Array<{
+                row?: number;
+                id?: number;
+                created?: boolean;
+                matched_by?: string;
+                error?: string;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type BulkImportContactsResponse = BulkImportContactsResponses[keyof BulkImportContactsResponses];
 
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});

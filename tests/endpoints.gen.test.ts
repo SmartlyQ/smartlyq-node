@@ -118,6 +118,55 @@ describe('analytics', () => {
     expect(calls[0].method).toBe('GET');
     expect(calls[0].path).toBe('/analytics/posts/test-id/timeline');
   });
+
+  it('analytics.inboxVolume -> GET /analytics/inbox/volume', async () => {
+    const { client, calls } = mockClient();
+    await client.analytics.inboxVolume();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/analytics/inbox/volume');
+  });
+
+  it('analytics.inboxHeatmap -> GET /analytics/inbox/heatmap', async () => {
+    const { client, calls } = mockClient();
+    await client.analytics.inboxHeatmap();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/analytics/inbox/heatmap');
+  });
+
+  it('analytics.inboxSourceBreakdown -> GET /analytics/inbox/source-breakdown', async () => {
+    const { client, calls } = mockClient();
+    await client.analytics.inboxSourceBreakdown();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/analytics/inbox/source-breakdown');
+  });
+
+  it('analytics.inboxResponseTime -> GET /analytics/inbox/response-time', async () => {
+    const { client, calls } = mockClient();
+    await client.analytics.inboxResponseTime();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/analytics/inbox/response-time');
+  });
+
+  it('analytics.inboxTopAccounts -> GET /analytics/inbox/top-accounts', async () => {
+    const { client, calls } = mockClient();
+    await client.analytics.inboxTopAccounts();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/analytics/inbox/top-accounts');
+  });
+
+  it('analytics.inboxConversations -> GET /analytics/inbox/conversations', async () => {
+    const { client, calls } = mockClient();
+    await client.analytics.inboxConversations();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/analytics/inbox/conversations');
+  });
+
+  it('analytics.inboxConversationDetail -> GET /analytics/inbox/conversations/{conversation_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.analytics.inboxConversationDetail('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/analytics/inbox/conversations/test-id');
+  });
 });
 
 describe('articles', () => {
@@ -170,6 +219,57 @@ describe('audio', () => {
     await client.audio.get('test-id');
     expect(calls[0].method).toBe('GET');
     expect(calls[0].path).toBe('/audio/test-id');
+  });
+});
+
+describe('automations', () => {
+  it('automations.list -> GET /automations', async () => {
+    const { client, calls } = mockClient();
+    await client.automations.list();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/automations');
+  });
+
+  it('automations.get -> GET /automations/{automation_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.automations.get('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/automations/test-id');
+  });
+
+  it('automations.activate -> POST /automations/{automation_id}/activate', async () => {
+    const { client, calls } = mockClient();
+    await client.automations.activate('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/automations/test-id/activate');
+  });
+
+  it('automations.deactivate -> POST /automations/{automation_id}/deactivate', async () => {
+    const { client, calls } = mockClient();
+    await client.automations.deactivate('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/automations/test-id/deactivate');
+  });
+
+  it('automations.trigger -> POST /automations/{automation_id}/trigger', async () => {
+    const { client, calls } = mockClient();
+    await client.automations.trigger('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/automations/test-id/trigger');
+  });
+
+  it('automations.listRuns -> GET /automations/{automation_id}/runs', async () => {
+    const { client, calls } = mockClient();
+    await client.automations.listRuns('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/automations/test-id/runs');
+  });
+
+  it('automations.getRun -> GET /automations/{automation_id}/runs/{run_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.automations.getRun('test-id', 'test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/automations/test-id/runs/test-id');
   });
 });
 
@@ -288,6 +388,22 @@ describe('content', () => {
     await client.content.generateCaption({} as never);
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/content/caption');
+  });
+});
+
+describe('crm', () => {
+  it('crm.deleteContact -> DELETE /contacts/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.crm.deleteContact('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/contacts/test-id');
+  });
+
+  it('crm.bulkImportContacts -> POST /contacts/bulk', async () => {
+    const { client, calls } = mockClient();
+    await client.crm.bulkImportContacts({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/contacts/bulk');
   });
 });
 
@@ -659,6 +775,29 @@ describe('profiles', () => {
   });
 });
 
+describe('reviews', () => {
+  it('reviews.list -> GET /reviews', async () => {
+    const { client, calls } = mockClient();
+    await client.reviews.list();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/reviews');
+  });
+
+  it('reviews.replyTo -> POST /reviews/{review_id}/reply', async () => {
+    const { client, calls } = mockClient();
+    await client.reviews.replyTo('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/reviews/test-id/reply');
+  });
+
+  it('reviews.sync -> POST /reviews/sync', async () => {
+    const { client, calls } = mockClient();
+    await client.reviews.sync({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/reviews/sync');
+  });
+});
+
 describe('seo', () => {
   it('seo.keywordResearch -> POST /seo/keyword-research', async () => {
     const { client, calls } = mockClient();
@@ -857,6 +996,13 @@ describe('social', () => {
     const { client, calls } = mockClient();
     await client.social.updateAccount('test-id', {} as never);
     expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/social/accounts/test-id');
+  });
+
+  it('social.disconnectAccount -> DELETE /social/accounts/{account_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.social.disconnectAccount('test-id');
+    expect(calls[0].method).toBe('DELETE');
     expect(calls[0].path).toBe('/social/accounts/test-id');
   });
 
@@ -1061,6 +1207,27 @@ describe('social', () => {
     await client.social.deleteAccountGroup('test-id');
     expect(calls[0].method).toBe('DELETE');
     expect(calls[0].path).toBe('/social/account-groups/test-id');
+  });
+
+  it('social.getConversation -> GET /social/conversations/{conversation_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.social.getConversation('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/conversations/test-id');
+  });
+
+  it('social.updateConversation -> PATCH /social/conversations/{conversation_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.social.updateConversation('test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/social/conversations/test-id');
+  });
+
+  it('social.searchConversations -> GET /social/conversations/search', async () => {
+    const { client, calls } = mockClient();
+    await client.social.searchConversations();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/conversations/search');
   });
 });
 

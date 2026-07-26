@@ -32,6 +32,9 @@ const TAG_KEYS: Record<string, string> = {
   Workspaces: 'workspaces',
   'CRM Custom Fields': 'customFields',
   Profiles: 'profiles',
+  Reviews: 'reviews',
+  Automations: 'automations',
+  CRM: 'crm',
 };
 
 /** Extra noise words stripped from method names, per tag. */
@@ -68,7 +71,13 @@ export function camelTokens(id: string): string[] {
 
 export function toCamel(tokens: string[]): string {
   return tokens
-    .map((t, i) => (i === 0 ? t[0].toLowerCase() + t.slice(1) : t[0].toUpperCase() + t.slice(1)))
+    .map((t, i) => {
+      if (i === 0) {
+        // Fully lowercase all-caps leading tokens (CRM -> crm, not cRM)
+        return /^[A-Z0-9]+$/.test(t) ? t.toLowerCase() : t[0].toLowerCase() + t.slice(1);
+      }
+      return t[0].toUpperCase() + t.slice(1);
+    })
     .join('');
 }
 
