@@ -371,7 +371,7 @@ export type SocialPostCreateRequest = {
      */
     allow_duplicates?: boolean;
     /**
-     * Per-platform composer options - the same payload the web composer stores; publish handlers read it as-is (unknown keys are ignored, max 20KB). Keyed by platform, e.g. {"tiktok": {"privacy_level": "SELF_ONLY"}, "instagram": {"content": "IG-specific caption"}, "_thumbnail": {"timestamp_ms": 3000}}. Common keys: per-platform `content` override; tiktok privacy/duet/stitch options; `_thumbnail` custom video cover.
+     * Per-platform composer options - the same payload the web composer stores; publish handlers read it as-is (unknown keys are ignored, max 20KB). Keyed by platform, e.g. {"tiktok": {"privacy_level": "SELF_ONLY"}, "instagram": {"content": "IG-specific caption"}, "_thumbnail": {"timestamp_ms": 3000}}. Common keys: per-platform `content` override; tiktok privacy/duet/stitch options; `_thumbnail` custom video cover. See the Platform options guide for every key each platform accepts (privacy, flair, first comments, formatting, AI-disclosure flags, thumbnails and more).
      */
     platform_options?: {
         [key: string]: unknown;
@@ -436,7 +436,7 @@ export type SocialPostScheduleRequest = {
      */
     allow_duplicates?: boolean;
     /**
-     * Per-platform composer options - the same payload the web composer stores; publish handlers read it as-is (unknown keys are ignored, max 20KB). Keyed by platform, e.g. {"tiktok": {"privacy_level": "SELF_ONLY"}, "instagram": {"content": "IG-specific caption"}, "_thumbnail": {"timestamp_ms": 3000}}. Common keys: per-platform `content` override; tiktok privacy/duet/stitch options; `_thumbnail` custom video cover.
+     * Per-platform composer options - the same payload the web composer stores; publish handlers read it as-is (unknown keys are ignored, max 20KB). Keyed by platform, e.g. {"tiktok": {"privacy_level": "SELF_ONLY"}, "instagram": {"content": "IG-specific caption"}, "_thumbnail": {"timestamp_ms": 3000}}. Common keys: per-platform `content` override; tiktok privacy/duet/stitch options; `_thumbnail` custom video cover. Per-platform STAGGER: give any platform its own `scheduled_time` here (interpreted in the request `timezone`) and it publishes at that moment - platforms without one use the request-level scheduled_time. One call, one post per distinct time (response carries `staggered[]` with the created legs). Not combinable with queue_id or recycle.
      */
     platform_options?: {
         [key: string]: unknown;
@@ -1537,6 +1537,10 @@ export type CreateSocialPostData = {
          * Act inside a profile (sub-account) you own: data reads and writes target the profile workspace while billing, rate limits and usage stay on your own account. Requires the profiles:manage scope. Returns 404 for profiles you do not own and 409 for paused profiles.
          */
         'X-Profile-Id'?: number;
+        /**
+         * Client idempotency key (X-Request-Id accepted as an alias). Send a fresh key per logical post and REUSE it when retrying that exact call after a timeout / 5xx / connection reset: the retry returns the original post with HTTP 200 and `idempotent_replay: true` instead of creating a duplicate. A key permanently identifies its post in the workspace (deleting the post frees the key). See the Idempotency guide.
+         */
+        'X-Idempotency-Key'?: string;
     };
     path?: never;
     query?: never;
@@ -1606,6 +1610,10 @@ export type ScheduleSocialPostData = {
          * Act inside a profile (sub-account) you own: data reads and writes target the profile workspace while billing, rate limits and usage stay on your own account. Requires the profiles:manage scope. Returns 404 for profiles you do not own and 409 for paused profiles.
          */
         'X-Profile-Id'?: number;
+        /**
+         * Client idempotency key (X-Request-Id accepted as an alias). Send a fresh key per logical post and REUSE it when retrying that exact call after a timeout / 5xx / connection reset: the retry returns the original post with HTTP 200 and `idempotent_replay: true` instead of creating a duplicate. A key permanently identifies its post in the workspace (deleting the post frees the key). See the Idempotency guide.
+         */
+        'X-Idempotency-Key'?: string;
     };
     path?: never;
     query?: never;
@@ -5495,7 +5503,7 @@ export type CreateWebhookData = {
         /**
          * Events to subscribe to. Must be from the 25-event catalog (see the webhooks object in this spec and the Webhooks guide).
          */
-        events: Array<'post.published' | 'post.partial' | 'post.failed' | 'account.connected' | 'account.disconnected' | 'account.token_expired' | 'comment.received' | 'message.received' | 'job.completed' | 'job.failed' | 'balance.low' | 'balance.depleted' | 'key.revoked' | 'wallet.recharge.succeeded' | 'wallet.recharge.failed' | 'account_billing.charged' | 'account_billing.failed' | 'contact.created' | 'contact.updated' | 'contact.tag_added' | 'contact.tag_removed' | 'deal.created' | 'deal.stage_changed' | 'deal.won' | 'deal.lost'>;
+        events: Array<'post.published' | 'post.partial' | 'post.failed' | 'account.connected' | 'account.disconnected' | 'account.token_expired' | 'comment.received' | 'message.received' | 'job.completed' | 'job.failed' | 'balance.low' | 'balance.depleted' | 'key.revoked' | 'wallet.recharge.succeeded' | 'wallet.recharge.failed' | 'account_billing.charged' | 'account_billing.failed' | 'contact.created' | 'contact.updated' | 'contact.tag_added' | 'contact.tag_removed' | 'deal.created' | 'deal.stage_changed' | 'deal.won' | 'deal.lost' | 'post.scheduled' | 'post.cancelled' | 'post.recycled' | 'post.external.created' | 'post.external.updated' | 'message.sent' | 'conversation.started' | 'reaction.received' | 'review.new' | 'review.updated'>;
     };
     path?: never;
     query?: never;
@@ -5598,7 +5606,7 @@ export type UpdateWebhookData = {
         /**
          * Full replacement list of subscribed events.
          */
-        events?: Array<'post.published' | 'post.partial' | 'post.failed' | 'account.connected' | 'account.disconnected' | 'account.token_expired' | 'comment.received' | 'message.received' | 'job.completed' | 'job.failed' | 'balance.low' | 'balance.depleted' | 'key.revoked' | 'wallet.recharge.succeeded' | 'wallet.recharge.failed' | 'account_billing.charged' | 'account_billing.failed' | 'contact.created' | 'contact.updated' | 'contact.tag_added' | 'contact.tag_removed' | 'deal.created' | 'deal.stage_changed' | 'deal.won' | 'deal.lost'>;
+        events?: Array<'post.published' | 'post.partial' | 'post.failed' | 'account.connected' | 'account.disconnected' | 'account.token_expired' | 'comment.received' | 'message.received' | 'job.completed' | 'job.failed' | 'balance.low' | 'balance.depleted' | 'key.revoked' | 'wallet.recharge.succeeded' | 'wallet.recharge.failed' | 'account_billing.charged' | 'account_billing.failed' | 'contact.created' | 'contact.updated' | 'contact.tag_added' | 'contact.tag_removed' | 'deal.created' | 'deal.stage_changed' | 'deal.won' | 'deal.lost' | 'post.scheduled' | 'post.cancelled' | 'post.recycled' | 'post.external.created' | 'post.external.updated' | 'message.sent' | 'conversation.started' | 'reaction.received' | 'review.new' | 'review.updated'>;
         /**
          * Pause or resume deliveries.
          */
