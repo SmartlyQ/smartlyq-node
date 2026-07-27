@@ -14115,6 +14115,135 @@ export type UploadMediaDirectResponses = {
 
 export type UploadMediaDirectResponse = UploadMediaDirectResponses[keyof UploadMediaDirectResponses];
 
+export type GetPostCommentsData = {
+    body?: never;
+    path: {
+        /**
+         * The SmartlyQ post id.
+         */
+        post_id: number;
+    };
+    query?: never;
+    url: '/social/comments/{post_id}';
+};
+
+export type GetPostCommentsErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type GetPostCommentsError = GetPostCommentsErrors[keyof GetPostCommentsErrors];
+
+export type GetPostCommentsResponses = {
+    /**
+     * Post with threaded comments
+     */
+    200: {
+        [key: string]: unknown;
+    };
+};
+
+export type GetPostCommentsResponse = GetPostCommentsResponses[keyof GetPostCommentsResponses];
+
+export type ClearContactFieldData = {
+    body?: never;
+    path: {
+        id: number;
+        /**
+         * The custom field's key/slug.
+         */
+        slug: string;
+    };
+    query?: never;
+    url: '/contacts/{id}/fields/{slug}';
+};
+
+export type ClearContactFieldErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type ClearContactFieldError = ClearContactFieldErrors[keyof ClearContactFieldErrors];
+
+export type ClearContactFieldResponses = {
+    /**
+     * Remaining attributes
+     */
+    200: {
+        [key: string]: unknown;
+    };
+};
+
+export type ClearContactFieldResponse = ClearContactFieldResponses[keyof ClearContactFieldResponses];
+
+export type SetContactFieldData = {
+    body: {
+        /**
+         * The value to store (string, number, boolean or null).
+         */
+        value: unknown;
+    };
+    path: {
+        id: number;
+        /**
+         * The custom field's key/slug.
+         */
+        slug: string;
+    };
+    query?: never;
+    url: '/contacts/{id}/fields/{slug}';
+};
+
+export type SetContactFieldErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type SetContactFieldError = SetContactFieldErrors[keyof SetContactFieldErrors];
+
+export type SetContactFieldResponses = {
+    /**
+     * Updated attributes
+     */
+    200: {
+        [key: string]: unknown;
+    };
+};
+
+export type SetContactFieldResponse = SetContactFieldResponses[keyof SetContactFieldResponses];
+
+export type GetBillingData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/me/billing';
+};
+
+export type GetBillingResponses = {
+    /**
+     * Billing overview
+     */
+    200: {
+        [key: string]: unknown;
+    };
+};
+
+export type GetBillingResponse = GetBillingResponses[keyof GetBillingResponses];
+
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});
 };

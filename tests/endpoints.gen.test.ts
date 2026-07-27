@@ -37,6 +37,13 @@ describe('account', () => {
     expect(calls[0].method).toBe('GET');
     expect(calls[0].path).toBe('/me/balance');
   });
+
+  it('account.getBilling -> GET /me/billing', async () => {
+    const { client, calls } = mockClient();
+    await client.account.getBilling();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/me/billing');
+  });
 });
 
 describe('captain', () => {
@@ -373,6 +380,13 @@ describe('comments', () => {
     expect(calls[0].method).toBe('DELETE');
     expect(calls[0].path).toBe('/social/comments/test-id');
   });
+
+  it('comments.getPost -> GET /social/comments/{post_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.comments.getPost('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/comments/test-id');
+  });
 });
 
 describe('content', () => {
@@ -490,6 +504,20 @@ describe('contacts', () => {
     await client.contacts.addMessage('test-id', {} as never);
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/contacts/test-id/messages');
+  });
+
+  it('contacts.setField -> PUT /contacts/{id}/fields/{slug}', async () => {
+    const { client, calls } = mockClient();
+    await client.contacts.setField('test-id', 'test-id', {} as never);
+    expect(calls[0].method).toBe('PUT');
+    expect(calls[0].path).toBe('/contacts/test-id/fields/test-id');
+  });
+
+  it('contacts.clearField -> DELETE /contacts/{id}/fields/{slug}', async () => {
+    const { client, calls } = mockClient();
+    await client.contacts.clearField('test-id', 'test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/contacts/test-id/fields/test-id');
   });
 });
 

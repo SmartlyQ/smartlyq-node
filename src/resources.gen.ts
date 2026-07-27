@@ -20,6 +20,11 @@ export class AccountResource {
   getMeBalance(options?: RequestOptions): Promise<t.GetMeBalanceResponses[keyof t.GetMeBalanceResponses]> {
     return this._client.request('GET', '/me/balance', { options });
   }
+
+  /** Billing overview `GET /me/billing` */
+  getBilling(options?: RequestOptions): Promise<t.GetBillingResponses[keyof t.GetBillingResponses]> {
+    return this._client.request('GET', '/me/billing', { options });
+  }
 }
 
 /** AI Captain endpoints. */
@@ -285,6 +290,11 @@ export class CommentsResource {
   delete(commentId: string, options?: RequestOptions): Promise<t.DeleteCommentResponses[keyof t.DeleteCommentResponses]> {
     return this._client.request('DELETE', `/social/comments/${encodeURIComponent(commentId)}`, { options });
   }
+
+  /** Get one post's comments (threaded) `GET /social/comments/{post_id}` */
+  getPost(postId: string, options?: RequestOptions): Promise<t.GetPostCommentsResponses[keyof t.GetPostCommentsResponses]> {
+    return this._client.request('GET', `/social/comments/${encodeURIComponent(postId)}`, { options });
+  }
 }
 
 /** Content endpoints. */
@@ -379,6 +389,16 @@ export class ContactsResource {
   /** Log a message on a contact's timeline `POST /contacts/{id}/messages` */
   addMessage(id: string, body: t.AddContactMessageData['body'], options?: RequestOptions): Promise<t.AddContactMessageResponses[keyof t.AddContactMessageResponses]> {
     return this._client.request('POST', `/contacts/${encodeURIComponent(id)}/messages`, { body, options });
+  }
+
+  /** Set one custom field `PUT /contacts/{id}/fields/{slug}` */
+  setField(id: string, slug: string, body: t.SetContactFieldData['body'], options?: RequestOptions): Promise<t.SetContactFieldResponses[keyof t.SetContactFieldResponses]> {
+    return this._client.request('PUT', `/contacts/${encodeURIComponent(id)}/fields/${encodeURIComponent(slug)}`, { body, options });
+  }
+
+  /** Clear one custom field `DELETE /contacts/{id}/fields/{slug}` */
+  clearField(id: string, slug: string, options?: RequestOptions): Promise<t.ClearContactFieldResponses[keyof t.ClearContactFieldResponses]> {
+    return this._client.request('DELETE', `/contacts/${encodeURIComponent(id)}/fields/${encodeURIComponent(slug)}`, { options });
   }
 }
 
