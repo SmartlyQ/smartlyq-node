@@ -268,6 +268,7 @@ All methods below are available on the client. Full request/response documentati
 | `sq.media.get(mediaId)` | `GET /media/{media_id}` | Get media |
 | `sq.media.delete(mediaId)` | `DELETE /media/{media_id}` | Delete media |
 | `sq.media.getUploadUrl(body)` | `POST /media/upload-url` | Get presigned upload URL |
+| `sq.media.uploadDirect(body)` | `POST /media/upload-direct` | Upload a file directly |
 
 ### Presentations
 
@@ -285,6 +286,7 @@ All methods below are available on the client. Full request/response documentati
 | `sq.profiles.list(query?)` | `GET /profiles` | List profiles |
 | `sq.profiles.create(body)` | `POST /profiles` | Create a profile |
 | `sq.profiles.get(id)` | `GET /profiles/{id}` | Get a profile |
+| `sq.profiles.update(id, body)` | `PATCH /profiles/{id}` | Update a profile |
 | `sq.profiles.delete(id, body)` | `DELETE /profiles/{id}` | Delete a profile |
 | `sq.profiles.listAccounts(id)` | `GET /profiles/{id}/accounts` | List a profile's connected accounts |
 | `sq.profiles.pause(id)` | `POST /profiles/{id}/pause` | Pause a profile |

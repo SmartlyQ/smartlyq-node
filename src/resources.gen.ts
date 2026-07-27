@@ -540,6 +540,11 @@ export class MediaResource {
   getUploadUrl(body: t.GetMediaUploadUrlData['body'], options?: RequestOptions): Promise<t.GetMediaUploadUrlResponses[keyof t.GetMediaUploadUrlResponses]> {
     return this._client.request('POST', '/media/upload-url', { body, options });
   }
+
+  /** Upload a file directly `POST /media/upload-direct` */
+  uploadDirect(body: t.UploadMediaDirectData['body'], options?: RequestOptions): Promise<t.UploadMediaDirectResponses[keyof t.UploadMediaDirectResponses]> {
+    return this._client.request('POST', '/media/upload-direct', { body, options });
+  }
 }
 
 /** Presentations endpoints. */
@@ -584,6 +589,11 @@ export class ProfilesResource {
   /** Get a profile `GET /profiles/{id}` */
   get(id: string, options?: RequestOptions): Promise<t.GetProfileResponses[keyof t.GetProfileResponses]> {
     return this._client.request('GET', `/profiles/${encodeURIComponent(id)}`, { options });
+  }
+
+  /** Update a profile `PATCH /profiles/{id}` */
+  update(id: string, body: t.UpdateProfileData['body'], options?: RequestOptions): Promise<t.UpdateProfileResponses[keyof t.UpdateProfileResponses]> {
+    return this._client.request('PATCH', `/profiles/${encodeURIComponent(id)}`, { body, options });
   }
 
   /** Delete a profile `DELETE /profiles/{id}` */

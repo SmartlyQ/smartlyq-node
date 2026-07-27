@@ -8181,6 +8181,49 @@ export type GetProfileResponses = {
 
 export type GetProfileResponse = GetProfileResponses[keyof GetProfileResponses];
 
+export type UpdateProfileData = {
+    body: {
+        /**
+         * New display name (1-120 chars).
+         */
+        name?: string;
+        /**
+         * Your own identifier for this profile; send null to clear it.
+         */
+        external_id?: string;
+    };
+    path: {
+        /**
+         * Profile id
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/profiles/{id}';
+};
+
+export type UpdateProfileErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type UpdateProfileError = UpdateProfileErrors[keyof UpdateProfileErrors];
+
+export type UpdateProfileResponses = {
+    /**
+     * Updated profile
+     */
+    200: Profile;
+};
+
+export type UpdateProfileResponse = UpdateProfileResponses[keyof UpdateProfileResponses];
+
 export type ListProfileAccountsData = {
     body?: never;
     path: {
@@ -14035,6 +14078,42 @@ export type ConnectSelectResponses = {
 };
 
 export type ConnectSelectResponse = ConnectSelectResponses[keyof ConnectSelectResponses];
+
+export type UploadMediaDirectData = {
+    body: {
+        /**
+         * The media file (image/video/audio/pdf).
+         */
+        file: Blob | File;
+    };
+    path?: never;
+    query?: never;
+    url: '/media/upload-direct';
+};
+
+export type UploadMediaDirectErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type UploadMediaDirectError = UploadMediaDirectErrors[keyof UploadMediaDirectErrors];
+
+export type UploadMediaDirectResponses = {
+    /**
+     * Stored media record
+     */
+    201: {
+        [key: string]: unknown;
+    };
+};
+
+export type UploadMediaDirectResponse = UploadMediaDirectResponses[keyof UploadMediaDirectResponses];
 
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});

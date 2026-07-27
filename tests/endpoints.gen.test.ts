@@ -685,6 +685,13 @@ describe('media', () => {
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/media/upload-url');
   });
+
+  it('media.uploadDirect -> POST /media/upload-direct', async () => {
+    const { client, calls } = mockClient();
+    await client.media.uploadDirect({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/media/upload-direct');
+  });
 });
 
 describe('presentations', () => {
@@ -736,6 +743,13 @@ describe('profiles', () => {
     const { client, calls } = mockClient();
     await client.profiles.get('test-id');
     expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/profiles/test-id');
+  });
+
+  it('profiles.update -> PATCH /profiles/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.profiles.update('test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
     expect(calls[0].path).toBe('/profiles/test-id');
   });
 
