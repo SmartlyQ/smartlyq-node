@@ -1357,6 +1357,41 @@ export class WebhooksResource {
   }
 }
 
+/** WhatsApp endpoints. */
+export class WhatsAppResource {
+  constructor(private readonly _client: CoreClient) {}
+
+  /** Send a WhatsApp message `POST /whatsapp/messages` */
+  sendWhatsAppMessage(body: t.SendWhatsAppMessageData['body'], options?: RequestOptions): Promise<t.SendWhatsAppMessageResponses[keyof t.SendWhatsAppMessageResponses]> {
+    return this._client.request('POST', '/whatsapp/messages', { body, options });
+  }
+
+  /** List message templates `GET /whatsapp/templates` */
+  listWhatsAppTemplates(query?: t.ListWhatsAppTemplatesData['query'], options?: RequestOptions): Promise<t.ListWhatsAppTemplatesResponses[keyof t.ListWhatsAppTemplatesResponses]> {
+    return this._client.request('GET', '/whatsapp/templates', { query, options });
+  }
+
+  /** Create a message template `POST /whatsapp/templates` */
+  createWhatsAppTemplate(body: t.CreateWhatsAppTemplateData['body'], options?: RequestOptions): Promise<t.CreateWhatsAppTemplateResponses[keyof t.CreateWhatsAppTemplateResponses]> {
+    return this._client.request('POST', '/whatsapp/templates', { body, options });
+  }
+
+  /** Get business profile `GET /whatsapp/business-profile` */
+  getWhatsAppBusinessProfile(query?: t.GetWhatsAppBusinessProfileData['query'], options?: RequestOptions): Promise<t.GetWhatsAppBusinessProfileResponses[keyof t.GetWhatsAppBusinessProfileResponses]> {
+    return this._client.request('GET', '/whatsapp/business-profile', { query, options });
+  }
+
+  /** Update business profile `PATCH /whatsapp/business-profile` */
+  updateWhatsAppBusinessProfile(body: t.UpdateWhatsAppBusinessProfileData['body'], options?: RequestOptions): Promise<t.UpdateWhatsAppBusinessProfileResponses[keyof t.UpdateWhatsAppBusinessProfileResponses]> {
+    return this._client.request('PATCH', '/whatsapp/business-profile', { body, options });
+  }
+
+  /** List phone numbers `GET /whatsapp/phone-numbers` */
+  listWhatsAppPhoneNumbers(query?: t.ListWhatsAppPhoneNumbersData['query'], options?: RequestOptions): Promise<t.ListWhatsAppPhoneNumbersResponses[keyof t.ListWhatsAppPhoneNumbersResponses]> {
+    return this._client.request('GET', '/whatsapp/phone-numbers', { query, options });
+  }
+}
+
 /** Workspaces endpoints. */
 export class WorkspacesResource {
   constructor(private readonly _client: CoreClient) {}
@@ -1450,6 +1485,7 @@ export function createResources(client: CoreClient) {
     urls: new UrlsResource(client),
     videos: new VideosResource(client),
     webhooks: new WebhooksResource(client),
+    whatsApp: new WhatsAppResource(client),
     workspaces: new WorkspacesResource(client),
   };
 }

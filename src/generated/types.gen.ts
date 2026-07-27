@@ -5503,7 +5503,7 @@ export type CreateWebhookData = {
         /**
          * Events to subscribe to. Must be from the 25-event catalog (see the webhooks object in this spec and the Webhooks guide).
          */
-        events: Array<'post.published' | 'post.partial' | 'post.failed' | 'account.connected' | 'account.disconnected' | 'account.token_expired' | 'comment.received' | 'message.received' | 'job.completed' | 'job.failed' | 'balance.low' | 'balance.depleted' | 'key.revoked' | 'wallet.recharge.succeeded' | 'wallet.recharge.failed' | 'account_billing.charged' | 'account_billing.failed' | 'contact.created' | 'contact.updated' | 'contact.tag_added' | 'contact.tag_removed' | 'deal.created' | 'deal.stage_changed' | 'deal.won' | 'deal.lost' | 'post.scheduled' | 'post.cancelled' | 'post.recycled' | 'post.external.created' | 'post.external.updated' | 'message.sent' | 'conversation.started' | 'reaction.received' | 'review.new' | 'review.updated'>;
+        events: Array<'post.published' | 'post.partial' | 'post.failed' | 'account.connected' | 'account.disconnected' | 'account.token_expired' | 'comment.received' | 'message.received' | 'job.completed' | 'job.failed' | 'balance.low' | 'balance.depleted' | 'key.revoked' | 'wallet.recharge.succeeded' | 'wallet.recharge.failed' | 'account_billing.charged' | 'account_billing.failed' | 'contact.created' | 'contact.updated' | 'contact.tag_added' | 'contact.tag_removed' | 'deal.created' | 'deal.stage_changed' | 'deal.won' | 'deal.lost' | 'post.scheduled' | 'post.cancelled' | 'post.recycled' | 'post.external.created' | 'post.external.updated' | 'message.sent' | 'conversation.started' | 'reaction.received' | 'review.new' | 'review.updated' | 'message.delivered' | 'message.read' | 'message.failed'>;
     };
     path?: never;
     query?: never;
@@ -5606,7 +5606,7 @@ export type UpdateWebhookData = {
         /**
          * Full replacement list of subscribed events.
          */
-        events?: Array<'post.published' | 'post.partial' | 'post.failed' | 'account.connected' | 'account.disconnected' | 'account.token_expired' | 'comment.received' | 'message.received' | 'job.completed' | 'job.failed' | 'balance.low' | 'balance.depleted' | 'key.revoked' | 'wallet.recharge.succeeded' | 'wallet.recharge.failed' | 'account_billing.charged' | 'account_billing.failed' | 'contact.created' | 'contact.updated' | 'contact.tag_added' | 'contact.tag_removed' | 'deal.created' | 'deal.stage_changed' | 'deal.won' | 'deal.lost' | 'post.scheduled' | 'post.cancelled' | 'post.recycled' | 'post.external.created' | 'post.external.updated' | 'message.sent' | 'conversation.started' | 'reaction.received' | 'review.new' | 'review.updated'>;
+        events?: Array<'post.published' | 'post.partial' | 'post.failed' | 'account.connected' | 'account.disconnected' | 'account.token_expired' | 'comment.received' | 'message.received' | 'job.completed' | 'job.failed' | 'balance.low' | 'balance.depleted' | 'key.revoked' | 'wallet.recharge.succeeded' | 'wallet.recharge.failed' | 'account_billing.charged' | 'account_billing.failed' | 'contact.created' | 'contact.updated' | 'contact.tag_added' | 'contact.tag_removed' | 'deal.created' | 'deal.stage_changed' | 'deal.won' | 'deal.lost' | 'post.scheduled' | 'post.cancelled' | 'post.recycled' | 'post.external.created' | 'post.external.updated' | 'message.sent' | 'conversation.started' | 'reaction.received' | 'review.new' | 'review.updated' | 'message.delivered' | 'message.read' | 'message.failed'>;
         /**
          * Pause or resume deliveries.
          */
@@ -5746,9 +5746,9 @@ export type ConnectSocialAccountData = {
     };
     path: {
         /**
-         * Platform to connect. All 15 platforms are supported (use `twitter` for X, `gmb` for Google Business). 14 are OAuth flows returning a `connect_url` (`discord` runs the server-webhook authorize flow). `telegram` is a CREDENTIAL connect instead: pass `bot_token` + `chat` in the body and the account connects immediately - no URL to open.
+         * Platform to connect. All 15 platforms are supported (use `twitter` for X, `gmb` for Google Business). 14 are OAuth flows returning a `connect_url` (`discord` runs the server-webhook authorize flow). `telegram` is a CREDENTIAL connect instead: pass `bot_token` + `chat` in the body and the account connects immediately - no URL to open. `whatsapp` is a credential connect too: POST body { waba_id, phone_number_id, access_token } (a Meta system-user token) links one WhatsApp Business number.
          */
-        platform: 'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'threads' | 'bluesky' | 'pinterest' | 'reddit' | 'snapchat' | 'tumblr' | 'gmb' | 'discord' | 'telegram';
+        platform: 'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'threads' | 'bluesky' | 'pinterest' | 'reddit' | 'snapchat' | 'tumblr' | 'gmb' | 'discord' | 'telegram' | 'whatsapp';
     };
     query?: never;
     url: '/social/connect/{platform}';
@@ -14243,6 +14243,239 @@ export type GetBillingResponses = {
 };
 
 export type GetBillingResponse = GetBillingResponses[keyof GetBillingResponses];
+
+export type SendWhatsAppMessageData = {
+    body: {
+        /**
+         * A connected WhatsApp number (social account id).
+         */
+        account_id: number;
+        /**
+         * Recipient phone in E.164 (e.g. +14155551234).
+         */
+        to: string;
+        type?: 'text' | 'media' | 'template';
+        /**
+         * Body for type=text.
+         */
+        text?: string;
+        /**
+         * For type=media.
+         */
+        media?: {
+            kind?: 'image' | 'video' | 'document' | 'audio';
+            link?: string;
+            caption?: string;
+        };
+        /**
+         * For type=template.
+         */
+        template?: {
+            name?: string;
+            language?: string;
+            components?: Array<{
+                [key: string]: unknown;
+            }>;
+        };
+    };
+    path?: never;
+    query?: never;
+    url: '/whatsapp/messages';
+};
+
+export type SendWhatsAppMessageErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * WhatsApp rejected the message (e.g. outside the 24h window with no template).
+     */
+    502: unknown;
+};
+
+export type SendWhatsAppMessageError = SendWhatsAppMessageErrors[keyof SendWhatsAppMessageErrors];
+
+export type SendWhatsAppMessageResponses = {
+    /**
+     * Sent
+     */
+    201: {
+        [key: string]: unknown;
+    };
+};
+
+export type SendWhatsAppMessageResponse = SendWhatsAppMessageResponses[keyof SendWhatsAppMessageResponses];
+
+export type ListWhatsAppTemplatesData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * A connected WhatsApp number (social account id).
+         */
+        account_id: number;
+        limit?: number;
+    };
+    url: '/whatsapp/templates';
+};
+
+export type ListWhatsAppTemplatesErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type ListWhatsAppTemplatesError = ListWhatsAppTemplatesErrors[keyof ListWhatsAppTemplatesErrors];
+
+export type ListWhatsAppTemplatesResponses = {
+    /**
+     * Templates
+     */
+    200: {
+        [key: string]: unknown;
+    };
+};
+
+export type ListWhatsAppTemplatesResponse = ListWhatsAppTemplatesResponses[keyof ListWhatsAppTemplatesResponses];
+
+export type CreateWhatsAppTemplateData = {
+    body: {
+        account_id: number;
+        name: string;
+        category: 'MARKETING' | 'UTILITY' | 'AUTHENTICATION';
+        language: string;
+        /**
+         * Header/body/footer/buttons per the WhatsApp template schema.
+         */
+        components: Array<{
+            [key: string]: unknown;
+        }>;
+    };
+    path?: never;
+    query?: never;
+    url: '/whatsapp/templates';
+};
+
+export type CreateWhatsAppTemplateErrors = {
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type CreateWhatsAppTemplateError = CreateWhatsAppTemplateErrors[keyof CreateWhatsAppTemplateErrors];
+
+export type CreateWhatsAppTemplateResponses = {
+    /**
+     * Submitted for approval
+     */
+    201: {
+        [key: string]: unknown;
+    };
+};
+
+export type CreateWhatsAppTemplateResponse = CreateWhatsAppTemplateResponses[keyof CreateWhatsAppTemplateResponses];
+
+export type GetWhatsAppBusinessProfileData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * A connected WhatsApp number (social account id).
+         */
+        account_id: number;
+    };
+    url: '/whatsapp/business-profile';
+};
+
+export type GetWhatsAppBusinessProfileErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type GetWhatsAppBusinessProfileError = GetWhatsAppBusinessProfileErrors[keyof GetWhatsAppBusinessProfileErrors];
+
+export type GetWhatsAppBusinessProfileResponses = {
+    /**
+     * Profile
+     */
+    200: {
+        [key: string]: unknown;
+    };
+};
+
+export type GetWhatsAppBusinessProfileResponse = GetWhatsAppBusinessProfileResponses[keyof GetWhatsAppBusinessProfileResponses];
+
+export type UpdateWhatsAppBusinessProfileData = {
+    body: {
+        account_id: number;
+        about?: string;
+        address?: string;
+        email?: string;
+        description?: string;
+        vertical?: string;
+        websites?: Array<string>;
+    };
+    path?: never;
+    query?: never;
+    url: '/whatsapp/business-profile';
+};
+
+export type UpdateWhatsAppBusinessProfileErrors = {
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type UpdateWhatsAppBusinessProfileError = UpdateWhatsAppBusinessProfileErrors[keyof UpdateWhatsAppBusinessProfileErrors];
+
+export type UpdateWhatsAppBusinessProfileResponses = {
+    /**
+     * Updated
+     */
+    200: unknown;
+};
+
+export type ListWhatsAppPhoneNumbersData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * A connected WhatsApp number (social account id).
+         */
+        account_id: number;
+    };
+    url: '/whatsapp/phone-numbers';
+};
+
+export type ListWhatsAppPhoneNumbersErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type ListWhatsAppPhoneNumbersError = ListWhatsAppPhoneNumbersErrors[keyof ListWhatsAppPhoneNumbersErrors];
+
+export type ListWhatsAppPhoneNumbersResponses = {
+    /**
+     * Numbers
+     */
+    200: {
+        [key: string]: unknown;
+    };
+};
+
+export type ListWhatsAppPhoneNumbersResponse = ListWhatsAppPhoneNumbersResponses[keyof ListWhatsAppPhoneNumbersResponses];
 
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});

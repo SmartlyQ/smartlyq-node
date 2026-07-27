@@ -1783,6 +1783,50 @@ describe('webhooks', () => {
   });
 });
 
+describe('whatsApp', () => {
+  it('whatsApp.sendWhatsAppMessage -> POST /whatsapp/messages', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.sendWhatsAppMessage({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/whatsapp/messages');
+  });
+
+  it('whatsApp.listWhatsAppTemplates -> GET /whatsapp/templates', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.listWhatsAppTemplates();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/whatsapp/templates');
+  });
+
+  it('whatsApp.createWhatsAppTemplate -> POST /whatsapp/templates', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.createWhatsAppTemplate({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/whatsapp/templates');
+  });
+
+  it('whatsApp.getWhatsAppBusinessProfile -> GET /whatsapp/business-profile', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.getWhatsAppBusinessProfile();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/whatsapp/business-profile');
+  });
+
+  it('whatsApp.updateWhatsAppBusinessProfile -> PATCH /whatsapp/business-profile', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.updateWhatsAppBusinessProfile({} as never);
+    expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/whatsapp/business-profile');
+  });
+
+  it('whatsApp.listWhatsAppPhoneNumbers -> GET /whatsapp/phone-numbers', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.listWhatsAppPhoneNumbers();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/whatsapp/phone-numbers');
+  });
+});
+
 describe('workspaces', () => {
   it('workspaces.list -> GET /workspaces', async () => {
     const { client, calls } = mockClient();
