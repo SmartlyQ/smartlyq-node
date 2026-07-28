@@ -14254,9 +14254,13 @@ export type SendWhatsAppMessageData = {
          * Recipient phone in E.164 (e.g. +14155551234).
          */
         to: string;
-        type?: 'text' | 'media' | 'template';
+        type?: 'text' | 'media' | 'template' | 'interactive_buttons' | 'interactive_list' | 'location' | 'contacts' | 'reaction';
         /**
-         * Body for type=text.
+         * A prior WhatsApp message id (wamid) to thread this message as a reply under, or (for type=reaction) the message being reacted to. Renders as a quoted reply in the customer's app.
+         */
+        context_message_id?: string;
+        /**
+         * Body for type=text, or the prompt text for type=interactive_buttons/interactive_list.
          */
         text?: string;
         /**
@@ -14277,6 +14281,62 @@ export type SendWhatsAppMessageData = {
                 [key: string]: unknown;
             }>;
         };
+        /**
+         * For type=interactive_buttons. Up to 3 reply buttons; the customer's tap arrives as an inbound message you already receive on your webhook.
+         */
+        buttons?: Array<{
+            /**
+             * Opaque id returned in the customer's tap event.
+             */
+            id: string;
+            /**
+             * Button label, max 20 characters.
+             */
+            title: string;
+        }>;
+        /**
+         * For type=interactive_list. Label on the button that opens the list, max 20 characters.
+         */
+        button_text?: string;
+        /**
+         * For type=interactive_list. Up to 10 rows total across all sections.
+         */
+        sections?: Array<{
+            /**
+             * Optional section heading, max 24 characters.
+             */
+            title?: string;
+            rows?: Array<{
+                id: string;
+                /**
+                 * Max 24 characters.
+                 */
+                title: string;
+                /**
+                 * Max 72 characters.
+                 */
+                description?: string;
+            }>;
+        }>;
+        /**
+         * For type=location.
+         */
+        location?: {
+            latitude: number;
+            longitude: number;
+            name?: string;
+            address?: string;
+        };
+        /**
+         * For type=contacts. WhatsApp's raw contact-card array - see Meta's WhatsApp Cloud API `contacts` message reference for the full object shape (name, phones, emails, etc.).
+         */
+        contacts?: Array<{
+            [key: string]: unknown;
+        }>;
+        /**
+         * For type=reaction. The emoji to react with, or an empty string to remove a previously-sent reaction. Requires context_message_id.
+         */
+        emoji?: string;
     };
     path?: never;
     query?: never;
