@@ -396,6 +396,7 @@ All methods below are available on the client. Full request/response documentati
 | `sq.social.updateConversation(conversationId, body)` | `PATCH /social/conversations/{conversation_id}` | Archive / reopen conversation |
 | `sq.social.searchConversations(query?)` | `GET /social/conversations/search` | Search conversations |
 | `sq.social.pinterestBoards(accountId)` | `GET /social/accounts/{account_id}/pinterest/boards` | Pinterest boards |
+| `sq.social.createPinterestBoard(accountId, body)` | `POST /social/accounts/{account_id}/pinterest/boards` | Create a Pinterest board |
 | `sq.social.youtubePlaylists(accountId)` | `GET /social/accounts/{account_id}/youtube/playlists` | YouTube playlists |
 | `sq.social.instagramPublishingLimit(accountId)` | `GET /social/accounts/{account_id}/instagram/publishing-limit` | Instagram publishing limit |
 | `sq.social.gmbPerformance(accountId, query?)` | `GET /social/accounts/{account_id}/gmb/performance` | Google Business performance |
@@ -444,6 +445,12 @@ All methods below are available on the client. Full request/response documentati
 | `sq.social.instagramAudience(accountId, query?)` | `GET /social/accounts/{account_id}/instagram/audience` | Instagram audience demographics |
 | `sq.social.connectOptions(accountId)` | `GET /social/accounts/{account_id}/connect-options` | Connection target options |
 | `sq.social.connectSelect(accountId, body)` | `POST /social/accounts/{account_id}/connect-select` | Select connection target |
+| `sq.social.getFacebookPage(accountId)` | `GET /social/accounts/{account_id}/facebook/page` | Get Facebook page details |
+| `sq.social.updateFacebookPage(accountId, body)` | `PATCH /social/accounts/{account_id}/facebook/page` | Update Facebook page details |
+| `sq.social.updateYoutubePlaylist(accountId, playlistId, body)` | `PATCH /social/accounts/{account_id}/youtube/playlists/{playlist_id}` | Update a YouTube playlist |
+| `sq.social.listMentions(accountId, query?)` | `GET /social/accounts/{account_id}/mentions` | List mentions |
+| `sq.social.replyToMention(accountId, mentionId, body)` | `POST /social/accounts/{account_id}/mentions/{mention_id}/reply` | Reply to a mention |
+| `sq.social.listRedditFlairs(accountId, subreddit)` | `GET /social/accounts/{account_id}/reddit/subreddits/{subreddit}/flairs` | List subreddit post flairs |
 
 ### URLs
 
@@ -498,6 +505,8 @@ All methods below are available on the client. Full request/response documentati
 | `sq.whatsApp.updateProfilePhoto(body)` | `POST /whatsapp/business-profile/photo` | Set the WhatsApp profile photo |
 | `sq.whatsApp.getDisplayName(query?)` | `GET /whatsapp/business-profile/display-name` | Get the WhatsApp display name |
 | `sq.whatsApp.updateDisplayName(body)` | `POST /whatsapp/business-profile/display-name` | Request a WhatsApp display-name change |
+| `sq.whatsApp.listTemplateLibrary(query?)` | `GET /whatsapp/template-library` | Browse the shared template library |
+| `sq.whatsApp.createTemplateFromLibrary(body)` | `POST /whatsapp/templates/from-library` | Adopt a library template |
 
 ### Workspaces
 

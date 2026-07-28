@@ -1351,6 +1351,13 @@ describe('social', () => {
     expect(calls[0].path).toBe('/social/accounts/test-id/pinterest/boards');
   });
 
+  it('social.createPinterestBoard -> POST /social/accounts/{account_id}/pinterest/boards', async () => {
+    const { client, calls } = mockClient();
+    await client.social.createPinterestBoard('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/accounts/test-id/pinterest/boards');
+  });
+
   it('social.youtubePlaylists -> GET /social/accounts/{account_id}/youtube/playlists', async () => {
     const { client, calls } = mockClient();
     await client.social.youtubePlaylists('test-id');
@@ -1686,6 +1693,48 @@ describe('social', () => {
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/social/accounts/test-id/connect-select');
   });
+
+  it('social.getFacebookPage -> GET /social/accounts/{account_id}/facebook/page', async () => {
+    const { client, calls } = mockClient();
+    await client.social.getFacebookPage('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/facebook/page');
+  });
+
+  it('social.updateFacebookPage -> PATCH /social/accounts/{account_id}/facebook/page', async () => {
+    const { client, calls } = mockClient();
+    await client.social.updateFacebookPage('test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/social/accounts/test-id/facebook/page');
+  });
+
+  it('social.updateYoutubePlaylist -> PATCH /social/accounts/{account_id}/youtube/playlists/{playlist_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.social.updateYoutubePlaylist('test-id', 'test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/social/accounts/test-id/youtube/playlists/test-id');
+  });
+
+  it('social.listMentions -> GET /social/accounts/{account_id}/mentions', async () => {
+    const { client, calls } = mockClient();
+    await client.social.listMentions('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/mentions');
+  });
+
+  it('social.replyToMention -> POST /social/accounts/{account_id}/mentions/{mention_id}/reply', async () => {
+    const { client, calls } = mockClient();
+    await client.social.replyToMention('test-id', 'test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/accounts/test-id/mentions/test-id/reply');
+  });
+
+  it('social.listRedditFlairs -> GET /social/accounts/{account_id}/reddit/subreddits/{subreddit}/flairs', async () => {
+    const { client, calls } = mockClient();
+    await client.social.listRedditFlairs('test-id', 'test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/reddit/subreddits/test-id/flairs');
+  });
 });
 
 describe('urls', () => {
@@ -1931,6 +1980,20 @@ describe('whatsApp', () => {
     await client.whatsApp.updateDisplayName({} as never);
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/whatsapp/business-profile/display-name');
+  });
+
+  it('whatsApp.listTemplateLibrary -> GET /whatsapp/template-library', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.listTemplateLibrary();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/whatsapp/template-library');
+  });
+
+  it('whatsApp.createTemplateFromLibrary -> POST /whatsapp/templates/from-library', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.createTemplateFromLibrary({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/whatsapp/templates/from-library');
   });
 });
 

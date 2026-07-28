@@ -11151,6 +11151,66 @@ export type PinterestBoardsResponses = {
 
 export type PinterestBoardsResponse = PinterestBoardsResponses[keyof PinterestBoardsResponses];
 
+export type CreatePinterestBoardData = {
+    body: {
+        name: string;
+        description?: string;
+        privacy?: 'PUBLIC' | 'PROTECTED' | 'SECRET';
+    };
+    path: {
+        /**
+         * Connected social account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/pinterest/boards';
+};
+
+export type CreatePinterestBoardErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type CreatePinterestBoardError = CreatePinterestBoardErrors[keyof CreatePinterestBoardErrors];
+
+export type CreatePinterestBoardResponses = {
+    /**
+     * Board created
+     */
+    201: {
+        success?: true;
+        data?: {
+            board?: {
+                id?: string;
+                name?: string;
+                description?: string;
+                privacy?: string;
+            };
+        };
+    };
+};
+
+export type CreatePinterestBoardResponse = CreatePinterestBoardResponses[keyof CreatePinterestBoardResponses];
+
 export type YoutubePlaylistsData = {
     body?: never;
     path: {
@@ -15567,6 +15627,512 @@ export type GetYoutubeDemographicsResponses = {
 };
 
 export type GetYoutubeDemographicsResponse = GetYoutubeDemographicsResponses[keyof GetYoutubeDemographicsResponses];
+
+export type GetFacebookPageData = {
+    body?: never;
+    path: {
+        /**
+         * Connected social account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/facebook/page';
+};
+
+export type GetFacebookPageErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type GetFacebookPageError = GetFacebookPageErrors[keyof GetFacebookPageErrors];
+
+export type GetFacebookPageResponses = {
+    /**
+     * Page details
+     */
+    200: {
+        success?: true;
+        data?: {
+            page?: {
+                [key: string]: unknown;
+            };
+        };
+    };
+};
+
+export type GetFacebookPageResponse = GetFacebookPageResponses[keyof GetFacebookPageResponses];
+
+export type UpdateFacebookPageData = {
+    body: {
+        /**
+         * Short description shown under the page name.
+         */
+        about?: string;
+        /**
+         * Long description.
+         */
+        description?: string;
+        phone?: string;
+        website?: string;
+        emails?: Array<string>;
+        /**
+         * Opening hours keyed the way Facebook expects, e.g. mon_1_open / mon_1_close.
+         */
+        hours?: {
+            [key: string]: unknown;
+        };
+    };
+    path: {
+        /**
+         * Connected social account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/facebook/page';
+};
+
+export type UpdateFacebookPageErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type UpdateFacebookPageError = UpdateFacebookPageErrors[keyof UpdateFacebookPageErrors];
+
+export type UpdateFacebookPageResponses = {
+    /**
+     * Page updated
+     */
+    200: {
+        success?: true;
+        data?: {
+            updated?: boolean;
+            /**
+             * Fields that were sent.
+             */
+            fields?: Array<string>;
+        };
+    };
+};
+
+export type UpdateFacebookPageResponse = UpdateFacebookPageResponses[keyof UpdateFacebookPageResponses];
+
+export type UpdateYoutubePlaylistData = {
+    body: {
+        title?: string;
+        description?: string;
+        privacy_status?: 'public' | 'private' | 'unlisted';
+    };
+    path: {
+        /**
+         * Connected social account id.
+         */
+        account_id: number;
+        /**
+         * Playlist id from GET /social/accounts/{account_id}/youtube/playlists.
+         */
+        playlist_id: string;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/youtube/playlists/{playlist_id}';
+};
+
+export type UpdateYoutubePlaylistErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type UpdateYoutubePlaylistError = UpdateYoutubePlaylistErrors[keyof UpdateYoutubePlaylistErrors];
+
+export type UpdateYoutubePlaylistResponses = {
+    /**
+     * Playlist updated
+     */
+    200: {
+        success?: true;
+        data?: {
+            playlist?: {
+                id?: string;
+                title?: string;
+                description?: string;
+                privacy_status?: string;
+            };
+        };
+    };
+};
+
+export type UpdateYoutubePlaylistResponse = UpdateYoutubePlaylistResponses[keyof UpdateYoutubePlaylistResponses];
+
+export type ListMentionsData = {
+    body?: never;
+    path: {
+        /**
+         * Connected social account id.
+         */
+        account_id: number;
+    };
+    query?: {
+        limit?: number;
+    };
+    url: '/social/accounts/{account_id}/mentions';
+};
+
+export type ListMentionsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type ListMentionsError = ListMentionsErrors[keyof ListMentionsErrors];
+
+export type ListMentionsResponses = {
+    /**
+     * Mentions
+     */
+    200: {
+        success?: true;
+        data?: {
+            mentions?: Array<{
+                id?: string;
+                platform?: string;
+                text?: string;
+                author?: string;
+                created_at?: string;
+                url?: string;
+                media_url?: string;
+            }>;
+        };
+    };
+};
+
+export type ListMentionsResponse = ListMentionsResponses[keyof ListMentionsResponses];
+
+export type ReplyToMentionData = {
+    body: {
+        message: string;
+    };
+    path: {
+        /**
+         * Connected social account id.
+         */
+        account_id: number;
+        /**
+         * Mention id from GET /social/accounts/{account_id}/mentions.
+         */
+        mention_id: string;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/mentions/{mention_id}/reply';
+};
+
+export type ReplyToMentionErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type ReplyToMentionError = ReplyToMentionErrors[keyof ReplyToMentionErrors];
+
+export type ReplyToMentionResponses = {
+    /**
+     * Reply posted
+     */
+    201: {
+        success?: true;
+        data?: {
+            replied?: boolean;
+            mention_id?: string;
+            reply_id?: string;
+        };
+    };
+};
+
+export type ReplyToMentionResponse = ReplyToMentionResponses[keyof ReplyToMentionResponses];
+
+export type ListRedditFlairsData = {
+    body?: never;
+    path: {
+        /**
+         * Connected social account id.
+         */
+        account_id: number;
+        /**
+         * Subreddit name, with or without the r/ prefix.
+         */
+        subreddit: string;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/reddit/subreddits/{subreddit}/flairs';
+};
+
+export type ListRedditFlairsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type ListRedditFlairsError = ListRedditFlairsErrors[keyof ListRedditFlairsErrors];
+
+export type ListRedditFlairsResponses = {
+    /**
+     * Flairs
+     */
+    200: {
+        success?: true;
+        data?: {
+            subreddit?: string;
+            flairs?: Array<{
+                id?: string;
+                text?: string;
+                text_editable?: boolean;
+                background_color?: string;
+                text_color?: string;
+                mod_only?: boolean;
+            }>;
+        };
+    };
+};
+
+export type ListRedditFlairsResponse = ListRedditFlairsResponses[keyof ListRedditFlairsResponses];
+
+export type ListWhatsappTemplateLibraryData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * A connected WhatsApp number (social account id).
+         */
+        account_id: number;
+        topic?: string;
+        industry?: string;
+        language?: string;
+        limit?: number;
+    };
+    url: '/whatsapp/template-library';
+};
+
+export type ListWhatsappTemplateLibraryErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type ListWhatsappTemplateLibraryError = ListWhatsappTemplateLibraryErrors[keyof ListWhatsappTemplateLibraryErrors];
+
+export type ListWhatsappTemplateLibraryResponses = {
+    /**
+     * Library entries
+     */
+    200: {
+        success?: true;
+        data?: {
+            templates?: Array<{
+                [key: string]: unknown;
+            }>;
+            paging?: {
+                [key: string]: unknown;
+            };
+        };
+    };
+};
+
+export type ListWhatsappTemplateLibraryResponse = ListWhatsappTemplateLibraryResponses[keyof ListWhatsappTemplateLibraryResponses];
+
+export type CreateWhatsappTemplateFromLibraryData = {
+    body: {
+        /**
+         * A connected WhatsApp number (social account id).
+         */
+        account_id: number;
+        /**
+         * Entry name from GET /whatsapp/template-library.
+         */
+        library_template_name: string;
+        /**
+         * The name your template will have on your WABA.
+         */
+        name: string;
+        /**
+         * Language code, e.g. en_US.
+         */
+        language: string;
+        category?: 'MARKETING' | 'UTILITY' | 'AUTHENTICATION';
+        /**
+         * Values for buttons the library entry leaves open.
+         */
+        library_template_button_inputs?: Array<{
+            [key: string]: unknown;
+        }>;
+        message_send_ttl_seconds?: number;
+    };
+    path?: never;
+    query?: never;
+    url: '/whatsapp/templates/from-library';
+};
+
+export type CreateWhatsappTemplateFromLibraryErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type CreateWhatsappTemplateFromLibraryError = CreateWhatsappTemplateFromLibraryErrors[keyof CreateWhatsappTemplateFromLibraryErrors];
+
+export type CreateWhatsappTemplateFromLibraryResponses = {
+    /**
+     * Template created
+     */
+    201: {
+        success?: true;
+        data?: {
+            id?: string;
+            status?: string;
+            name?: string;
+        };
+    };
+};
+
+export type CreateWhatsappTemplateFromLibraryResponse = CreateWhatsappTemplateFromLibraryResponses[keyof CreateWhatsappTemplateFromLibraryResponses];
 
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});

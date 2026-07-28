@@ -1041,6 +1041,11 @@ export class SocialResource {
     return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/pinterest/boards`, { options });
   }
 
+  /** Create a Pinterest board `POST /social/accounts/{account_id}/pinterest/boards` */
+  createPinterestBoard(accountId: string, body: t.CreatePinterestBoardData['body'], options?: RequestOptions): Promise<t.CreatePinterestBoardResponses[keyof t.CreatePinterestBoardResponses]> {
+    return this._client.request('POST', `/social/accounts/${encodeURIComponent(accountId)}/pinterest/boards`, { body, options });
+  }
+
   /** YouTube playlists `GET /social/accounts/{account_id}/youtube/playlists` */
   youtubePlaylists(accountId: string, options?: RequestOptions): Promise<t.YoutubePlaylistsResponses[keyof t.YoutubePlaylistsResponses]> {
     return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/youtube/playlists`, { options });
@@ -1280,6 +1285,36 @@ export class SocialResource {
   connectSelect(accountId: string, body: t.ConnectSelectData['body'], options?: RequestOptions): Promise<t.ConnectSelectResponses[keyof t.ConnectSelectResponses]> {
     return this._client.request('POST', `/social/accounts/${encodeURIComponent(accountId)}/connect-select`, { body, options });
   }
+
+  /** Get Facebook page details `GET /social/accounts/{account_id}/facebook/page` */
+  getFacebookPage(accountId: string, options?: RequestOptions): Promise<t.GetFacebookPageResponses[keyof t.GetFacebookPageResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/facebook/page`, { options });
+  }
+
+  /** Update Facebook page details `PATCH /social/accounts/{account_id}/facebook/page` */
+  updateFacebookPage(accountId: string, body: t.UpdateFacebookPageData['body'], options?: RequestOptions): Promise<t.UpdateFacebookPageResponses[keyof t.UpdateFacebookPageResponses]> {
+    return this._client.request('PATCH', `/social/accounts/${encodeURIComponent(accountId)}/facebook/page`, { body, options });
+  }
+
+  /** Update a YouTube playlist `PATCH /social/accounts/{account_id}/youtube/playlists/{playlist_id}` */
+  updateYoutubePlaylist(accountId: string, playlistId: string, body: t.UpdateYoutubePlaylistData['body'], options?: RequestOptions): Promise<t.UpdateYoutubePlaylistResponses[keyof t.UpdateYoutubePlaylistResponses]> {
+    return this._client.request('PATCH', `/social/accounts/${encodeURIComponent(accountId)}/youtube/playlists/${encodeURIComponent(playlistId)}`, { body, options });
+  }
+
+  /** List mentions `GET /social/accounts/{account_id}/mentions` */
+  listMentions(accountId: string, query?: t.ListMentionsData['query'], options?: RequestOptions): Promise<t.ListMentionsResponses[keyof t.ListMentionsResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/mentions`, { query, options });
+  }
+
+  /** Reply to a mention `POST /social/accounts/{account_id}/mentions/{mention_id}/reply` */
+  replyToMention(accountId: string, mentionId: string, body: t.ReplyToMentionData['body'], options?: RequestOptions): Promise<t.ReplyToMentionResponses[keyof t.ReplyToMentionResponses]> {
+    return this._client.request('POST', `/social/accounts/${encodeURIComponent(accountId)}/mentions/${encodeURIComponent(mentionId)}/reply`, { body, options });
+  }
+
+  /** List subreddit post flairs `GET /social/accounts/{account_id}/reddit/subreddits/{subreddit}/flairs` */
+  listRedditFlairs(accountId: string, subreddit: string, options?: RequestOptions): Promise<t.ListRedditFlairsResponses[keyof t.ListRedditFlairsResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/reddit/subreddits/${encodeURIComponent(subreddit)}/flairs`, { options });
+  }
 }
 
 /** URLs endpoints. */
@@ -1469,6 +1504,16 @@ export class WhatsAppResource {
   /** Request a WhatsApp display-name change `POST /whatsapp/business-profile/display-name` */
   updateDisplayName(body: t.UpdateWhatsappDisplayNameData['body'], options?: RequestOptions): Promise<t.UpdateWhatsappDisplayNameResponses[keyof t.UpdateWhatsappDisplayNameResponses]> {
     return this._client.request('POST', '/whatsapp/business-profile/display-name', { body, options });
+  }
+
+  /** Browse the shared template library `GET /whatsapp/template-library` */
+  listTemplateLibrary(query?: t.ListWhatsappTemplateLibraryData['query'], options?: RequestOptions): Promise<t.ListWhatsappTemplateLibraryResponses[keyof t.ListWhatsappTemplateLibraryResponses]> {
+    return this._client.request('GET', '/whatsapp/template-library', { query, options });
+  }
+
+  /** Adopt a library template `POST /whatsapp/templates/from-library` */
+  createTemplateFromLibrary(body: t.CreateWhatsappTemplateFromLibraryData['body'], options?: RequestOptions): Promise<t.CreateWhatsappTemplateFromLibraryResponses[keyof t.CreateWhatsappTemplateFromLibraryResponses]> {
+    return this._client.request('POST', '/whatsapp/templates/from-library', { body, options });
   }
 }
 
