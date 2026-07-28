@@ -5737,6 +5737,26 @@ export type ConnectSocialAccountData = {
          * Telegram only (required for it): the target channel/group as `@channelusername` or a numeric chat id. Private chats are rejected.
          */
         chat?: string;
+        /**
+         * Bluesky only: your handle (e.g. yourname.bsky.social), DID, or account email. Send it with `app_password` to connect without a browser.
+         */
+        identifier?: string;
+        /**
+         * Bluesky only: an app password generated in Bluesky settings (format xxxx-xxxx-xxxx-xxxx) - never your account password, which is rejected. Supplying this connects the account immediately instead of returning a connect_url.
+         */
+        app_password?: string;
+        /**
+         * WhatsApp only (required for it): your WhatsApp Business Account id.
+         */
+        waba_id?: string;
+        /**
+         * WhatsApp only (required for it): the phone number id to connect, from the WABA.
+         */
+        phone_number_id?: string;
+        /**
+         * WhatsApp only (required for it): a system-user access token with whatsapp_business_messaging and whatsapp_business_management. Stored encrypted.
+         */
+        access_token?: string;
     };
     headers?: {
         /**
@@ -14536,6 +14556,1017 @@ export type ListWhatsAppPhoneNumbersResponses = {
 };
 
 export type ListWhatsAppPhoneNumbersResponse = ListWhatsAppPhoneNumbersResponses[keyof ListWhatsAppPhoneNumbersResponses];
+
+export type ListLogsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Limit to one stream.
+         */
+        source?: 'api' | 'webhook';
+        /**
+         * Substring match on the endpoint path (API rows) or event name (webhook rows).
+         */
+        endpoint?: string;
+        /**
+         * Exact HTTP status. Pins results to API rows.
+         */
+        status_code?: number;
+        /**
+         * Only failures, or only successes.
+         */
+        result?: 'errors' | 'success';
+        /**
+         * Activity type filter, e.g. social, images, videos.
+         */
+        type?: string;
+        /**
+         * Comma-separated platform filter, e.g. facebook,instagram.
+         */
+        platform?: string;
+        /**
+         * Limit to one API key. Pins results to API rows.
+         */
+        api_key_id?: number;
+        /**
+         * Start of the window (YYYY-MM-DD or a date-time).
+         */
+        from?: string;
+        /**
+         * End of the window (YYYY-MM-DD or a date-time).
+         */
+        to?: string;
+        /**
+         * Include request/response bodies. Off by default.
+         */
+        include_payloads?: boolean;
+        page?: number;
+        per_page?: number;
+    };
+    url: '/logs';
+};
+
+export type ListLogsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Rate limit exceeded
+     */
+    429: ErrorResponse;
+};
+
+export type ListLogsError = ListLogsErrors[keyof ListLogsErrors];
+
+export type ListLogsResponses = {
+    /**
+     * Log feed
+     */
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            /**
+             * Which stream the row came from.
+             */
+            source?: 'api' | 'webhook';
+            created_at?: string;
+            activity_type?: string;
+            platform?: string;
+            account_ref?: string;
+            status_code?: number;
+            /**
+             * API rows only.
+             */
+            method?: string;
+            /**
+             * API rows only.
+             */
+            endpoint?: string;
+            /**
+             * Milliseconds. API rows only.
+             */
+            response_time?: number;
+            /**
+             * API rows only.
+             */
+            units_used?: number;
+            /**
+             * USD charged. API rows only.
+             */
+            cost?: string;
+            /**
+             * API rows only.
+             */
+            api_key_id?: number;
+            /**
+             * API rows only.
+             */
+            request_id?: string;
+            /**
+             * API rows only.
+             */
+            ip_address?: string;
+            /**
+             * API rows only.
+             */
+            user_agent?: string;
+            /**
+             * API rows only.
+             */
+            is_test?: boolean;
+            /**
+             * Webhook rows only, e.g. post.published.
+             */
+            event?: string;
+            /**
+             * Webhook rows only.
+             */
+            attempt?: number;
+            /**
+             * Webhook rows only: pending, delivered or dead_letter.
+             */
+            status?: string;
+            /**
+             * Webhook rows only.
+             */
+            next_retry_at?: string;
+            /**
+             * Only when include_payloads=true.
+             */
+            request_payload?: unknown;
+            /**
+             * Only when include_payloads=true.
+             */
+            response_payload?: unknown;
+        }>;
+    };
+};
+
+export type ListLogsResponse = ListLogsResponses[keyof ListLogsResponses];
+
+export type ReplayWebhookDeliveryData = {
+    body?: never;
+    path: {
+        /**
+         * Delivery id from GET /webhooks/logs.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/webhooks/deliveries/{id}/replay';
+};
+
+export type ReplayWebhookDeliveryErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type ReplayWebhookDeliveryError = ReplayWebhookDeliveryErrors[keyof ReplayWebhookDeliveryErrors];
+
+export type ReplayWebhookDeliveryResponses = {
+    /**
+     * Delivery re-queued
+     */
+    202: {
+        success?: true;
+        data?: {
+            delivery_id?: number;
+            status?: 'pending';
+        };
+    };
+};
+
+export type ReplayWebhookDeliveryResponse = ReplayWebhookDeliveryResponses[keyof ReplayWebhookDeliveryResponses];
+
+export type UpdateShortUrlData = {
+    body: {
+        /**
+         * New destination URL.
+         */
+        url?: string;
+        /**
+         * New label. Send an empty string to clear it.
+         */
+        title?: string;
+        /**
+         * Set false to stop the link resolving.
+         */
+        is_active?: boolean;
+    };
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/urls/{id}';
+};
+
+export type UpdateShortUrlErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type UpdateShortUrlError = UpdateShortUrlErrors[keyof UpdateShortUrlErrors];
+
+export type UpdateShortUrlResponses = {
+    /**
+     * Updated short URL
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+    };
+};
+
+export type UpdateShortUrlResponse = UpdateShortUrlResponses[keyof UpdateShortUrlResponses];
+
+export type RemoveMessageReactionData = {
+    body?: never;
+    path: {
+        conversation_id: number;
+        /**
+         * Message id from GET /social/conversations/{conversation_id}/messages.
+         */
+        message_id: number;
+    };
+    query?: never;
+    url: '/social/conversations/{conversation_id}/messages/{message_id}/reactions';
+};
+
+export type RemoveMessageReactionErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type RemoveMessageReactionError = RemoveMessageReactionErrors[keyof RemoveMessageReactionErrors];
+
+export type RemoveMessageReactionResponses = {
+    /**
+     * Reaction removed
+     */
+    200: {
+        success?: true;
+        data?: {
+            success?: boolean;
+            our_reaction?: string;
+        };
+    };
+};
+
+export type RemoveMessageReactionResponse = RemoveMessageReactionResponses[keyof RemoveMessageReactionResponses];
+
+export type ReactToMessageData = {
+    body: {
+        /**
+         * The emoji to react with.
+         */
+        emoji: string;
+    };
+    path: {
+        conversation_id: number;
+        /**
+         * Message id from GET /social/conversations/{conversation_id}/messages.
+         */
+        message_id: number;
+    };
+    query?: never;
+    url: '/social/conversations/{conversation_id}/messages/{message_id}/reactions';
+};
+
+export type ReactToMessageErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type ReactToMessageError = ReactToMessageErrors[keyof ReactToMessageErrors];
+
+export type ReactToMessageResponses = {
+    /**
+     * Reaction sent
+     */
+    200: {
+        success?: true;
+        data?: {
+            success?: boolean;
+            our_reaction?: string;
+        };
+    };
+};
+
+export type ReactToMessageResponse = ReactToMessageResponses[keyof ReactToMessageResponses];
+
+export type DeleteWhatsappTemplateData = {
+    body?: never;
+    path: {
+        /**
+         * Template name.
+         */
+        name: string;
+    };
+    query: {
+        /**
+         * A connected WhatsApp number (social account id).
+         */
+        account_id: number;
+        /**
+         * Delete only this language version.
+         */
+        template_id?: string;
+    };
+    url: '/whatsapp/templates/{name}';
+};
+
+export type DeleteWhatsappTemplateErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type DeleteWhatsappTemplateError = DeleteWhatsappTemplateErrors[keyof DeleteWhatsappTemplateErrors];
+
+export type DeleteWhatsappTemplateResponses = {
+    /**
+     * Template deleted
+     */
+    200: unknown;
+};
+
+export type GetWhatsappTemplateData = {
+    body?: never;
+    path: {
+        /**
+         * Template name.
+         */
+        name: string;
+    };
+    query: {
+        /**
+         * A connected WhatsApp number (social account id).
+         */
+        account_id: number;
+    };
+    url: '/whatsapp/templates/{name}';
+};
+
+export type GetWhatsappTemplateErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type GetWhatsappTemplateError = GetWhatsappTemplateErrors[keyof GetWhatsappTemplateErrors];
+
+export type GetWhatsappTemplateResponses = {
+    /**
+     * Template versions
+     */
+    200: {
+        success?: true;
+        data?: {
+            name?: string;
+            templates?: Array<{
+                [key: string]: unknown;
+            }>;
+        };
+    };
+};
+
+export type GetWhatsappTemplateResponse = GetWhatsappTemplateResponses[keyof GetWhatsappTemplateResponses];
+
+export type UpdateWhatsappTemplateData = {
+    body: {
+        /**
+         * A connected WhatsApp number (social account id).
+         */
+        account_id: number;
+        /**
+         * Full replacement component list, in Meta's template component format.
+         */
+        components: Array<{
+            [key: string]: unknown;
+        }>;
+        /**
+         * Optional category change.
+         */
+        category?: 'MARKETING' | 'UTILITY' | 'AUTHENTICATION';
+        /**
+         * Required only when the name has several language versions.
+         */
+        template_id?: string;
+    };
+    path: {
+        /**
+         * Template name.
+         */
+        name: string;
+    };
+    query?: never;
+    url: '/whatsapp/templates/{name}';
+};
+
+export type UpdateWhatsappTemplateErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type UpdateWhatsappTemplateError = UpdateWhatsappTemplateErrors[keyof UpdateWhatsappTemplateErrors];
+
+export type UpdateWhatsappTemplateResponses = {
+    /**
+     * Template updated
+     */
+    200: {
+        success?: true;
+        data?: {
+            name?: string;
+            template_id?: string;
+            updated?: boolean;
+        };
+    };
+};
+
+export type UpdateWhatsappTemplateResponse = UpdateWhatsappTemplateResponses[keyof UpdateWhatsappTemplateResponses];
+
+export type UpdateWhatsappProfilePhotoData = {
+    body: {
+        /**
+         * A connected WhatsApp number (social account id).
+         */
+        account_id: number;
+        /**
+         * Media handle from Meta's resumable upload API.
+         */
+        handle: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/whatsapp/business-profile/photo';
+};
+
+export type UpdateWhatsappProfilePhotoErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type UpdateWhatsappProfilePhotoError = UpdateWhatsappProfilePhotoErrors[keyof UpdateWhatsappProfilePhotoErrors];
+
+export type UpdateWhatsappProfilePhotoResponses = {
+    /**
+     * Photo updated
+     */
+    200: {
+        success?: true;
+        data?: {
+            updated?: boolean;
+        };
+    };
+};
+
+export type UpdateWhatsappProfilePhotoResponse = UpdateWhatsappProfilePhotoResponses[keyof UpdateWhatsappProfilePhotoResponses];
+
+export type GetWhatsappDisplayNameData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * A connected WhatsApp number (social account id).
+         */
+        account_id: number;
+    };
+    url: '/whatsapp/business-profile/display-name';
+};
+
+export type GetWhatsappDisplayNameErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type GetWhatsappDisplayNameError = GetWhatsappDisplayNameErrors[keyof GetWhatsappDisplayNameErrors];
+
+export type GetWhatsappDisplayNameResponses = {
+    /**
+     * Display name
+     */
+    200: {
+        success?: true;
+        data?: {
+            display_name?: string;
+            phone_number?: string;
+            /**
+             * Review state of the current name.
+             */
+            name_status?: string;
+            /**
+             * Review state of a pending change.
+             */
+            new_name_status?: string;
+            quality_rating?: string;
+        };
+    };
+};
+
+export type GetWhatsappDisplayNameResponse = GetWhatsappDisplayNameResponses[keyof GetWhatsappDisplayNameResponses];
+
+export type UpdateWhatsappDisplayNameData = {
+    body: {
+        /**
+         * A connected WhatsApp number (social account id).
+         */
+        account_id: number;
+        /**
+         * The name to submit for review.
+         */
+        display_name: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/whatsapp/business-profile/display-name';
+};
+
+export type UpdateWhatsappDisplayNameErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type UpdateWhatsappDisplayNameError = UpdateWhatsappDisplayNameErrors[keyof UpdateWhatsappDisplayNameErrors];
+
+export type UpdateWhatsappDisplayNameResponses = {
+    /**
+     * Change submitted for review
+     */
+    202: {
+        success?: true;
+        data?: {
+            submitted?: boolean;
+            display_name?: string;
+            note?: string;
+        };
+    };
+};
+
+export type UpdateWhatsappDisplayNameResponse = UpdateWhatsappDisplayNameResponses[keyof UpdateWhatsappDisplayNameResponses];
+
+export type GetYoutubeChannelInsightsData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * A connected YouTube channel (social account id).
+         */
+        account_id: number;
+        /**
+         * Start of the range, YYYY-MM-DD. Defaults to 28 days before end_date.
+         */
+        start_date?: string;
+        /**
+         * End of the range, YYYY-MM-DD. Defaults to yesterday.
+         */
+        end_date?: string;
+    };
+    url: '/analytics/youtube/channel-insights';
+};
+
+export type GetYoutubeChannelInsightsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type GetYoutubeChannelInsightsError = GetYoutubeChannelInsightsErrors[keyof GetYoutubeChannelInsightsErrors];
+
+export type GetYoutubeChannelInsightsResponses = {
+    /**
+     * Report
+     */
+    200: {
+        success?: true;
+        data?: {
+            /**
+             * Metric/dimension names, in row order.
+             */
+            columns?: Array<string>;
+            /**
+             * One object per row, keyed by column name.
+             */
+            rows?: Array<{
+                [key: string]: unknown;
+            }>;
+            start_date?: string;
+            end_date?: string;
+        };
+    };
+};
+
+export type GetYoutubeChannelInsightsResponse = GetYoutubeChannelInsightsResponses[keyof GetYoutubeChannelInsightsResponses];
+
+export type GetYoutubeDailyViewsData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * A connected YouTube channel (social account id).
+         */
+        account_id: number;
+        /**
+         * Start of the range, YYYY-MM-DD. Defaults to 28 days before end_date.
+         */
+        start_date?: string;
+        /**
+         * End of the range, YYYY-MM-DD. Defaults to yesterday.
+         */
+        end_date?: string;
+    };
+    url: '/analytics/youtube/daily-views';
+};
+
+export type GetYoutubeDailyViewsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type GetYoutubeDailyViewsError = GetYoutubeDailyViewsErrors[keyof GetYoutubeDailyViewsErrors];
+
+export type GetYoutubeDailyViewsResponses = {
+    /**
+     * Report
+     */
+    200: {
+        success?: true;
+        data?: {
+            /**
+             * Metric/dimension names, in row order.
+             */
+            columns?: Array<string>;
+            /**
+             * One object per row, keyed by column name.
+             */
+            rows?: Array<{
+                [key: string]: unknown;
+            }>;
+            start_date?: string;
+            end_date?: string;
+        };
+    };
+};
+
+export type GetYoutubeDailyViewsResponse = GetYoutubeDailyViewsResponses[keyof GetYoutubeDailyViewsResponses];
+
+export type GetYoutubeVideoRetentionData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * A connected YouTube channel (social account id).
+         */
+        account_id: number;
+        /**
+         * YouTube video id (the v= value from its URL).
+         */
+        video_id: string;
+        /**
+         * Start of the range, YYYY-MM-DD. Defaults to 28 days before end_date.
+         */
+        start_date?: string;
+        /**
+         * End of the range, YYYY-MM-DD. Defaults to yesterday.
+         */
+        end_date?: string;
+    };
+    url: '/analytics/youtube/video-retention';
+};
+
+export type GetYoutubeVideoRetentionErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type GetYoutubeVideoRetentionError = GetYoutubeVideoRetentionErrors[keyof GetYoutubeVideoRetentionErrors];
+
+export type GetYoutubeVideoRetentionResponses = {
+    /**
+     * Report
+     */
+    200: {
+        success?: true;
+        data?: {
+            /**
+             * Metric/dimension names, in row order.
+             */
+            columns?: Array<string>;
+            /**
+             * One object per row, keyed by column name.
+             */
+            rows?: Array<{
+                [key: string]: unknown;
+            }>;
+            start_date?: string;
+            end_date?: string;
+        };
+    };
+};
+
+export type GetYoutubeVideoRetentionResponse = GetYoutubeVideoRetentionResponses[keyof GetYoutubeVideoRetentionResponses];
+
+export type GetYoutubeDemographicsData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * A connected YouTube channel (social account id).
+         */
+        account_id: number;
+        /**
+         * Limit to one video.
+         */
+        video_id?: string;
+        /**
+         * Start of the range, YYYY-MM-DD. Defaults to 28 days before end_date.
+         */
+        start_date?: string;
+        /**
+         * End of the range, YYYY-MM-DD. Defaults to yesterday.
+         */
+        end_date?: string;
+    };
+    url: '/analytics/youtube/demographics';
+};
+
+export type GetYoutubeDemographicsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type GetYoutubeDemographicsError = GetYoutubeDemographicsErrors[keyof GetYoutubeDemographicsErrors];
+
+export type GetYoutubeDemographicsResponses = {
+    /**
+     * Report
+     */
+    200: {
+        success?: true;
+        data?: {
+            /**
+             * Metric/dimension names, in row order.
+             */
+            columns?: Array<string>;
+            /**
+             * One object per row, keyed by column name.
+             */
+            rows?: Array<{
+                [key: string]: unknown;
+            }>;
+            start_date?: string;
+            end_date?: string;
+        };
+    };
+};
+
+export type GetYoutubeDemographicsResponse = GetYoutubeDemographicsResponses[keyof GetYoutubeDemographicsResponses];
 
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});

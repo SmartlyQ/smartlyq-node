@@ -174,6 +174,34 @@ describe('analytics', () => {
     expect(calls[0].method).toBe('GET');
     expect(calls[0].path).toBe('/analytics/inbox/conversations/test-id');
   });
+
+  it('analytics.getYoutubeChannelInsights -> GET /analytics/youtube/channel-insights', async () => {
+    const { client, calls } = mockClient();
+    await client.analytics.getYoutubeChannelInsights();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/analytics/youtube/channel-insights');
+  });
+
+  it('analytics.getYoutubeDailyViews -> GET /analytics/youtube/daily-views', async () => {
+    const { client, calls } = mockClient();
+    await client.analytics.getYoutubeDailyViews();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/analytics/youtube/daily-views');
+  });
+
+  it('analytics.getYoutubeVideoRetention -> GET /analytics/youtube/video-retention', async () => {
+    const { client, calls } = mockClient();
+    await client.analytics.getYoutubeVideoRetention();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/analytics/youtube/video-retention');
+  });
+
+  it('analytics.getYoutubeDemographics -> GET /analytics/youtube/demographics', async () => {
+    const { client, calls } = mockClient();
+    await client.analytics.getYoutubeDemographics();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/analytics/youtube/demographics');
+  });
 });
 
 describe('articles', () => {
@@ -630,6 +658,20 @@ describe('messages', () => {
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/social/conversations/test-id/read');
   });
+
+  it('messages.reactTo -> POST /social/conversations/{conversation_id}/messages/{message_id}/reactions', async () => {
+    const { client, calls } = mockClient();
+    await client.messages.reactTo('test-id', 'test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/conversations/test-id/messages/test-id/reactions');
+  });
+
+  it('messages.removeReaction -> DELETE /social/conversations/{conversation_id}/messages/{message_id}/reactions', async () => {
+    const { client, calls } = mockClient();
+    await client.messages.removeReaction('test-id', 'test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/social/conversations/test-id/messages/test-id/reactions');
+  });
 });
 
 describe('images', () => {
@@ -682,6 +724,15 @@ describe('jobs', () => {
     await client.jobs.cancel('test-id', {} as never);
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/jobs/test-id/cancel');
+  });
+});
+
+describe('logs', () => {
+  it('logs.list -> GET /logs', async () => {
+    const { client, calls } = mockClient();
+    await client.logs.list();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/logs');
   });
 });
 
@@ -1672,6 +1723,13 @@ describe('urls', () => {
     expect(calls[0].method).toBe('GET');
     expect(calls[0].path).toBe('/urls/test-id/stats');
   });
+
+  it('urls.updateShort -> PATCH /urls/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.urls.updateShort('test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/urls/test-id');
+  });
 });
 
 describe('videos', () => {
@@ -1781,6 +1839,13 @@ describe('webhooks', () => {
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/webhooks/test-id/test');
   });
+
+  it('webhooks.replayDelivery -> POST /webhooks/deliveries/{id}/replay', async () => {
+    const { client, calls } = mockClient();
+    await client.webhooks.replayDelivery('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/webhooks/deliveries/test-id/replay');
+  });
 });
 
 describe('whatsApp', () => {
@@ -1824,6 +1889,48 @@ describe('whatsApp', () => {
     await client.whatsApp.listWhatsAppPhoneNumbers();
     expect(calls[0].method).toBe('GET');
     expect(calls[0].path).toBe('/whatsapp/phone-numbers');
+  });
+
+  it('whatsApp.getTemplate -> GET /whatsapp/templates/{name}', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.getTemplate('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/whatsapp/templates/test-id');
+  });
+
+  it('whatsApp.updateTemplate -> PATCH /whatsapp/templates/{name}', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.updateTemplate('test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/whatsapp/templates/test-id');
+  });
+
+  it('whatsApp.deleteTemplate -> DELETE /whatsapp/templates/{name}', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.deleteTemplate('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/whatsapp/templates/test-id');
+  });
+
+  it('whatsApp.updateProfilePhoto -> POST /whatsapp/business-profile/photo', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.updateProfilePhoto({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/whatsapp/business-profile/photo');
+  });
+
+  it('whatsApp.getDisplayName -> GET /whatsapp/business-profile/display-name', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.getDisplayName();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/whatsapp/business-profile/display-name');
+  });
+
+  it('whatsApp.updateDisplayName -> POST /whatsapp/business-profile/display-name', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.updateDisplayName({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/whatsapp/business-profile/display-name');
   });
 });
 

@@ -125,6 +125,26 @@ export class AnalyticsResource {
   inboxConversationDetail(conversationId: string, options?: RequestOptions): Promise<t.InboxConversationDetailResponses[keyof t.InboxConversationDetailResponses]> {
     return this._client.request('GET', `/analytics/inbox/conversations/${encodeURIComponent(conversationId)}`, { options });
   }
+
+  /** YouTube channel insights `GET /analytics/youtube/channel-insights` */
+  getYoutubeChannelInsights(query?: t.GetYoutubeChannelInsightsData['query'], options?: RequestOptions): Promise<t.GetYoutubeChannelInsightsResponses[keyof t.GetYoutubeChannelInsightsResponses]> {
+    return this._client.request('GET', '/analytics/youtube/channel-insights', { query, options });
+  }
+
+  /** YouTube daily views `GET /analytics/youtube/daily-views` */
+  getYoutubeDailyViews(query?: t.GetYoutubeDailyViewsData['query'], options?: RequestOptions): Promise<t.GetYoutubeDailyViewsResponses[keyof t.GetYoutubeDailyViewsResponses]> {
+    return this._client.request('GET', '/analytics/youtube/daily-views', { query, options });
+  }
+
+  /** YouTube audience retention `GET /analytics/youtube/video-retention` */
+  getYoutubeVideoRetention(query?: t.GetYoutubeVideoRetentionData['query'], options?: RequestOptions): Promise<t.GetYoutubeVideoRetentionResponses[keyof t.GetYoutubeVideoRetentionResponses]> {
+    return this._client.request('GET', '/analytics/youtube/video-retention', { query, options });
+  }
+
+  /** YouTube viewer demographics `GET /analytics/youtube/demographics` */
+  getYoutubeDemographics(query?: t.GetYoutubeDemographicsData['query'], options?: RequestOptions): Promise<t.GetYoutubeDemographicsResponses[keyof t.GetYoutubeDemographicsResponses]> {
+    return this._client.request('GET', '/analytics/youtube/demographics', { query, options });
+  }
 }
 
 /** Articles endpoints. */
@@ -490,6 +510,16 @@ export class MessagesResource {
   markConversationRead(conversationId: string, options?: RequestOptions): Promise<t.MarkConversationReadResponses[keyof t.MarkConversationReadResponses]> {
     return this._client.request('POST', `/social/conversations/${encodeURIComponent(conversationId)}/read`, { options });
   }
+
+  /** React to a message `POST /social/conversations/{conversation_id}/messages/{message_id}/reactions` */
+  reactTo(conversationId: string, messageId: string, body: t.ReactToMessageData['body'], options?: RequestOptions): Promise<t.ReactToMessageResponses[keyof t.ReactToMessageResponses]> {
+    return this._client.request('POST', `/social/conversations/${encodeURIComponent(conversationId)}/messages/${encodeURIComponent(messageId)}/reactions`, { body, options });
+  }
+
+  /** Remove a message reaction `DELETE /social/conversations/{conversation_id}/messages/{message_id}/reactions` */
+  removeReaction(conversationId: string, messageId: string, options?: RequestOptions): Promise<t.RemoveMessageReactionResponses[keyof t.RemoveMessageReactionResponses]> {
+    return this._client.request('DELETE', `/social/conversations/${encodeURIComponent(conversationId)}/messages/${encodeURIComponent(messageId)}/reactions`, { options });
+  }
 }
 
 /** Images endpoints. */
@@ -534,6 +564,16 @@ export class JobsResource {
   /** Cancel job `POST /jobs/{job_id}/cancel` */
   cancel(jobId: string, body?: t.CancelJobData['body'], options?: RequestOptions): Promise<t.CancelJobResponses[keyof t.CancelJobResponses]> {
     return this._client.request('POST', `/jobs/${encodeURIComponent(jobId)}/cancel`, { body, options });
+  }
+}
+
+/** Logs endpoints. */
+export class LogsResource {
+  constructor(private readonly _client: CoreClient) {}
+
+  /** List developer logs `GET /logs` */
+  list(query?: t.ListLogsData['query'], options?: RequestOptions): Promise<t.ListLogsResponses[keyof t.ListLogsResponses]> {
+    return this._client.request('GET', '/logs', { query, options });
   }
 }
 
@@ -1270,6 +1310,11 @@ export class UrlsResource {
   getStats(urlId: string, options?: RequestOptions): Promise<t.GetUrlStatsResponses[keyof t.GetUrlStatsResponses]> {
     return this._client.request('GET', `/urls/${encodeURIComponent(urlId)}/stats`, { options });
   }
+
+  /** Update a short URL `PATCH /urls/{id}` */
+  updateShort(id: string, body: t.UpdateShortUrlData['body'], options?: RequestOptions): Promise<t.UpdateShortUrlResponses[keyof t.UpdateShortUrlResponses]> {
+    return this._client.request('PATCH', `/urls/${encodeURIComponent(id)}`, { body, options });
+  }
 }
 
 /** Videos endpoints. */
@@ -1355,6 +1400,11 @@ export class WebhooksResource {
   test(id: string, options?: RequestOptions): Promise<t.TestWebhookResponses[keyof t.TestWebhookResponses]> {
     return this._client.request('POST', `/webhooks/${encodeURIComponent(id)}/test`, { options });
   }
+
+  /** Replay a webhook delivery `POST /webhooks/deliveries/{id}/replay` */
+  replayDelivery(id: string, options?: RequestOptions): Promise<t.ReplayWebhookDeliveryResponses[keyof t.ReplayWebhookDeliveryResponses]> {
+    return this._client.request('POST', `/webhooks/deliveries/${encodeURIComponent(id)}/replay`, { options });
+  }
 }
 
 /** WhatsApp endpoints. */
@@ -1389,6 +1439,36 @@ export class WhatsAppResource {
   /** List phone numbers `GET /whatsapp/phone-numbers` */
   listWhatsAppPhoneNumbers(query?: t.ListWhatsAppPhoneNumbersData['query'], options?: RequestOptions): Promise<t.ListWhatsAppPhoneNumbersResponses[keyof t.ListWhatsAppPhoneNumbersResponses]> {
     return this._client.request('GET', '/whatsapp/phone-numbers', { query, options });
+  }
+
+  /** Get a WhatsApp template `GET /whatsapp/templates/{name}` */
+  getTemplate(name: string, query?: t.GetWhatsappTemplateData['query'], options?: RequestOptions): Promise<t.GetWhatsappTemplateResponses[keyof t.GetWhatsappTemplateResponses]> {
+    return this._client.request('GET', `/whatsapp/templates/${encodeURIComponent(name)}`, { query, options });
+  }
+
+  /** Update a WhatsApp template `PATCH /whatsapp/templates/{name}` */
+  updateTemplate(name: string, body: t.UpdateWhatsappTemplateData['body'], options?: RequestOptions): Promise<t.UpdateWhatsappTemplateResponses[keyof t.UpdateWhatsappTemplateResponses]> {
+    return this._client.request('PATCH', `/whatsapp/templates/${encodeURIComponent(name)}`, { body, options });
+  }
+
+  /** Delete a WhatsApp template `DELETE /whatsapp/templates/{name}` */
+  deleteTemplate(name: string, query?: t.DeleteWhatsappTemplateData['query'], options?: RequestOptions): Promise<t.DeleteWhatsappTemplateResponses[keyof t.DeleteWhatsappTemplateResponses]> {
+    return this._client.request('DELETE', `/whatsapp/templates/${encodeURIComponent(name)}`, { query, options });
+  }
+
+  /** Set the WhatsApp profile photo `POST /whatsapp/business-profile/photo` */
+  updateProfilePhoto(body: t.UpdateWhatsappProfilePhotoData['body'], options?: RequestOptions): Promise<t.UpdateWhatsappProfilePhotoResponses[keyof t.UpdateWhatsappProfilePhotoResponses]> {
+    return this._client.request('POST', '/whatsapp/business-profile/photo', { body, options });
+  }
+
+  /** Get the WhatsApp display name `GET /whatsapp/business-profile/display-name` */
+  getDisplayName(query?: t.GetWhatsappDisplayNameData['query'], options?: RequestOptions): Promise<t.GetWhatsappDisplayNameResponses[keyof t.GetWhatsappDisplayNameResponses]> {
+    return this._client.request('GET', '/whatsapp/business-profile/display-name', { query, options });
+  }
+
+  /** Request a WhatsApp display-name change `POST /whatsapp/business-profile/display-name` */
+  updateDisplayName(body: t.UpdateWhatsappDisplayNameData['body'], options?: RequestOptions): Promise<t.UpdateWhatsappDisplayNameResponses[keyof t.UpdateWhatsappDisplayNameResponses]> {
+    return this._client.request('POST', '/whatsapp/business-profile/display-name', { body, options });
   }
 }
 
@@ -1475,6 +1555,7 @@ export function createResources(client: CoreClient) {
     messages: new MessagesResource(client),
     images: new ImagesResource(client),
     jobs: new JobsResource(client),
+    logs: new LogsResource(client),
     media: new MediaResource(client),
     presentations: new PresentationsResource(client),
     profiles: new ProfilesResource(client),
