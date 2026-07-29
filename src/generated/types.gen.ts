@@ -14417,6 +14417,10 @@ export type SendWhatsAppMessageData = {
          * For type=reaction. The emoji to react with, or an empty string to remove a previously-sent reaction. Requires context_message_id.
          */
         emoji?: string;
+        /**
+         * Pricing category for a template send. Optional - if omitted we read it from the template itself. Free-form sends are always billed as `service`.
+         */
+        category?: 'marketing' | 'utility' | 'authentication' | 'service';
     };
     path?: never;
     query?: never;
@@ -14445,7 +14449,35 @@ export type SendWhatsAppMessageResponses = {
      * Sent
      */
     201: {
-        [key: string]: unknown;
+        success?: true;
+        data?: {
+            message_id?: string;
+            status?: string;
+            /**
+             * What this send was priced at.
+             */
+            pricing?: {
+                /**
+                 * Category actually billed.
+                 */
+                category?: string;
+                /**
+                 * Market the destination resolved to.
+                 */
+                market?: string;
+                /**
+                 * Country calling code matched.
+                 */
+                calling_code?: string;
+                /**
+                 * USD charged for this message.
+                 */
+                rate?: string;
+            };
+        };
+        usage?: {
+            [key: string]: unknown;
+        };
     };
 };
 
