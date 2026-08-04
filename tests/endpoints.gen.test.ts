@@ -293,6 +293,34 @@ describe('automations', () => {
     expect(calls[0].path).toBe('/automations/test-id/trigger');
   });
 
+  it('automations.duplicate -> POST /automations/{automation_id}/duplicate', async () => {
+    const { client, calls } = mockClient();
+    await client.automations.duplicate('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/automations/test-id/duplicate');
+  });
+
+  it('automations.listVersions -> GET /automations/{automation_id}/versions', async () => {
+    const { client, calls } = mockClient();
+    await client.automations.listVersions('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/automations/test-id/versions');
+  });
+
+  it('automations.getVersion -> GET /automations/{automation_id}/versions/{version}', async () => {
+    const { client, calls } = mockClient();
+    await client.automations.getVersion('test-id', 'test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/automations/test-id/versions/test-id');
+  });
+
+  it('automations.restoreVersion -> POST /automations/{automation_id}/versions/{version}/restore', async () => {
+    const { client, calls } = mockClient();
+    await client.automations.restoreVersion('test-id', 'test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/automations/test-id/versions/test-id/restore');
+  });
+
   it('automations.listRuns -> GET /automations/{automation_id}/runs', async () => {
     const { client, calls } = mockClient();
     await client.automations.listRuns('test-id');
@@ -400,6 +428,27 @@ describe('comments', () => {
     await client.comments.hide('test-id');
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/social/comments/test-id/hide');
+  });
+
+  it('comments.moderate -> POST /social/comments/{comment_id}/moderate', async () => {
+    const { client, calls } = mockClient();
+    await client.comments.moderate('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/comments/test-id/moderate');
+  });
+
+  it('comments.like -> POST /social/comments/{comment_id}/like', async () => {
+    const { client, calls } = mockClient();
+    await client.comments.like('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/comments/test-id/like');
+  });
+
+  it('comments.unlike -> DELETE /social/comments/{comment_id}/like', async () => {
+    const { client, calls } = mockClient();
+    await client.comments.unlike('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/social/comments/test-id/like');
   });
 
   it('comments.delete -> DELETE /social/comments/{comment_id}', async () => {
@@ -657,6 +706,13 @@ describe('messages', () => {
     await client.messages.markConversationRead('test-id');
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/social/conversations/test-id/read');
+  });
+
+  it('messages.delete -> DELETE /social/conversations/{conversation_id}/messages/{message_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.messages.delete('test-id', 'test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/social/conversations/test-id/messages/test-id');
   });
 
   it('messages.reactTo -> POST /social/conversations/{conversation_id}/messages/{message_id}/reactions', async () => {

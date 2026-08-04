@@ -5100,6 +5100,160 @@ export type HideCommentResponses = {
 
 export type HideCommentResponse = HideCommentResponses[keyof HideCommentResponses];
 
+export type ModerateCommentData = {
+    body: {
+        status: 'approved' | 'rejected';
+        /**
+         * Reject the comment AND ban this author from commenting again. Only meaningful with status=rejected.
+         */
+        ban_author?: boolean;
+    };
+    path: {
+        /**
+         * Comment id
+         */
+        comment_id: number;
+    };
+    query?: never;
+    url: '/social/comments/{comment_id}/moderate';
+};
+
+export type ModerateCommentErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Internal server error
+     */
+    500: ErrorResponse;
+};
+
+export type ModerateCommentError = ModerateCommentErrors[keyof ModerateCommentErrors];
+
+export type ModerateCommentResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            success?: boolean;
+            status?: string;
+            banned_author?: boolean;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ModerateCommentResponse = ModerateCommentResponses[keyof ModerateCommentResponses];
+
+export type UnlikeCommentData = {
+    body?: never;
+    path: {
+        /**
+         * Comment id
+         */
+        comment_id: number;
+    };
+    query?: never;
+    url: '/social/comments/{comment_id}/like';
+};
+
+export type UnlikeCommentErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Internal server error
+     */
+    500: ErrorResponse;
+};
+
+export type UnlikeCommentError = UnlikeCommentErrors[keyof UnlikeCommentErrors];
+
+export type UnlikeCommentResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            success?: boolean;
+            liked?: boolean;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type UnlikeCommentResponse = UnlikeCommentResponses[keyof UnlikeCommentResponses];
+
+export type LikeCommentData = {
+    body?: never;
+    path: {
+        /**
+         * Comment id
+         */
+        comment_id: number;
+    };
+    query?: never;
+    url: '/social/comments/{comment_id}/like';
+};
+
+export type LikeCommentErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Internal server error
+     */
+    500: ErrorResponse;
+};
+
+export type LikeCommentError = LikeCommentErrors[keyof LikeCommentErrors];
+
+export type LikeCommentResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            success?: boolean;
+            liked?: boolean;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type LikeCommentResponse = LikeCommentResponses[keyof LikeCommentResponses];
+
 export type DeleteCommentData = {
     body?: never;
     path: {
@@ -10952,6 +11106,195 @@ export type TriggerAutomationResponses = {
 
 export type TriggerAutomationResponse = TriggerAutomationResponses[keyof TriggerAutomationResponses];
 
+export type DuplicateAutomationData = {
+    body?: never;
+    path: {
+        automation_id: number;
+    };
+    query?: never;
+    url: '/automations/{automation_id}/duplicate';
+};
+
+export type DuplicateAutomationErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type DuplicateAutomationError = DuplicateAutomationErrors[keyof DuplicateAutomationErrors];
+
+export type DuplicateAutomationResponses = {
+    /**
+     * Created
+     */
+    201: {
+        success?: true;
+        data?: {
+            id?: number;
+            name?: string;
+            description?: string;
+            trigger_type?: string;
+            status?: 'draft' | 'active' | 'paused' | 'archived';
+            last_run_at?: string;
+            run_count?: number;
+            error_count?: number;
+            created?: string;
+            updated?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DuplicateAutomationResponse = DuplicateAutomationResponses[keyof DuplicateAutomationResponses];
+
+export type ListAutomationVersionsData = {
+    body?: never;
+    path: {
+        automation_id: number;
+    };
+    query?: never;
+    url: '/automations/{automation_id}/versions';
+};
+
+export type ListAutomationVersionsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type ListAutomationVersionsError = ListAutomationVersionsErrors[keyof ListAutomationVersionsErrors];
+
+export type ListAutomationVersionsResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: Array<{
+            /**
+             * Per-automation version number (1, 2, 3...), not a global id.
+             */
+            version?: number;
+            /**
+             * The automation's name at the time of this snapshot.
+             */
+            name?: string;
+            created_by?: number;
+            created_at?: string;
+        }>;
+        meta?: RequestMeta;
+    };
+};
+
+export type ListAutomationVersionsResponse = ListAutomationVersionsResponses[keyof ListAutomationVersionsResponses];
+
+export type GetAutomationVersionData = {
+    body?: never;
+    path: {
+        automation_id: number;
+        /**
+         * Version number from GET /automations/{automation_id}/versions.
+         */
+        version: number;
+    };
+    query?: never;
+    url: '/automations/{automation_id}/versions/{version}';
+};
+
+export type GetAutomationVersionErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type GetAutomationVersionError = GetAutomationVersionErrors[keyof GetAutomationVersionErrors];
+
+export type GetAutomationVersionResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            version?: number;
+            name?: string;
+            /**
+             * The @xyflow/react node + edge graph as it stood at this version.
+             */
+            graph?: {
+                [key: string]: unknown;
+            };
+            created_by?: number;
+            created_at?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GetAutomationVersionResponse = GetAutomationVersionResponses[keyof GetAutomationVersionResponses];
+
+export type RestoreAutomationVersionData = {
+    body?: never;
+    path: {
+        automation_id: number;
+        version: number;
+    };
+    query?: never;
+    url: '/automations/{automation_id}/versions/{version}/restore';
+};
+
+export type RestoreAutomationVersionErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type RestoreAutomationVersionError = RestoreAutomationVersionErrors[keyof RestoreAutomationVersionErrors];
+
+export type RestoreAutomationVersionResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            name?: string;
+            description?: string;
+            trigger_type?: string;
+            status?: 'draft' | 'active' | 'paused' | 'archived';
+            last_run_at?: string;
+            run_count?: number;
+            error_count?: number;
+            created?: string;
+            updated?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type RestoreAutomationVersionResponse = RestoreAutomationVersionResponses[keyof RestoreAutomationVersionResponses];
+
 export type ListAutomationRunsData = {
     body?: never;
     path: {
@@ -14911,6 +15254,63 @@ export type UpdateShortUrlResponses = {
 };
 
 export type UpdateShortUrlResponse = UpdateShortUrlResponses[keyof UpdateShortUrlResponses];
+
+export type DeleteMessageData = {
+    body?: never;
+    path: {
+        conversation_id: number;
+        /**
+         * Message id from GET /social/conversations/{conversation_id}/messages. Must be a message you sent.
+         */
+        message_id: number;
+    };
+    query?: never;
+    url: '/social/conversations/{conversation_id}/messages/{message_id}';
+};
+
+export type DeleteMessageErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Internal server error
+     */
+    500: ErrorResponse;
+};
+
+export type DeleteMessageError = DeleteMessageErrors[keyof DeleteMessageErrors];
+
+export type DeleteMessageResponses = {
+    /**
+     * Deleted
+     */
+    200: {
+        success?: true;
+        data?: {
+            success?: boolean;
+            /**
+             * Present on Bluesky: clarifies the delete was for-self only.
+             */
+            note?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeleteMessageResponse = DeleteMessageResponses[keyof DeleteMessageResponses];
 
 export type RemoveMessageReactionData = {
     body?: never;

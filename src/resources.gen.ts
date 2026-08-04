@@ -221,6 +221,26 @@ export class AutomationsResource {
     return this._client.request('POST', `/automations/${encodeURIComponent(automationId)}/trigger`, { body, options });
   }
 
+  /** Duplicate an automation `POST /automations/{automation_id}/duplicate` */
+  duplicate(automationId: string, options?: RequestOptions): Promise<t.DuplicateAutomationResponses[keyof t.DuplicateAutomationResponses]> {
+    return this._client.request('POST', `/automations/${encodeURIComponent(automationId)}/duplicate`, { options });
+  }
+
+  /** List automation versions `GET /automations/{automation_id}/versions` */
+  listVersions(automationId: string, options?: RequestOptions): Promise<t.ListAutomationVersionsResponses[keyof t.ListAutomationVersionsResponses]> {
+    return this._client.request('GET', `/automations/${encodeURIComponent(automationId)}/versions`, { options });
+  }
+
+  /** Get one automation version `GET /automations/{automation_id}/versions/{version}` */
+  getVersion(automationId: string, version: string, options?: RequestOptions): Promise<t.GetAutomationVersionResponses[keyof t.GetAutomationVersionResponses]> {
+    return this._client.request('GET', `/automations/${encodeURIComponent(automationId)}/versions/${encodeURIComponent(version)}`, { options });
+  }
+
+  /** Restore an automation version `POST /automations/{automation_id}/versions/{version}/restore` */
+  restoreVersion(automationId: string, version: string, options?: RequestOptions): Promise<t.RestoreAutomationVersionResponses[keyof t.RestoreAutomationVersionResponses]> {
+    return this._client.request('POST', `/automations/${encodeURIComponent(automationId)}/versions/${encodeURIComponent(version)}/restore`, { options });
+  }
+
   /** List runs `GET /automations/{automation_id}/runs` */
   listRuns(automationId: string, query?: t.ListAutomationRunsData['query'], options?: RequestOptions): Promise<t.ListAutomationRunsResponses[keyof t.ListAutomationRunsResponses]> {
     return this._client.request('GET', `/automations/${encodeURIComponent(automationId)}/runs`, { query, options });
@@ -304,6 +324,21 @@ export class CommentsResource {
   /** Hide or unhide a comment `POST /social/comments/{comment_id}/hide` */
   hide(commentId: string, options?: RequestOptions): Promise<t.HideCommentResponses[keyof t.HideCommentResponses]> {
     return this._client.request('POST', `/social/comments/${encodeURIComponent(commentId)}/hide`, { options });
+  }
+
+  /** Approve or reject a comment `POST /social/comments/{comment_id}/moderate` */
+  moderate(commentId: string, body: t.ModerateCommentData['body'], options?: RequestOptions): Promise<t.ModerateCommentResponses[keyof t.ModerateCommentResponses]> {
+    return this._client.request('POST', `/social/comments/${encodeURIComponent(commentId)}/moderate`, { body, options });
+  }
+
+  /** Like a comment `POST /social/comments/{comment_id}/like` */
+  like(commentId: string, options?: RequestOptions): Promise<t.LikeCommentResponses[keyof t.LikeCommentResponses]> {
+    return this._client.request('POST', `/social/comments/${encodeURIComponent(commentId)}/like`, { options });
+  }
+
+  /** Unlike a comment `DELETE /social/comments/{comment_id}/like` */
+  unlike(commentId: string, options?: RequestOptions): Promise<t.UnlikeCommentResponses[keyof t.UnlikeCommentResponses]> {
+    return this._client.request('DELETE', `/social/comments/${encodeURIComponent(commentId)}/like`, { options });
   }
 
   /** Delete a comment `DELETE /social/comments/{comment_id}` */
@@ -509,6 +544,11 @@ export class MessagesResource {
   /** Mark a conversation read `POST /social/conversations/{conversation_id}/read` */
   markConversationRead(conversationId: string, options?: RequestOptions): Promise<t.MarkConversationReadResponses[keyof t.MarkConversationReadResponses]> {
     return this._client.request('POST', `/social/conversations/${encodeURIComponent(conversationId)}/read`, { options });
+  }
+
+  /** Delete a sent message `DELETE /social/conversations/{conversation_id}/messages/{message_id}` */
+  delete(conversationId: string, messageId: string, options?: RequestOptions): Promise<t.DeleteMessageResponses[keyof t.DeleteMessageResponses]> {
+    return this._client.request('DELETE', `/social/conversations/${encodeURIComponent(conversationId)}/messages/${encodeURIComponent(messageId)}`, { options });
   }
 
   /** React to a message `POST /social/conversations/{conversation_id}/messages/{message_id}/reactions` */
