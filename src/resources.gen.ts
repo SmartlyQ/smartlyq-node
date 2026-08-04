@@ -1516,6 +1516,71 @@ export class WhatsAppResource {
     return this._client.request('GET', '/whatsapp/phone-numbers', { query, options });
   }
 
+  /** List flows `GET /whatsapp/flows` */
+  listWhatsAppFlows(query?: t.ListWhatsAppFlowsData['query'], options?: RequestOptions): Promise<t.ListWhatsAppFlowsResponses[keyof t.ListWhatsAppFlowsResponses]> {
+    return this._client.request('GET', '/whatsapp/flows', { query, options });
+  }
+
+  /** Create a flow `POST /whatsapp/flows` */
+  createWhatsAppFlow(body: t.CreateWhatsAppFlowData['body'], options?: RequestOptions): Promise<t.CreateWhatsAppFlowResponses[keyof t.CreateWhatsAppFlowResponses]> {
+    return this._client.request('POST', '/whatsapp/flows', { body, options });
+  }
+
+  /** Get flow `GET /whatsapp/flows/{flow_id}` */
+  getWhatsAppFlow(flowId: string, query?: t.GetWhatsAppFlowData['query'], options?: RequestOptions): Promise<t.GetWhatsAppFlowResponses[keyof t.GetWhatsAppFlowResponses]> {
+    return this._client.request('GET', `/whatsapp/flows/${encodeURIComponent(flowId)}`, { query, options });
+  }
+
+  /** Update flow `PATCH /whatsapp/flows/{flow_id}` */
+  updateWhatsAppFlow(flowId: string, body: t.UpdateWhatsAppFlowData['body'], options?: RequestOptions): Promise<t.UpdateWhatsAppFlowResponses[keyof t.UpdateWhatsAppFlowResponses]> {
+    return this._client.request('PATCH', `/whatsapp/flows/${encodeURIComponent(flowId)}`, { body, options });
+  }
+
+  /** Delete flow `DELETE /whatsapp/flows/{flow_id}` */
+  deleteWhatsAppFlow(flowId: string, query?: t.DeleteWhatsAppFlowData['query'], options?: RequestOptions): Promise<t.DeleteWhatsAppFlowResponses[keyof t.DeleteWhatsAppFlowResponses]> {
+    return this._client.request('DELETE', `/whatsapp/flows/${encodeURIComponent(flowId)}`, { query, options });
+  }
+
+  /** Get flow JSON asset `GET /whatsapp/flows/{flow_id}/json` */
+  getWhatsAppFlowJson(flowId: string, query?: t.GetWhatsAppFlowJsonData['query'], options?: RequestOptions): Promise<t.GetWhatsAppFlowJsonResponses[keyof t.GetWhatsAppFlowJsonResponses]> {
+    return this._client.request('GET', `/whatsapp/flows/${encodeURIComponent(flowId)}/json`, { query, options });
+  }
+
+  /** Upload flow JSON `PUT /whatsapp/flows/{flow_id}/json` */
+  uploadWhatsAppFlowJson(flowId: string, body: t.UploadWhatsAppFlowJsonData['body'], options?: RequestOptions): Promise<t.UploadWhatsAppFlowJsonResponses[keyof t.UploadWhatsAppFlowJsonResponses]> {
+    return this._client.request('PUT', `/whatsapp/flows/${encodeURIComponent(flowId)}/json`, { body, options });
+  }
+
+  /** Get flow preview URL `GET /whatsapp/flows/{flow_id}/preview` */
+  getWhatsAppFlowPreview(flowId: string, query?: t.GetWhatsAppFlowPreviewData['query'], options?: RequestOptions): Promise<t.GetWhatsAppFlowPreviewResponses[keyof t.GetWhatsAppFlowPreviewResponses]> {
+    return this._client.request('GET', `/whatsapp/flows/${encodeURIComponent(flowId)}/preview`, { query, options });
+  }
+
+  /** Publish flow `POST /whatsapp/flows/{flow_id}/publish` */
+  publishWhatsAppFlow(flowId: string, body: t.PublishWhatsAppFlowData['body'], options?: RequestOptions): Promise<t.PublishWhatsAppFlowResponses[keyof t.PublishWhatsAppFlowResponses]> {
+    return this._client.request('POST', `/whatsapp/flows/${encodeURIComponent(flowId)}/publish`, { body, options });
+  }
+
+  /** Deprecate flow `POST /whatsapp/flows/{flow_id}/deprecate` */
+  deprecateWhatsAppFlow(flowId: string, body: t.DeprecateWhatsAppFlowData['body'], options?: RequestOptions): Promise<t.DeprecateWhatsAppFlowResponses[keyof t.DeprecateWhatsAppFlowResponses]> {
+    return this._client.request('POST', `/whatsapp/flows/${encodeURIComponent(flowId)}/deprecate`, { body, options });
+  }
+
+  /** List blocked users `GET /whatsapp/block-users` */
+  getWhatsAppBlockedUsers(query?: t.GetWhatsAppBlockedUsersData['query'], options?: RequestOptions): Promise<t.GetWhatsAppBlockedUsersResponses[keyof t.GetWhatsAppBlockedUsersResponses]> {
+    return this._client.request('GET', '/whatsapp/block-users', { query, options });
+  }
+
+  /** Block users `POST /whatsapp/block-users` */
+  blockWhatsAppUsers(body: t.BlockWhatsAppUsersData['body'], options?: RequestOptions): Promise<t.BlockWhatsAppUsersResponses[keyof t.BlockWhatsAppUsersResponses]> {
+    return this._client.request('POST', '/whatsapp/block-users', { body, options });
+  }
+
+  /** Unblock users `DELETE /whatsapp/block-users` */
+  unblockWhatsAppUsers(body: t.UnblockWhatsAppUsersData['body'], options?: RequestOptions): Promise<t.UnblockWhatsAppUsersResponses[keyof t.UnblockWhatsAppUsersResponses]> {
+    return this._client.request('DELETE', '/whatsapp/block-users', { body, options });
+  }
+
   /** Get a WhatsApp template `GET /whatsapp/templates/{name}` */
   getTemplate(name: string, query?: t.GetWhatsappTemplateData['query'], options?: RequestOptions): Promise<t.GetWhatsappTemplateResponses[keyof t.GetWhatsappTemplateResponses]> {
     return this._client.request('GET', `/whatsapp/templates/${encodeURIComponent(name)}`, { query, options });

@@ -1996,6 +1996,97 @@ describe('whatsApp', () => {
     expect(calls[0].path).toBe('/whatsapp/phone-numbers');
   });
 
+  it('whatsApp.listWhatsAppFlows -> GET /whatsapp/flows', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.listWhatsAppFlows();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/whatsapp/flows');
+  });
+
+  it('whatsApp.createWhatsAppFlow -> POST /whatsapp/flows', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.createWhatsAppFlow({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/whatsapp/flows');
+  });
+
+  it('whatsApp.getWhatsAppFlow -> GET /whatsapp/flows/{flow_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.getWhatsAppFlow('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/whatsapp/flows/test-id');
+  });
+
+  it('whatsApp.updateWhatsAppFlow -> PATCH /whatsapp/flows/{flow_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.updateWhatsAppFlow('test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/whatsapp/flows/test-id');
+  });
+
+  it('whatsApp.deleteWhatsAppFlow -> DELETE /whatsapp/flows/{flow_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.deleteWhatsAppFlow('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/whatsapp/flows/test-id');
+  });
+
+  it('whatsApp.getWhatsAppFlowJson -> GET /whatsapp/flows/{flow_id}/json', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.getWhatsAppFlowJson('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/whatsapp/flows/test-id/json');
+  });
+
+  it('whatsApp.uploadWhatsAppFlowJson -> PUT /whatsapp/flows/{flow_id}/json', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.uploadWhatsAppFlowJson('test-id', {} as never);
+    expect(calls[0].method).toBe('PUT');
+    expect(calls[0].path).toBe('/whatsapp/flows/test-id/json');
+  });
+
+  it('whatsApp.getWhatsAppFlowPreview -> GET /whatsapp/flows/{flow_id}/preview', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.getWhatsAppFlowPreview('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/whatsapp/flows/test-id/preview');
+  });
+
+  it('whatsApp.publishWhatsAppFlow -> POST /whatsapp/flows/{flow_id}/publish', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.publishWhatsAppFlow('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/whatsapp/flows/test-id/publish');
+  });
+
+  it('whatsApp.deprecateWhatsAppFlow -> POST /whatsapp/flows/{flow_id}/deprecate', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.deprecateWhatsAppFlow('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/whatsapp/flows/test-id/deprecate');
+  });
+
+  it('whatsApp.getWhatsAppBlockedUsers -> GET /whatsapp/block-users', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.getWhatsAppBlockedUsers();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/whatsapp/block-users');
+  });
+
+  it('whatsApp.blockWhatsAppUsers -> POST /whatsapp/block-users', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.blockWhatsAppUsers({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/whatsapp/block-users');
+  });
+
+  it('whatsApp.unblockWhatsAppUsers -> DELETE /whatsapp/block-users', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.unblockWhatsAppUsers({} as never);
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/whatsapp/block-users');
+  });
+
   it('whatsApp.getTemplate -> GET /whatsapp/templates/{name}', async () => {
     const { client, calls } = mockClient();
     await client.whatsApp.getTemplate('test-id');

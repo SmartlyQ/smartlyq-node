@@ -507,6 +507,19 @@ All methods below are available on the client. Full request/response documentati
 | `sq.whatsApp.getWhatsAppBusinessProfile(query?)` | `GET /whatsapp/business-profile` | Get business profile |
 | `sq.whatsApp.updateWhatsAppBusinessProfile(body)` | `PATCH /whatsapp/business-profile` | Update business profile |
 | `sq.whatsApp.listWhatsAppPhoneNumbers(query?)` | `GET /whatsapp/phone-numbers` | List phone numbers |
+| `sq.whatsApp.listWhatsAppFlows(query?)` | `GET /whatsapp/flows` | List flows |
+| `sq.whatsApp.createWhatsAppFlow(body)` | `POST /whatsapp/flows` | Create a flow |
+| `sq.whatsApp.getWhatsAppFlow(flowId, query?)` | `GET /whatsapp/flows/{flow_id}` | Get flow |
+| `sq.whatsApp.updateWhatsAppFlow(flowId, body)` | `PATCH /whatsapp/flows/{flow_id}` | Update flow |
+| `sq.whatsApp.deleteWhatsAppFlow(flowId, query?)` | `DELETE /whatsapp/flows/{flow_id}` | Delete flow |
+| `sq.whatsApp.getWhatsAppFlowJson(flowId, query?)` | `GET /whatsapp/flows/{flow_id}/json` | Get flow JSON asset |
+| `sq.whatsApp.uploadWhatsAppFlowJson(flowId, body)` | `PUT /whatsapp/flows/{flow_id}/json` | Upload flow JSON |
+| `sq.whatsApp.getWhatsAppFlowPreview(flowId, query?)` | `GET /whatsapp/flows/{flow_id}/preview` | Get flow preview URL |
+| `sq.whatsApp.publishWhatsAppFlow(flowId, body)` | `POST /whatsapp/flows/{flow_id}/publish` | Publish flow |
+| `sq.whatsApp.deprecateWhatsAppFlow(flowId, body)` | `POST /whatsapp/flows/{flow_id}/deprecate` | Deprecate flow |
+| `sq.whatsApp.getWhatsAppBlockedUsers(query?)` | `GET /whatsapp/block-users` | List blocked users |
+| `sq.whatsApp.blockWhatsAppUsers(body)` | `POST /whatsapp/block-users` | Block users |
+| `sq.whatsApp.unblockWhatsAppUsers(body)` | `DELETE /whatsapp/block-users` | Unblock users |
 | `sq.whatsApp.getTemplate(name, query?)` | `GET /whatsapp/templates/{name}` | Get a WhatsApp template |
 | `sq.whatsApp.updateTemplate(name, body)` | `PATCH /whatsapp/templates/{name}` | Update a WhatsApp template |
 | `sq.whatsApp.deleteTemplate(name, query?)` | `DELETE /whatsapp/templates/{name}` | Delete a WhatsApp template |
