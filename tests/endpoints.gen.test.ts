@@ -2087,6 +2087,62 @@ describe('whatsApp', () => {
     expect(calls[0].path).toBe('/whatsapp/block-users');
   });
 
+  it('whatsApp.listWhatsAppSandboxSessions -> GET /whatsapp/sandbox/sessions', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.listWhatsAppSandboxSessions();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/whatsapp/sandbox/sessions');
+  });
+
+  it('whatsApp.createWhatsAppSandboxSession -> POST /whatsapp/sandbox/sessions', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.createWhatsAppSandboxSession({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/whatsapp/sandbox/sessions');
+  });
+
+  it('whatsApp.deleteWhatsAppSandboxSession -> DELETE /whatsapp/sandbox/sessions/{session_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.deleteWhatsAppSandboxSession('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/whatsapp/sandbox/sessions/test-id');
+  });
+
+  it('whatsApp.sendWhatsAppSandboxMessage -> POST /whatsapp/sandbox/sessions/{session_id}/send', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.sendWhatsAppSandboxMessage('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/whatsapp/sandbox/sessions/test-id/send');
+  });
+
+  it('whatsApp.getWhatsAppNumberBridgeStatus -> GET /whatsapp/numbers/{sender_id}/bridge', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.getWhatsAppNumberBridgeStatus('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/whatsapp/numbers/test-id/bridge');
+  });
+
+  it('whatsApp.startWhatsAppNumberBridge -> POST /whatsapp/numbers/{sender_id}/bridge', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.startWhatsAppNumberBridge('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/whatsapp/numbers/test-id/bridge');
+  });
+
+  it('whatsApp.requestWhatsAppNumberBridgeCode -> POST /whatsapp/numbers/{sender_id}/bridge/request-code', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.requestWhatsAppNumberBridgeCode('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/whatsapp/numbers/test-id/bridge/request-code');
+  });
+
+  it('whatsApp.verifyWhatsAppNumberBridge -> POST /whatsapp/numbers/{sender_id}/bridge/verify', async () => {
+    const { client, calls } = mockClient();
+    await client.whatsApp.verifyWhatsAppNumberBridge('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/whatsapp/numbers/test-id/bridge/verify');
+  });
+
   it('whatsApp.getTemplate -> GET /whatsapp/templates/{name}', async () => {
     const { client, calls } = mockClient();
     await client.whatsApp.getTemplate('test-id');

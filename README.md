@@ -520,6 +520,14 @@ All methods below are available on the client. Full request/response documentati
 | `sq.whatsApp.getWhatsAppBlockedUsers(query?)` | `GET /whatsapp/block-users` | List blocked users |
 | `sq.whatsApp.blockWhatsAppUsers(body)` | `POST /whatsapp/block-users` | Block users |
 | `sq.whatsApp.unblockWhatsAppUsers(body)` | `DELETE /whatsapp/block-users` | Unblock users |
+| `sq.whatsApp.listWhatsAppSandboxSessions()` | `GET /whatsapp/sandbox/sessions` | List your sandbox sessions |
+| `sq.whatsApp.createWhatsAppSandboxSession(body)` | `POST /whatsapp/sandbox/sessions` | Start a sandbox activation |
+| `sq.whatsApp.deleteWhatsAppSandboxSession(sessionId)` | `DELETE /whatsapp/sandbox/sessions/{session_id}` | Revoke a sandbox session |
+| `sq.whatsApp.sendWhatsAppSandboxMessage(sessionId)` | `POST /whatsapp/sandbox/sessions/{session_id}/send` | Send the sandbox template |
+| `sq.whatsApp.getWhatsAppNumberBridgeStatus(senderId)` | `GET /whatsapp/numbers/{sender_id}/bridge` | Bridge status |
+| `sq.whatsApp.startWhatsAppNumberBridge(senderId)` | `POST /whatsapp/numbers/{sender_id}/bridge` | Bridge an owned number onto WhatsApp |
+| `sq.whatsApp.requestWhatsAppNumberBridgeCode(senderId, body?)` | `POST /whatsapp/numbers/{sender_id}/bridge/request-code` | Request a verification code |
+| `sq.whatsApp.verifyWhatsAppNumberBridge(senderId, body)` | `POST /whatsapp/numbers/{sender_id}/bridge/verify` | Submit the verification code |
 | `sq.whatsApp.getTemplate(name, query?)` | `GET /whatsapp/templates/{name}` | Get a WhatsApp template |
 | `sq.whatsApp.updateTemplate(name, body)` | `PATCH /whatsapp/templates/{name}` | Update a WhatsApp template |
 | `sq.whatsApp.deleteTemplate(name, query?)` | `DELETE /whatsapp/templates/{name}` | Delete a WhatsApp template |

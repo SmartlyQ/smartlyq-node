@@ -1581,6 +1581,46 @@ export class WhatsAppResource {
     return this._client.request('DELETE', '/whatsapp/block-users', { body, options });
   }
 
+  /** List your sandbox sessions `GET /whatsapp/sandbox/sessions` */
+  listWhatsAppSandboxSessions(options?: RequestOptions): Promise<t.ListWhatsAppSandboxSessionsResponses[keyof t.ListWhatsAppSandboxSessionsResponses]> {
+    return this._client.request('GET', '/whatsapp/sandbox/sessions', { options });
+  }
+
+  /** Start a sandbox activation `POST /whatsapp/sandbox/sessions` */
+  createWhatsAppSandboxSession(body: t.CreateWhatsAppSandboxSessionData['body'], options?: RequestOptions): Promise<t.CreateWhatsAppSandboxSessionResponses[keyof t.CreateWhatsAppSandboxSessionResponses]> {
+    return this._client.request('POST', '/whatsapp/sandbox/sessions', { body, options });
+  }
+
+  /** Revoke a sandbox session `DELETE /whatsapp/sandbox/sessions/{session_id}` */
+  deleteWhatsAppSandboxSession(sessionId: string, options?: RequestOptions): Promise<t.DeleteWhatsAppSandboxSessionResponses[keyof t.DeleteWhatsAppSandboxSessionResponses]> {
+    return this._client.request('DELETE', `/whatsapp/sandbox/sessions/${encodeURIComponent(sessionId)}`, { options });
+  }
+
+  /** Send the sandbox template `POST /whatsapp/sandbox/sessions/{session_id}/send` */
+  sendWhatsAppSandboxMessage(sessionId: string, options?: RequestOptions): Promise<t.SendWhatsAppSandboxMessageResponses[keyof t.SendWhatsAppSandboxMessageResponses]> {
+    return this._client.request('POST', `/whatsapp/sandbox/sessions/${encodeURIComponent(sessionId)}/send`, { options });
+  }
+
+  /** Bridge status `GET /whatsapp/numbers/{sender_id}/bridge` */
+  getWhatsAppNumberBridgeStatus(senderId: string, options?: RequestOptions): Promise<t.GetWhatsAppNumberBridgeStatusResponses[keyof t.GetWhatsAppNumberBridgeStatusResponses]> {
+    return this._client.request('GET', `/whatsapp/numbers/${encodeURIComponent(senderId)}/bridge`, { options });
+  }
+
+  /** Bridge an owned number onto WhatsApp `POST /whatsapp/numbers/{sender_id}/bridge` */
+  startWhatsAppNumberBridge(senderId: string, options?: RequestOptions): Promise<t.StartWhatsAppNumberBridgeResponses[keyof t.StartWhatsAppNumberBridgeResponses]> {
+    return this._client.request('POST', `/whatsapp/numbers/${encodeURIComponent(senderId)}/bridge`, { options });
+  }
+
+  /** Request a verification code `POST /whatsapp/numbers/{sender_id}/bridge/request-code` */
+  requestWhatsAppNumberBridgeCode(senderId: string, body?: t.RequestWhatsAppNumberBridgeCodeData['body'], options?: RequestOptions): Promise<t.RequestWhatsAppNumberBridgeCodeResponses[keyof t.RequestWhatsAppNumberBridgeCodeResponses]> {
+    return this._client.request('POST', `/whatsapp/numbers/${encodeURIComponent(senderId)}/bridge/request-code`, { body, options });
+  }
+
+  /** Submit the verification code `POST /whatsapp/numbers/{sender_id}/bridge/verify` */
+  verifyWhatsAppNumberBridge(senderId: string, body: t.VerifyWhatsAppNumberBridgeData['body'], options?: RequestOptions): Promise<t.VerifyWhatsAppNumberBridgeResponses[keyof t.VerifyWhatsAppNumberBridgeResponses]> {
+    return this._client.request('POST', `/whatsapp/numbers/${encodeURIComponent(senderId)}/bridge/verify`, { body, options });
+  }
+
   /** Get a WhatsApp template `GET /whatsapp/templates/{name}` */
   getTemplate(name: string, query?: t.GetWhatsappTemplateData['query'], options?: RequestOptions): Promise<t.GetWhatsappTemplateResponses[keyof t.GetWhatsappTemplateResponses]> {
     return this._client.request('GET', `/whatsapp/templates/${encodeURIComponent(name)}`, { query, options });
