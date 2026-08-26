@@ -641,6 +641,11 @@ export class MediaResource {
     return this._client.request('POST', '/media/upload-url', { body, options });
   }
 
+  /** Confirm a presigned upload `POST /media/{media_id}/confirm` */
+  confirmUpload(mediaId: string, options?: RequestOptions): Promise<t.ConfirmMediaUploadResponses[keyof t.ConfirmMediaUploadResponses]> {
+    return this._client.request('POST', `/media/${encodeURIComponent(mediaId)}/confirm`, { options });
+  }
+
   /** Upload a file directly `POST /media/upload-direct` */
   uploadDirect(body: t.UploadMediaDirectData['body'], options?: RequestOptions): Promise<t.UploadMediaDirectResponses[keyof t.UploadMediaDirectResponses]> {
     return this._client.request('POST', '/media/upload-direct', { body, options });

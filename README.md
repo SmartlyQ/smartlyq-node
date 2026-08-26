@@ -292,6 +292,7 @@ All methods below are available on the client. Full request/response documentati
 | `sq.media.get(mediaId)` | `GET /media/{media_id}` | Get media |
 | `sq.media.delete(mediaId)` | `DELETE /media/{media_id}` | Delete media |
 | `sq.media.getUploadUrl(body)` | `POST /media/upload-url` | Get presigned upload URL |
+| `sq.media.confirmUpload(mediaId)` | `POST /media/{media_id}/confirm` | Confirm a presigned upload |
 | `sq.media.uploadDirect(body)` | `POST /media/upload-direct` | Upload a file directly |
 
 ### Presentations

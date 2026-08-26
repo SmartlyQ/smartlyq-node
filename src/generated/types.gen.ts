@@ -4170,6 +4170,52 @@ export type GetMediaUploadUrlResponses = {
 
 export type GetMediaUploadUrlResponse = GetMediaUploadUrlResponses[keyof GetMediaUploadUrlResponses];
 
+export type ConfirmMediaUploadData = {
+    body?: never;
+    path: {
+        /**
+         * Media ID (string UUID).
+         */
+        media_id: string;
+    };
+    query?: never;
+    url: '/media/{media_id}/confirm';
+};
+
+export type ConfirmMediaUploadErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * No object found at the presigned URL yet - PUT the file there first, then confirm.
+     */
+    422: unknown;
+    /**
+     * Internal server error
+     */
+    500: ErrorResponse;
+};
+
+export type ConfirmMediaUploadError = ConfirmMediaUploadErrors[keyof ConfirmMediaUploadErrors];
+
+export type ConfirmMediaUploadResponses = {
+    /**
+     * Upload confirmed, record updated
+     */
+    200: MediaSingleResponse;
+};
+
+export type ConfirmMediaUploadResponse = ConfirmMediaUploadResponses[keyof ConfirmMediaUploadResponses];
+
 export type GetAnalyticsOverviewData = {
     body?: never;
     headers?: {

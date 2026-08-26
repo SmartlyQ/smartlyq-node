@@ -821,6 +821,13 @@ describe('media', () => {
     expect(calls[0].path).toBe('/media/upload-url');
   });
 
+  it('media.confirmUpload -> POST /media/{media_id}/confirm', async () => {
+    const { client, calls } = mockClient();
+    await client.media.confirmUpload('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/media/test-id/confirm');
+  });
+
   it('media.uploadDirect -> POST /media/upload-direct', async () => {
     const { client, calls } = mockClient();
     await client.media.uploadDirect({} as never);
