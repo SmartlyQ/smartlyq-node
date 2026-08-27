@@ -17387,6 +17387,1549 @@ export type CreateWhatsappTemplateFromLibraryResponses = {
 
 export type CreateWhatsappTemplateFromLibraryResponse = CreateWhatsappTemplateFromLibraryResponses[keyof CreateWhatsappTemplateFromLibraryResponses];
 
+export type ListAdCampaignsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        status?: string;
+        platform?: 'meta' | 'google' | 'tiktok' | 'linkedin';
+        /**
+         * Match against name.
+         */
+        search?: string;
+        page?: number;
+        per_page?: number;
+    };
+    url: '/ads/campaigns';
+};
+
+export type ListAdCampaignsResponses = {
+    /**
+     * Paginated campaigns
+     */
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            name?: string;
+            platform?: 'meta' | 'google' | 'tiktok' | 'linkedin';
+            objective?: string;
+            status?: 'draft' | 'active' | 'paused' | 'archived';
+            budget?: number;
+            budget_type?: 'daily' | 'lifetime';
+            spent?: number;
+            impressions?: number;
+            clicks?: number;
+            conversions?: number;
+            ctr?: number;
+            cpa?: number;
+            roas?: number;
+            purchase_value?: number;
+            leads?: number;
+            start_date?: string;
+            end_date?: string;
+            last_sync_at?: string;
+            created_at?: string;
+        }>;
+        pagination?: PaginationMeta;
+        meta?: RequestMeta;
+    };
+};
+
+export type ListAdCampaignsResponse = ListAdCampaignsResponses[keyof ListAdCampaignsResponses];
+
+export type CreateAdCampaignData = {
+    body: {
+        platform: 'meta' | 'google' | 'tiktok' | 'linkedin';
+        name: string;
+        objective?: string;
+        /**
+         * Meta only - required to launch live, otherwise a draft is created.
+         */
+        page_id?: string;
+        ad_account_id?: string;
+        budget?: number;
+        budget_type?: 'daily' | 'lifetime';
+        start_date?: string;
+        end_date?: string;
+        /**
+         * Non-Meta only - true creates an active local draft instead of a draft.
+         */
+        launch?: boolean;
+        targeting?: {
+            [key: string]: unknown;
+        };
+        creative?: {
+            [key: string]: unknown;
+        };
+        settings?: {
+            [key: string]: unknown;
+        };
+    };
+    path?: never;
+    query?: never;
+    url: '/ads/campaigns';
+};
+
+export type CreateAdCampaignErrors = {
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type CreateAdCampaignError = CreateAdCampaignErrors[keyof CreateAdCampaignErrors];
+
+export type CreateAdCampaignResponses = {
+    /**
+     * Campaign created
+     */
+    201: {
+        success?: true;
+        data?: {
+            id?: number;
+            status?: string;
+            warnings?: Array<string>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type CreateAdCampaignResponse = CreateAdCampaignResponses[keyof CreateAdCampaignResponses];
+
+export type DeleteAdCampaignData = {
+    body?: never;
+    path: {
+        /**
+         * Campaign ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/campaigns/{id}';
+};
+
+export type DeleteAdCampaignErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type DeleteAdCampaignError = DeleteAdCampaignErrors[keyof DeleteAdCampaignErrors];
+
+export type DeleteAdCampaignResponses = {
+    /**
+     * Deleted
+     */
+    200: {
+        success?: true;
+        data?: {
+            deleted?: true;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeleteAdCampaignResponse = DeleteAdCampaignResponses[keyof DeleteAdCampaignResponses];
+
+export type GetAdCampaignData = {
+    body?: never;
+    path: {
+        /**
+         * Campaign ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/campaigns/{id}';
+};
+
+export type GetAdCampaignErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type GetAdCampaignError = GetAdCampaignErrors[keyof GetAdCampaignErrors];
+
+export type GetAdCampaignResponses = {
+    /**
+     * Campaign
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            name?: string;
+            platform?: 'meta' | 'google' | 'tiktok' | 'linkedin';
+            objective?: string;
+            status?: 'draft' | 'active' | 'paused' | 'archived';
+            budget?: number;
+            budget_type?: 'daily' | 'lifetime';
+            spent?: number;
+            impressions?: number;
+            clicks?: number;
+            conversions?: number;
+            ctr?: number;
+            cpa?: number;
+            roas?: number;
+            purchase_value?: number;
+            leads?: number;
+            start_date?: string;
+            end_date?: string;
+            last_sync_at?: string;
+            created_at?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GetAdCampaignResponse = GetAdCampaignResponses[keyof GetAdCampaignResponses];
+
+export type UpdateAdCampaignData = {
+    body?: {
+        name?: string;
+        budget_amount?: number;
+        confirm_cooldown?: boolean;
+    };
+    path: {
+        /**
+         * Campaign ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/campaigns/{id}';
+};
+
+export type UpdateAdCampaignErrors = {
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Rate limit exceeded
+     */
+    429: ErrorResponse;
+};
+
+export type UpdateAdCampaignError = UpdateAdCampaignErrors[keyof UpdateAdCampaignErrors];
+
+export type UpdateAdCampaignResponses = {
+    /**
+     * Updated
+     */
+    200: {
+        success?: true;
+        data?: {
+            updated?: true;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type UpdateAdCampaignResponse = UpdateAdCampaignResponses[keyof UpdateAdCampaignResponses];
+
+export type PauseAdCampaignData = {
+    body?: never;
+    path: {
+        /**
+         * Campaign ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/campaigns/{id}/pause';
+};
+
+export type PauseAdCampaignErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Rate limit exceeded
+     */
+    429: ErrorResponse;
+};
+
+export type PauseAdCampaignError = PauseAdCampaignErrors[keyof PauseAdCampaignErrors];
+
+export type PauseAdCampaignResponses = {
+    /**
+     * Pause a campaign
+     */
+    200: {
+        success?: true;
+        data?: {
+            updated?: true;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type PauseAdCampaignResponse = PauseAdCampaignResponses[keyof PauseAdCampaignResponses];
+
+export type ResumeAdCampaignData = {
+    body?: never;
+    path: {
+        /**
+         * Campaign ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/campaigns/{id}/resume';
+};
+
+export type ResumeAdCampaignErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Rate limit exceeded
+     */
+    429: ErrorResponse;
+};
+
+export type ResumeAdCampaignError = ResumeAdCampaignErrors[keyof ResumeAdCampaignErrors];
+
+export type ResumeAdCampaignResponses = {
+    /**
+     * Resume a campaign
+     */
+    200: {
+        success?: true;
+        data?: {
+            updated?: true;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ResumeAdCampaignResponse = ResumeAdCampaignResponses[keyof ResumeAdCampaignResponses];
+
+export type DuplicateAdCampaignData = {
+    body?: never;
+    path: {
+        /**
+         * Campaign ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/campaigns/{id}/duplicate';
+};
+
+export type DuplicateAdCampaignErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Rate limit exceeded
+     */
+    429: ErrorResponse;
+};
+
+export type DuplicateAdCampaignError = DuplicateAdCampaignErrors[keyof DuplicateAdCampaignErrors];
+
+export type DuplicateAdCampaignResponses = {
+    /**
+     * Duplicate a campaign
+     */
+    201: {
+        success?: true;
+        data?: {
+            id?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DuplicateAdCampaignResponse = DuplicateAdCampaignResponses[keyof DuplicateAdCampaignResponses];
+
+export type ArchiveAdCampaignData = {
+    body?: never;
+    path: {
+        /**
+         * Campaign ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/campaigns/{id}/archive';
+};
+
+export type ArchiveAdCampaignErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Rate limit exceeded
+     */
+    429: ErrorResponse;
+};
+
+export type ArchiveAdCampaignError = ArchiveAdCampaignErrors[keyof ArchiveAdCampaignErrors];
+
+export type ArchiveAdCampaignResponses = {
+    /**
+     * Archive a campaign
+     */
+    200: {
+        success?: true;
+        data?: {
+            archived?: true;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ArchiveAdCampaignResponse = ArchiveAdCampaignResponses[keyof ArchiveAdCampaignResponses];
+
+export type BulkAdCampaignStatusData = {
+    body: {
+        ids: Array<number>;
+        status: 'active' | 'paused';
+        confirm_cooldown?: boolean;
+    };
+    path?: never;
+    query?: never;
+    url: '/ads/campaigns/bulk-status';
+};
+
+export type BulkAdCampaignStatusErrors = {
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type BulkAdCampaignStatusError = BulkAdCampaignStatusErrors[keyof BulkAdCampaignStatusErrors];
+
+export type BulkAdCampaignStatusResponses = {
+    /**
+     * Per-item results
+     */
+    200: {
+        success?: true;
+        data?: {
+            ok?: number;
+            results?: Array<{
+                id?: number;
+                ok?: number;
+                error?: string;
+                cooldown_warning?: string;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type BulkAdCampaignStatusResponse = BulkAdCampaignStatusResponses[keyof BulkAdCampaignStatusResponses];
+
+export type ListAdSetsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        status?: string;
+        platform?: 'meta' | 'google' | 'tiktok' | 'linkedin';
+        /**
+         * Match against name.
+         */
+        search?: string;
+        page?: number;
+        per_page?: number;
+    };
+    url: '/ads/ad-sets';
+};
+
+export type ListAdSetsResponses = {
+    /**
+     * Paginated ad sets
+     */
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            campaign_id?: number;
+            name?: string;
+            campaign_name?: string;
+            status?: string;
+            budget?: number;
+            bid_strategy?: string;
+            spent?: number;
+            impressions?: number;
+            clicks?: number;
+            conversions?: number;
+            cpa?: number;
+            platform?: string;
+        }>;
+        pagination?: PaginationMeta;
+        meta?: RequestMeta;
+    };
+};
+
+export type ListAdSetsResponse = ListAdSetsResponses[keyof ListAdSetsResponses];
+
+export type DeleteAdSetData = {
+    body?: never;
+    path: {
+        /**
+         * Ad set ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/ad-sets/{id}';
+};
+
+export type DeleteAdSetErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type DeleteAdSetError = DeleteAdSetErrors[keyof DeleteAdSetErrors];
+
+export type DeleteAdSetResponses = {
+    /**
+     * Deleted
+     */
+    200: {
+        success?: true;
+        data?: {
+            deleted?: true;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeleteAdSetResponse = DeleteAdSetResponses[keyof DeleteAdSetResponses];
+
+export type GetAdSetData = {
+    body?: never;
+    path: {
+        /**
+         * Ad set ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/ad-sets/{id}';
+};
+
+export type GetAdSetErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type GetAdSetError = GetAdSetErrors[keyof GetAdSetErrors];
+
+export type GetAdSetResponses = {
+    /**
+     * Ad set
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            campaign_id?: number;
+            name?: string;
+            campaign_name?: string;
+            status?: string;
+            budget?: number;
+            bid_strategy?: string;
+            spent?: number;
+            impressions?: number;
+            clicks?: number;
+            conversions?: number;
+            cpa?: number;
+            platform?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GetAdSetResponse = GetAdSetResponses[keyof GetAdSetResponses];
+
+export type PauseAdSetData = {
+    body?: never;
+    path: {
+        /**
+         * Ad set ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/ad-sets/{id}/pause';
+};
+
+export type PauseAdSetErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type PauseAdSetError = PauseAdSetErrors[keyof PauseAdSetErrors];
+
+export type PauseAdSetResponses = {
+    /**
+     * Pause an ad set
+     */
+    200: {
+        success?: true;
+        data?: {
+            updated?: true;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type PauseAdSetResponse = PauseAdSetResponses[keyof PauseAdSetResponses];
+
+export type ResumeAdSetData = {
+    body?: never;
+    path: {
+        /**
+         * Ad set ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/ad-sets/{id}/resume';
+};
+
+export type ResumeAdSetErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type ResumeAdSetError = ResumeAdSetErrors[keyof ResumeAdSetErrors];
+
+export type ResumeAdSetResponses = {
+    /**
+     * Resume an ad set
+     */
+    200: {
+        success?: true;
+        data?: {
+            updated?: true;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ResumeAdSetResponse = ResumeAdSetResponses[keyof ResumeAdSetResponses];
+
+export type DuplicateAdSetData = {
+    body?: never;
+    path: {
+        /**
+         * Ad set ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/ad-sets/{id}/duplicate';
+};
+
+export type DuplicateAdSetErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type DuplicateAdSetError = DuplicateAdSetErrors[keyof DuplicateAdSetErrors];
+
+export type DuplicateAdSetResponses = {
+    /**
+     * Duplicate an ad set
+     */
+    201: {
+        success?: true;
+        data?: {
+            id?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DuplicateAdSetResponse = DuplicateAdSetResponses[keyof DuplicateAdSetResponses];
+
+export type ArchiveAdSetData = {
+    body?: never;
+    path: {
+        /**
+         * Ad set ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/ad-sets/{id}/archive';
+};
+
+export type ArchiveAdSetErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type ArchiveAdSetError = ArchiveAdSetErrors[keyof ArchiveAdSetErrors];
+
+export type ArchiveAdSetResponses = {
+    /**
+     * Archive an ad set
+     */
+    200: {
+        success?: true;
+        data?: {
+            archived?: true;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ArchiveAdSetResponse = ArchiveAdSetResponses[keyof ArchiveAdSetResponses];
+
+export type ListAdsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        status?: string;
+        platform?: 'meta' | 'google' | 'tiktok' | 'linkedin';
+        /**
+         * Match against name.
+         */
+        search?: string;
+        format?: 'image' | 'video' | 'carousel' | 'text';
+        page?: number;
+        per_page?: number;
+    };
+    url: '/ads/ads';
+};
+
+export type ListAdsResponses = {
+    /**
+     * Paginated ads
+     */
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            ad_set_id?: number;
+            campaign_id?: number;
+            name?: string;
+            ad_set_name?: string;
+            status?: string;
+            format?: 'image' | 'video' | 'carousel' | 'text';
+            headline?: string;
+            spent?: number;
+            impressions?: number;
+            clicks?: number;
+            ctr?: number;
+            conversions?: number;
+            cpa?: number;
+            platform?: string;
+            destination_url?: string;
+        }>;
+        pagination?: PaginationMeta;
+        meta?: RequestMeta;
+    };
+};
+
+export type ListAdsResponse = ListAdsResponses[keyof ListAdsResponses];
+
+export type DeleteAdData = {
+    body?: never;
+    path: {
+        /**
+         * Ad ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/ads/{id}';
+};
+
+export type DeleteAdErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type DeleteAdError = DeleteAdErrors[keyof DeleteAdErrors];
+
+export type DeleteAdResponses = {
+    /**
+     * Deleted
+     */
+    200: {
+        success?: true;
+        data?: {
+            deleted?: true;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeleteAdResponse = DeleteAdResponses[keyof DeleteAdResponses];
+
+export type GetAdData = {
+    body?: never;
+    path: {
+        /**
+         * Ad ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/ads/{id}';
+};
+
+export type GetAdErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type GetAdError = GetAdErrors[keyof GetAdErrors];
+
+export type GetAdResponses = {
+    /**
+     * Ad
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            ad_set_id?: number;
+            campaign_id?: number;
+            name?: string;
+            ad_set_name?: string;
+            status?: string;
+            format?: 'image' | 'video' | 'carousel' | 'text';
+            headline?: string;
+            spent?: number;
+            impressions?: number;
+            clicks?: number;
+            ctr?: number;
+            conversions?: number;
+            cpa?: number;
+            platform?: string;
+            destination_url?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GetAdResponse = GetAdResponses[keyof GetAdResponses];
+
+export type PauseAdData = {
+    body?: never;
+    path: {
+        /**
+         * Ad ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/ads/{id}/pause';
+};
+
+export type PauseAdErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type PauseAdError = PauseAdErrors[keyof PauseAdErrors];
+
+export type PauseAdResponses = {
+    /**
+     * Pause an ad
+     */
+    200: {
+        success?: true;
+        data?: {
+            updated?: true;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type PauseAdResponse = PauseAdResponses[keyof PauseAdResponses];
+
+export type ResumeAdData = {
+    body?: never;
+    path: {
+        /**
+         * Ad ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/ads/{id}/resume';
+};
+
+export type ResumeAdErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type ResumeAdError = ResumeAdErrors[keyof ResumeAdErrors];
+
+export type ResumeAdResponses = {
+    /**
+     * Resume an ad
+     */
+    200: {
+        success?: true;
+        data?: {
+            updated?: true;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ResumeAdResponse = ResumeAdResponses[keyof ResumeAdResponses];
+
+export type DuplicateAdData = {
+    body?: never;
+    path: {
+        /**
+         * Ad ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/ads/{id}/duplicate';
+};
+
+export type DuplicateAdErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type DuplicateAdError = DuplicateAdErrors[keyof DuplicateAdErrors];
+
+export type DuplicateAdResponses = {
+    /**
+     * Duplicate an ad
+     */
+    201: {
+        success?: true;
+        data?: {
+            id?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DuplicateAdResponse = DuplicateAdResponses[keyof DuplicateAdResponses];
+
+export type ArchiveAdData = {
+    body?: never;
+    path: {
+        /**
+         * Ad ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/ads/{id}/archive';
+};
+
+export type ArchiveAdErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type ArchiveAdError = ArchiveAdErrors[keyof ArchiveAdErrors];
+
+export type ArchiveAdResponses = {
+    /**
+     * Archive an ad
+     */
+    200: {
+        success?: true;
+        data?: {
+            archived?: true;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ArchiveAdResponse = ArchiveAdResponses[keyof ArchiveAdResponses];
+
+export type ListAdAudiencesData = {
+    body?: never;
+    path?: never;
+    query?: {
+        type?: 'custom' | 'lookalike' | 'retargeting';
+        page?: number;
+        per_page?: number;
+    };
+    url: '/ads/audiences';
+};
+
+export type ListAdAudiencesResponses = {
+    /**
+     * Paginated audiences
+     */
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            name?: string;
+            platform?: string;
+            type?: 'custom' | 'lookalike' | 'retargeting';
+            size?: number;
+            status?: 'ready' | 'updating' | 'processing' | 'error';
+            source?: string;
+            description?: string;
+            created_at?: string;
+        }>;
+        pagination?: PaginationMeta;
+        meta?: RequestMeta;
+    };
+};
+
+export type ListAdAudiencesResponse = ListAdAudiencesResponses[keyof ListAdAudiencesResponses];
+
+export type ListAdPixelsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        page?: number;
+        per_page?: number;
+    };
+    url: '/ads/pixels';
+};
+
+export type ListAdPixelsResponses = {
+    /**
+     * Paginated pixels
+     */
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            name?: string;
+            platform?: string;
+            type?: 'pixel' | 'conversion_action';
+            category?: string;
+            status?: string;
+            created_at?: string;
+        }>;
+        pagination?: PaginationMeta;
+        meta?: RequestMeta;
+    };
+};
+
+export type ListAdPixelsResponse = ListAdPixelsResponses[keyof ListAdPixelsResponses];
+
+export type ListAdLeadFormsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        page?: number;
+        per_page?: number;
+    };
+    url: '/ads/lead-forms';
+};
+
+export type ListAdLeadFormsResponses = {
+    /**
+     * Paginated lead forms
+     */
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            name?: string;
+            platform?: string;
+            page_id?: string;
+            status?: string;
+            questions_count?: number;
+            created_at?: string;
+        }>;
+        pagination?: PaginationMeta;
+        meta?: RequestMeta;
+    };
+};
+
+export type ListAdLeadFormsResponse = ListAdLeadFormsResponses[keyof ListAdLeadFormsResponses];
+
+export type CreateAdLeadFormData = {
+    body: {
+        page_id: string;
+        name: string;
+        standard_fields: Array<'FULL_NAME' | 'FIRST_NAME' | 'LAST_NAME' | 'EMAIL' | 'PHONE_NUMBER' | 'CITY' | 'STATE' | 'COUNTRY' | 'ZIP' | 'JOB_TITLE' | 'COMPANY_NAME'>;
+        privacy_policy_url: string;
+        privacy_policy_text?: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/ads/lead-forms';
+};
+
+export type CreateAdLeadFormErrors = {
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type CreateAdLeadFormError = CreateAdLeadFormErrors[keyof CreateAdLeadFormErrors];
+
+export type CreateAdLeadFormResponses = {
+    /**
+     * Lead form created
+     */
+    201: {
+        success?: true;
+        data?: {
+            id?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type CreateAdLeadFormResponse = CreateAdLeadFormResponses[keyof CreateAdLeadFormResponses];
+
+export type ListAdCreativesData = {
+    body?: never;
+    path?: never;
+    query?: {
+        type?: 'image' | 'video' | 'carousel' | 'text';
+        page?: number;
+        per_page?: number;
+    };
+    url: '/ads/creatives';
+};
+
+export type ListAdCreativesResponses = {
+    /**
+     * Paginated creatives
+     */
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            name?: string;
+            format?: 'image' | 'video' | 'carousel' | 'text';
+            platform?: string;
+            status?: 'active' | 'draft' | 'archived';
+            file_url?: string;
+            thumbnail_url?: string;
+            impressions?: number;
+            clicks?: number;
+            ctr?: number;
+            conversions?: number;
+            created_at?: string;
+        }>;
+        pagination?: PaginationMeta;
+        meta?: RequestMeta;
+    };
+};
+
+export type ListAdCreativesResponse = ListAdCreativesResponses[keyof ListAdCreativesResponses];
+
+export type CreateAdCreativeData = {
+    body: {
+        name: string;
+        type: 'image' | 'video' | 'carousel' | 'text';
+        platform: 'meta' | 'google' | 'tiktok' | 'linkedin';
+        /**
+         * Required unless type is text.
+         */
+        file_url?: string;
+        thumbnail_url?: string;
+        format?: string;
+        variant?: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/ads/creatives';
+};
+
+export type CreateAdCreativeErrors = {
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type CreateAdCreativeError = CreateAdCreativeErrors[keyof CreateAdCreativeErrors];
+
+export type CreateAdCreativeResponses = {
+    /**
+     * Creative created
+     */
+    201: {
+        success?: true;
+        data?: {
+            id?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type CreateAdCreativeResponse = CreateAdCreativeResponses[keyof CreateAdCreativeResponses];
+
+export type DeleteAdCreativeData = {
+    body?: never;
+    path: {
+        /**
+         * Creative ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/creatives/{id}';
+};
+
+export type DeleteAdCreativeErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type DeleteAdCreativeError = DeleteAdCreativeErrors[keyof DeleteAdCreativeErrors];
+
+export type DeleteAdCreativeResponses = {
+    /**
+     * Deleted
+     */
+    200: {
+        success?: true;
+        data?: {
+            deleted?: true;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeleteAdCreativeResponse = DeleteAdCreativeResponses[keyof DeleteAdCreativeResponses];
+
+export type UpdateAdCreativeData = {
+    body?: {
+        name?: string;
+        status?: 'active' | 'draft' | 'archived';
+        variant?: string;
+        format?: string;
+    };
+    path: {
+        /**
+         * Creative ID
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/ads/creatives/{id}';
+};
+
+export type UpdateAdCreativeErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type UpdateAdCreativeError = UpdateAdCreativeErrors[keyof UpdateAdCreativeErrors];
+
+export type UpdateAdCreativeResponses = {
+    /**
+     * Updated
+     */
+    200: {
+        success?: true;
+        data?: {
+            updated?: true;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type UpdateAdCreativeResponse = UpdateAdCreativeResponses[keyof UpdateAdCreativeResponses];
+
+export type ListAdAccountsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/ads/accounts';
+};
+
+export type ListAdAccountsResponses = {
+    /**
+     * Accounts
+     */
+    200: {
+        success?: true;
+        data?: {
+            accounts?: Array<{
+                id?: number;
+                platform?: string;
+                account_name?: string;
+                account_id?: string;
+                status?: 'connected' | 'needs_reconnect';
+                connected_at?: string;
+                currency?: string;
+                timezone?: string;
+                is_default?: number;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ListAdAccountsResponse = ListAdAccountsResponses[keyof ListAdAccountsResponses];
+
+export type AdAccountsDiagnosticsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/ads/accounts/diagnostics';
+};
+
+export type AdAccountsDiagnosticsResponses = {
+    /**
+     * Diagnostics
+     */
+    200: {
+        success?: true;
+        data?: {
+            /**
+             * Keyed by platform (meta/google/tiktok/linkedin); only platforms with tracked accounts appear.
+             */
+            platforms?: {
+                meta?: {
+                    account_count?: number;
+                    needs_reconnect_count?: number;
+                    accounts?: Array<{
+                        account_id?: string;
+                        account_name?: string;
+                        status?: 'connected' | 'needs_reconnect';
+                        last_sync_at?: string;
+                        last_error?: string;
+                        /**
+                         * Shape varies by platform - Meta returns calls_5min/calls_1hour/fb_usage_pct/blocked/limits; Google/TikTok/LinkedIn return calls_today/limit_per_day.
+                         */
+                        rate_limit?: {
+                            [key: string]: unknown;
+                        };
+                    }>;
+                };
+                [key: string]: unknown | {
+                    account_count?: number;
+                    needs_reconnect_count?: number;
+                    accounts?: Array<{
+                        account_id?: string;
+                        account_name?: string;
+                        status?: 'connected' | 'needs_reconnect';
+                        last_sync_at?: string;
+                        last_error?: string;
+                        /**
+                         * Shape varies by platform - Meta returns calls_5min/calls_1hour/fb_usage_pct/blocked/limits; Google/TikTok/LinkedIn return calls_today/limit_per_day.
+                         */
+                        rate_limit?: {
+                            [key: string]: unknown;
+                        };
+                    }>;
+                } | undefined;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type AdAccountsDiagnosticsResponse = AdAccountsDiagnosticsResponses[keyof AdAccountsDiagnosticsResponses];
+
+export type ListAdAuditLogData = {
+    body?: never;
+    path?: never;
+    query?: {
+        action?: string;
+        entity_type?: 'campaign' | 'ad_set' | 'ad' | 'creative' | 'lead_form';
+        campaign_id?: number;
+        page?: number;
+        per_page?: number;
+    };
+    url: '/ads/audit-log';
+};
+
+export type ListAdAuditLogResponses = {
+    /**
+     * Paginated audit log
+     */
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            timestamp?: string;
+            action?: string;
+            entity_type?: 'campaign' | 'ad_set' | 'ad' | 'creative' | 'lead_form';
+            entity_id?: number;
+            entity_name?: string;
+            details?: string;
+            environment?: string;
+        }>;
+        pagination?: PaginationMeta;
+        meta?: RequestMeta;
+    };
+};
+
+export type ListAdAuditLogResponse = ListAdAuditLogResponses[keyof ListAdAuditLogResponses];
+
+export type AdAudienceEstimateData = {
+    body: {
+        platform: 'meta' | 'google' | 'tiktok' | 'linkedin';
+        ad_account_id?: string;
+        objective?: string;
+        targeting?: {
+            locations?: Array<string>;
+            languages?: Array<string>;
+            age_min?: number;
+            age_max?: number;
+            gender?: 'all' | 'male' | 'female';
+            devices?: Array<string>;
+            [key: string]: unknown | Array<string> | Array<string> | number | ('all' | 'male' | 'female') | Array<string> | undefined;
+        };
+    };
+    path?: never;
+    query?: never;
+    url: '/ads/estimate';
+};
+
+export type AdAudienceEstimateResponses = {
+    /**
+     * Estimate (or availability)
+     */
+    200: {
+        success?: true;
+        data?: {
+            available?: boolean;
+            estimate_ready?: boolean;
+            mau_lower_bound?: number;
+            mau_upper_bound?: number;
+            warnings?: Array<string>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type AdAudienceEstimateResponse = AdAudienceEstimateResponses[keyof AdAudienceEstimateResponses];
+
+export type SyncAdAccountsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/ads/sync';
+};
+
+export type SyncAdAccountsResponses = {
+    /**
+     * Queued
+     */
+    202: {
+        success?: true;
+        data?: {
+            status?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type SyncAdAccountsResponse = SyncAdAccountsResponses[keyof SyncAdAccountsResponses];
+
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});
 };

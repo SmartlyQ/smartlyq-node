@@ -46,6 +46,267 @@ describe('account', () => {
   });
 });
 
+describe('ads', () => {
+  it('ads.listCampaigns -> GET /ads/campaigns', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.listCampaigns();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/ads/campaigns');
+  });
+
+  it('ads.createCampaign -> POST /ads/campaigns', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.createCampaign({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/campaigns');
+  });
+
+  it('ads.getCampaign -> GET /ads/campaigns/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.getCampaign('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/ads/campaigns/test-id');
+  });
+
+  it('ads.updateCampaign -> PATCH /ads/campaigns/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.updateCampaign('test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/ads/campaigns/test-id');
+  });
+
+  it('ads.deleteCampaign -> DELETE /ads/campaigns/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.deleteCampaign('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/ads/campaigns/test-id');
+  });
+
+  it('ads.pauseCampaign -> POST /ads/campaigns/{id}/pause', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.pauseCampaign('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/campaigns/test-id/pause');
+  });
+
+  it('ads.resumeCampaign -> POST /ads/campaigns/{id}/resume', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.resumeCampaign('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/campaigns/test-id/resume');
+  });
+
+  it('ads.duplicateCampaign -> POST /ads/campaigns/{id}/duplicate', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.duplicateCampaign('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/campaigns/test-id/duplicate');
+  });
+
+  it('ads.archiveCampaign -> POST /ads/campaigns/{id}/archive', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.archiveCampaign('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/campaigns/test-id/archive');
+  });
+
+  it('ads.bulkCampaignStatus -> POST /ads/campaigns/bulk-status', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.bulkCampaignStatus({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/campaigns/bulk-status');
+  });
+
+  it('ads.listSets -> GET /ads/ad-sets', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.listSets();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/ads/ad-sets');
+  });
+
+  it('ads.getSet -> GET /ads/ad-sets/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.getSet('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/ads/ad-sets/test-id');
+  });
+
+  it('ads.deleteSet -> DELETE /ads/ad-sets/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.deleteSet('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/ads/ad-sets/test-id');
+  });
+
+  it('ads.pauseSet -> POST /ads/ad-sets/{id}/pause', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.pauseSet('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/ad-sets/test-id/pause');
+  });
+
+  it('ads.resumeSet -> POST /ads/ad-sets/{id}/resume', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.resumeSet('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/ad-sets/test-id/resume');
+  });
+
+  it('ads.duplicateSet -> POST /ads/ad-sets/{id}/duplicate', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.duplicateSet('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/ad-sets/test-id/duplicate');
+  });
+
+  it('ads.archiveSet -> POST /ads/ad-sets/{id}/archive', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.archiveSet('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/ad-sets/test-id/archive');
+  });
+
+  it('ads.list -> GET /ads/ads', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.list();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/ads/ads');
+  });
+
+  it('ads.get -> GET /ads/ads/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.get('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/ads/ads/test-id');
+  });
+
+  it('ads.delete -> DELETE /ads/ads/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.delete('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/ads/ads/test-id');
+  });
+
+  it('ads.pause -> POST /ads/ads/{id}/pause', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.pause('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/ads/test-id/pause');
+  });
+
+  it('ads.resume -> POST /ads/ads/{id}/resume', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.resume('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/ads/test-id/resume');
+  });
+
+  it('ads.duplicate -> POST /ads/ads/{id}/duplicate', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.duplicate('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/ads/test-id/duplicate');
+  });
+
+  it('ads.archive -> POST /ads/ads/{id}/archive', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.archive('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/ads/test-id/archive');
+  });
+
+  it('ads.listAudiences -> GET /ads/audiences', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.listAudiences();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/ads/audiences');
+  });
+
+  it('ads.listPixels -> GET /ads/pixels', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.listPixels();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/ads/pixels');
+  });
+
+  it('ads.listLeadForms -> GET /ads/lead-forms', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.listLeadForms();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/ads/lead-forms');
+  });
+
+  it('ads.createLeadForm -> POST /ads/lead-forms', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.createLeadForm({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/lead-forms');
+  });
+
+  it('ads.listCreatives -> GET /ads/creatives', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.listCreatives();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/ads/creatives');
+  });
+
+  it('ads.createCreative -> POST /ads/creatives', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.createCreative({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/creatives');
+  });
+
+  it('ads.updateCreative -> PATCH /ads/creatives/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.updateCreative('test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/ads/creatives/test-id');
+  });
+
+  it('ads.deleteCreative -> DELETE /ads/creatives/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.deleteCreative('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/ads/creatives/test-id');
+  });
+
+  it('ads.listAccounts -> GET /ads/accounts', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.listAccounts();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/ads/accounts');
+  });
+
+  it('ads.accountsDiagnostics -> GET /ads/accounts/diagnostics', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.accountsDiagnostics();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/ads/accounts/diagnostics');
+  });
+
+  it('ads.listAuditLog -> GET /ads/audit-log', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.listAuditLog();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/ads/audit-log');
+  });
+
+  it('ads.audienceEstimate -> POST /ads/estimate', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.audienceEstimate({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/estimate');
+  });
+
+  it('ads.syncAccounts -> POST /ads/sync', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.syncAccounts();
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/sync');
+  });
+});
+
 describe('captain', () => {
   it('captain.sendMessage -> POST /captain/messages', async () => {
     const { client, calls } = mockClient();

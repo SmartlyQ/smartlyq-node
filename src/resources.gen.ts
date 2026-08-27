@@ -27,6 +27,196 @@ export class AccountResource {
   }
 }
 
+/** Ads endpoints. */
+export class AdsResource {
+  constructor(private readonly _client: CoreClient) {}
+
+  /** List campaigns `GET /ads/campaigns` */
+  listCampaigns(query?: t.ListAdCampaignsData['query'], options?: RequestOptions): Promise<t.ListAdCampaignsResponses[keyof t.ListAdCampaignsResponses]> {
+    return this._client.request('GET', '/ads/campaigns', { query, options });
+  }
+
+  /** Create a campaign `POST /ads/campaigns` */
+  createCampaign(body: t.CreateAdCampaignData['body'], options?: RequestOptions): Promise<t.CreateAdCampaignResponses[keyof t.CreateAdCampaignResponses]> {
+    return this._client.request('POST', '/ads/campaigns', { body, options });
+  }
+
+  /** Get a campaign `GET /ads/campaigns/{id}` */
+  getCampaign(id: string, options?: RequestOptions): Promise<t.GetAdCampaignResponses[keyof t.GetAdCampaignResponses]> {
+    return this._client.request('GET', `/ads/campaigns/${encodeURIComponent(id)}`, { options });
+  }
+
+  /** Update a campaign `PATCH /ads/campaigns/{id}` */
+  updateCampaign(id: string, body: t.UpdateAdCampaignData['body'], options?: RequestOptions): Promise<t.UpdateAdCampaignResponses[keyof t.UpdateAdCampaignResponses]> {
+    return this._client.request('PATCH', `/ads/campaigns/${encodeURIComponent(id)}`, { body, options });
+  }
+
+  /** Delete a campaign `DELETE /ads/campaigns/{id}` */
+  deleteCampaign(id: string, options?: RequestOptions): Promise<t.DeleteAdCampaignResponses[keyof t.DeleteAdCampaignResponses]> {
+    return this._client.request('DELETE', `/ads/campaigns/${encodeURIComponent(id)}`, { options });
+  }
+
+  /** Pause a campaign `POST /ads/campaigns/{id}/pause` */
+  pauseCampaign(id: string, options?: RequestOptions): Promise<t.PauseAdCampaignResponses[keyof t.PauseAdCampaignResponses]> {
+    return this._client.request('POST', `/ads/campaigns/${encodeURIComponent(id)}/pause`, { options });
+  }
+
+  /** Resume a campaign `POST /ads/campaigns/{id}/resume` */
+  resumeCampaign(id: string, options?: RequestOptions): Promise<t.ResumeAdCampaignResponses[keyof t.ResumeAdCampaignResponses]> {
+    return this._client.request('POST', `/ads/campaigns/${encodeURIComponent(id)}/resume`, { options });
+  }
+
+  /** Duplicate a campaign `POST /ads/campaigns/{id}/duplicate` */
+  duplicateCampaign(id: string, options?: RequestOptions): Promise<t.DuplicateAdCampaignResponses[keyof t.DuplicateAdCampaignResponses]> {
+    return this._client.request('POST', `/ads/campaigns/${encodeURIComponent(id)}/duplicate`, { options });
+  }
+
+  /** Archive a campaign `POST /ads/campaigns/{id}/archive` */
+  archiveCampaign(id: string, options?: RequestOptions): Promise<t.ArchiveAdCampaignResponses[keyof t.ArchiveAdCampaignResponses]> {
+    return this._client.request('POST', `/ads/campaigns/${encodeURIComponent(id)}/archive`, { options });
+  }
+
+  /** Bulk pause/resume campaigns `POST /ads/campaigns/bulk-status` */
+  bulkCampaignStatus(body: t.BulkAdCampaignStatusData['body'], options?: RequestOptions): Promise<t.BulkAdCampaignStatusResponses[keyof t.BulkAdCampaignStatusResponses]> {
+    return this._client.request('POST', '/ads/campaigns/bulk-status', { body, options });
+  }
+
+  /** List ad sets `GET /ads/ad-sets` */
+  listSets(query?: t.ListAdSetsData['query'], options?: RequestOptions): Promise<t.ListAdSetsResponses[keyof t.ListAdSetsResponses]> {
+    return this._client.request('GET', '/ads/ad-sets', { query, options });
+  }
+
+  /** Get an ad set `GET /ads/ad-sets/{id}` */
+  getSet(id: string, options?: RequestOptions): Promise<t.GetAdSetResponses[keyof t.GetAdSetResponses]> {
+    return this._client.request('GET', `/ads/ad-sets/${encodeURIComponent(id)}`, { options });
+  }
+
+  /** Delete an ad set `DELETE /ads/ad-sets/{id}` */
+  deleteSet(id: string, options?: RequestOptions): Promise<t.DeleteAdSetResponses[keyof t.DeleteAdSetResponses]> {
+    return this._client.request('DELETE', `/ads/ad-sets/${encodeURIComponent(id)}`, { options });
+  }
+
+  /** Pause an ad set `POST /ads/ad-sets/{id}/pause` */
+  pauseSet(id: string, options?: RequestOptions): Promise<t.PauseAdSetResponses[keyof t.PauseAdSetResponses]> {
+    return this._client.request('POST', `/ads/ad-sets/${encodeURIComponent(id)}/pause`, { options });
+  }
+
+  /** Resume an ad set `POST /ads/ad-sets/{id}/resume` */
+  resumeSet(id: string, options?: RequestOptions): Promise<t.ResumeAdSetResponses[keyof t.ResumeAdSetResponses]> {
+    return this._client.request('POST', `/ads/ad-sets/${encodeURIComponent(id)}/resume`, { options });
+  }
+
+  /** Duplicate an ad set `POST /ads/ad-sets/{id}/duplicate` */
+  duplicateSet(id: string, options?: RequestOptions): Promise<t.DuplicateAdSetResponses[keyof t.DuplicateAdSetResponses]> {
+    return this._client.request('POST', `/ads/ad-sets/${encodeURIComponent(id)}/duplicate`, { options });
+  }
+
+  /** Archive an ad set `POST /ads/ad-sets/{id}/archive` */
+  archiveSet(id: string, options?: RequestOptions): Promise<t.ArchiveAdSetResponses[keyof t.ArchiveAdSetResponses]> {
+    return this._client.request('POST', `/ads/ad-sets/${encodeURIComponent(id)}/archive`, { options });
+  }
+
+  /** List ads `GET /ads/ads` */
+  list(query?: t.ListAdsData['query'], options?: RequestOptions): Promise<t.ListAdsResponses[keyof t.ListAdsResponses]> {
+    return this._client.request('GET', '/ads/ads', { query, options });
+  }
+
+  /** Get an ad `GET /ads/ads/{id}` */
+  get(id: string, options?: RequestOptions): Promise<t.GetAdResponses[keyof t.GetAdResponses]> {
+    return this._client.request('GET', `/ads/ads/${encodeURIComponent(id)}`, { options });
+  }
+
+  /** Delete an ad `DELETE /ads/ads/{id}` */
+  delete(id: string, options?: RequestOptions): Promise<t.DeleteAdResponses[keyof t.DeleteAdResponses]> {
+    return this._client.request('DELETE', `/ads/ads/${encodeURIComponent(id)}`, { options });
+  }
+
+  /** Pause an ad `POST /ads/ads/{id}/pause` */
+  pause(id: string, options?: RequestOptions): Promise<t.PauseAdResponses[keyof t.PauseAdResponses]> {
+    return this._client.request('POST', `/ads/ads/${encodeURIComponent(id)}/pause`, { options });
+  }
+
+  /** Resume an ad `POST /ads/ads/{id}/resume` */
+  resume(id: string, options?: RequestOptions): Promise<t.ResumeAdResponses[keyof t.ResumeAdResponses]> {
+    return this._client.request('POST', `/ads/ads/${encodeURIComponent(id)}/resume`, { options });
+  }
+
+  /** Duplicate an ad `POST /ads/ads/{id}/duplicate` */
+  duplicate(id: string, options?: RequestOptions): Promise<t.DuplicateAdResponses[keyof t.DuplicateAdResponses]> {
+    return this._client.request('POST', `/ads/ads/${encodeURIComponent(id)}/duplicate`, { options });
+  }
+
+  /** Archive an ad `POST /ads/ads/{id}/archive` */
+  archive(id: string, options?: RequestOptions): Promise<t.ArchiveAdResponses[keyof t.ArchiveAdResponses]> {
+    return this._client.request('POST', `/ads/ads/${encodeURIComponent(id)}/archive`, { options });
+  }
+
+  /** List audiences `GET /ads/audiences` */
+  listAudiences(query?: t.ListAdAudiencesData['query'], options?: RequestOptions): Promise<t.ListAdAudiencesResponses[keyof t.ListAdAudiencesResponses]> {
+    return this._client.request('GET', '/ads/audiences', { query, options });
+  }
+
+  /** List pixels / conversion destinations `GET /ads/pixels` */
+  listPixels(query?: t.ListAdPixelsData['query'], options?: RequestOptions): Promise<t.ListAdPixelsResponses[keyof t.ListAdPixelsResponses]> {
+    return this._client.request('GET', '/ads/pixels', { query, options });
+  }
+
+  /** List lead forms `GET /ads/lead-forms` */
+  listLeadForms(query?: t.ListAdLeadFormsData['query'], options?: RequestOptions): Promise<t.ListAdLeadFormsResponses[keyof t.ListAdLeadFormsResponses]> {
+    return this._client.request('GET', '/ads/lead-forms', { query, options });
+  }
+
+  /** Create a lead form `POST /ads/lead-forms` */
+  createLeadForm(body: t.CreateAdLeadFormData['body'], options?: RequestOptions): Promise<t.CreateAdLeadFormResponses[keyof t.CreateAdLeadFormResponses]> {
+    return this._client.request('POST', '/ads/lead-forms', { body, options });
+  }
+
+  /** List creatives `GET /ads/creatives` */
+  listCreatives(query?: t.ListAdCreativesData['query'], options?: RequestOptions): Promise<t.ListAdCreativesResponses[keyof t.ListAdCreativesResponses]> {
+    return this._client.request('GET', '/ads/creatives', { query, options });
+  }
+
+  /** Create a creative `POST /ads/creatives` */
+  createCreative(body: t.CreateAdCreativeData['body'], options?: RequestOptions): Promise<t.CreateAdCreativeResponses[keyof t.CreateAdCreativeResponses]> {
+    return this._client.request('POST', '/ads/creatives', { body, options });
+  }
+
+  /** Update a creative `PATCH /ads/creatives/{id}` */
+  updateCreative(id: string, body: t.UpdateAdCreativeData['body'], options?: RequestOptions): Promise<t.UpdateAdCreativeResponses[keyof t.UpdateAdCreativeResponses]> {
+    return this._client.request('PATCH', `/ads/creatives/${encodeURIComponent(id)}`, { body, options });
+  }
+
+  /** Delete a creative `DELETE /ads/creatives/{id}` */
+  deleteCreative(id: string, options?: RequestOptions): Promise<t.DeleteAdCreativeResponses[keyof t.DeleteAdCreativeResponses]> {
+    return this._client.request('DELETE', `/ads/creatives/${encodeURIComponent(id)}`, { options });
+  }
+
+  /** List connected ad accounts `GET /ads/accounts` */
+  listAccounts(options?: RequestOptions): Promise<t.ListAdAccountsResponses[keyof t.ListAdAccountsResponses]> {
+    return this._client.request('GET', '/ads/accounts', { options });
+  }
+
+  /** Account health and rate-limit diagnostics `GET /ads/accounts/diagnostics` */
+  accountsDiagnostics(options?: RequestOptions): Promise<t.AdAccountsDiagnosticsResponses[keyof t.AdAccountsDiagnosticsResponses]> {
+    return this._client.request('GET', '/ads/accounts/diagnostics', { options });
+  }
+
+  /** List audit log entries `GET /ads/audit-log` */
+  listAuditLog(query?: t.ListAdAuditLogData['query'], options?: RequestOptions): Promise<t.ListAdAuditLogResponses[keyof t.ListAdAuditLogResponses]> {
+    return this._client.request('GET', '/ads/audit-log', { query, options });
+  }
+
+  /** Audience-size estimate `POST /ads/estimate` */
+  audienceEstimate(body: t.AdAudienceEstimateData['body'], options?: RequestOptions): Promise<t.AdAudienceEstimateResponses[keyof t.AdAudienceEstimateResponses]> {
+    return this._client.request('POST', '/ads/estimate', { body, options });
+  }
+
+  /** Trigger an account sync `POST /ads/sync` */
+  syncAccounts(options?: RequestOptions): Promise<t.SyncAdAccountsResponses[keyof t.SyncAdAccountsResponses]> {
+    return this._client.request('POST', '/ads/sync', { options });
+  }
+}
+
 /** AI Captain endpoints. */
 export class CaptainResource {
   constructor(private readonly _client: CoreClient) {}
@@ -1735,6 +1925,7 @@ export class WorkspacesResource {
 export function createResources(client: CoreClient) {
   return {
     account: new AccountResource(client),
+    ads: new AdsResource(client),
     captain: new CaptainResource(client),
     analytics: new AnalyticsResource(client),
     articles: new ArticlesResource(client),
