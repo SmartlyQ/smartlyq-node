@@ -17460,10 +17460,38 @@ export type CreateAdCampaignData = {
             [key: string]: unknown;
         };
         creative?: {
-            [key: string]: unknown;
+            /**
+             * Meta only - "{page_id}_{post_id}" from GET /ads/pages/{page_id}/posts. Boosts that existing post instead of building a new creative; image_url/video_url/headlines/primary_text are all ignored when this is set.
+             */
+            object_story_id?: string;
+            image_url?: string;
+            video_url?: string;
+            format?: 'image' | 'video';
+            headlines?: Array<string>;
+            descriptions?: Array<string>;
+            primary_text?: string;
+            destination_url?: string;
+            /**
+             * Standard link CTAs, or MESSAGE_PAGE (pairs with settings.destination_type=messenger) or CALL_NOW (pairs with settings.phone_number).
+             */
+            cta?: string;
+            [key: string]: unknown | string | ('image' | 'video') | Array<string> | Array<string> | undefined;
         };
         settings?: {
-            [key: string]: unknown;
+            pixel_id?: string;
+            pixel_tracking?: boolean;
+            conversion_event?: string;
+            lead_form_id?: string;
+            placements?: Array<string>;
+            /**
+             * Set to messenger for Click-to-Messenger - the ad set targets Messenger chats instead of a link click. Use cta: MESSAGE_PAGE on the creative to match.
+             */
+            destination_type?: '' | 'messenger';
+            /**
+             * E.164 format (e.g. +14155551234), same country as the ad set's targeting. Only takes effect with cta: CALL_NOW on the creative (Click-to-Call) - ignored otherwise.
+             */
+            phone_number?: string;
+            [key: string]: unknown | string | boolean | Array<string> | ('' | 'messenger') | undefined;
         };
     };
     path?: never;
@@ -18479,6 +18507,74 @@ export type ListAdAudiencesResponses = {
 
 export type ListAdAudiencesResponse = ListAdAudiencesResponses[keyof ListAdAudiencesResponses];
 
+export type CreateAdAudienceData = {
+    body: {
+        platform: 'meta' | 'google';
+        name: string;
+        /**
+         * Meta: custom/lookalike/website_traffic/engagement. Google: rule_based/crm (maps to list_type).
+         */
+        subtype?: string;
+        description?: string;
+        retention_days?: number;
+        /**
+         * Meta lookalike/custom audiences only.
+         */
+        customer_file_source?: string;
+        /**
+         * Meta lookalike only - source audience to build the lookalike from.
+         */
+        origin_audience_id?: string;
+        /**
+         * Meta lookalike only.
+         */
+        country?: string;
+        /**
+         * Meta lookalike only - similarity ratio.
+         */
+        ratio?: number;
+        /**
+         * Google only.
+         */
+        list_type?: 'rule_based' | 'crm';
+        /**
+         * Google rule_based lists only.
+         */
+        url_contains?: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/ads/audiences';
+};
+
+export type CreateAdAudienceErrors = {
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type CreateAdAudienceError = CreateAdAudienceErrors[keyof CreateAdAudienceErrors];
+
+export type CreateAdAudienceResponses = {
+    /**
+     * Audience created
+     */
+    201: {
+        success?: true;
+        data?: {
+            id?: number;
+            /**
+             * False if the platform push failed but the local record still saved.
+             */
+            live?: boolean;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type CreateAdAudienceResponse = CreateAdAudienceResponses[keyof CreateAdAudienceResponses];
+
 export type ListAdPixelsData = {
     body?: never;
     path?: never;
@@ -18929,6 +19025,136 @@ export type SyncAdAccountsResponses = {
 };
 
 export type SyncAdAccountsResponse = SyncAdAccountsResponses[keyof SyncAdAccountsResponses];
+
+export type AdAnalyticsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        date_from?: string;
+        date_to?: string;
+        /**
+         * Comma-separated platform:row_id pairs, e.g. meta:1,google:3. Omit for all connected accounts.
+         */
+        accounts?: string;
+    };
+    url: '/ads/analytics';
+};
+
+export type AdAnalyticsResponses = {
+    /**
+     * Analytics
+     */
+    200: {
+        success?: true;
+        data?: {
+            summary?: {
+                spent?: number;
+                impressions?: number;
+                clicks?: number;
+                conversions?: number;
+                leads?: number;
+                purchase_value?: number;
+                ctr?: number;
+                cpc?: number;
+                roas?: number;
+            };
+            by_platform?: Array<{
+                platform?: string;
+                spent?: number;
+                impressions?: number;
+                clicks?: number;
+                conversions?: number;
+                leads?: number;
+                purchase_value?: number;
+            }>;
+            spend_chart?: {
+                labels?: Array<string>;
+                datasets?: {
+                    meta?: Array<number>;
+                    google?: Array<number>;
+                    tiktok?: Array<number>;
+                    linkedin?: Array<number>;
+                };
+            };
+            trends?: {
+                spent?: number;
+                impressions?: number;
+                clicks?: number;
+                conversions?: number;
+                leads?: number;
+                purchase_value?: number;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type AdAnalyticsResponse = AdAnalyticsResponses[keyof AdAnalyticsResponses];
+
+export type AdTargetingSearchData = {
+    body?: never;
+    path?: never;
+    query: {
+        q: string;
+    };
+    url: '/ads/targeting-search';
+};
+
+export type AdTargetingSearchResponses = {
+    /**
+     * Matching interests
+     */
+    200: {
+        success?: true;
+        data?: {
+            results?: Array<{
+                id?: string;
+                name?: string;
+                audience_size?: number;
+                path?: string;
+            }>;
+            throttled?: boolean;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type AdTargetingSearchResponse = AdTargetingSearchResponses[keyof AdTargetingSearchResponses];
+
+export type ListAdPagePostsData = {
+    body?: never;
+    path: {
+        /**
+         * Meta Page ID.
+         */
+        page_id: string;
+    };
+    query?: {
+        limit?: number;
+    };
+    url: '/ads/pages/{page_id}/posts';
+};
+
+export type ListAdPagePostsResponses = {
+    /**
+     * Posts
+     */
+    200: {
+        success?: true;
+        data?: {
+            posts?: Array<{
+                id?: string;
+                message?: string;
+                permalink_url?: string;
+                full_picture?: string;
+                created_time?: string;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ListAdPagePostsResponse = ListAdPagePostsResponses[keyof ListAdPagePostsResponses];
 
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});

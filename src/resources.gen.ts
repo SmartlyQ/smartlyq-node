@@ -156,6 +156,11 @@ export class AdsResource {
     return this._client.request('GET', '/ads/audiences', { query, options });
   }
 
+  /** Create an audience `POST /ads/audiences` */
+  createAudience(body: t.CreateAdAudienceData['body'], options?: RequestOptions): Promise<t.CreateAdAudienceResponses[keyof t.CreateAdAudienceResponses]> {
+    return this._client.request('POST', '/ads/audiences', { body, options });
+  }
+
   /** List pixels / conversion destinations `GET /ads/pixels` */
   listPixels(query?: t.ListAdPixelsData['query'], options?: RequestOptions): Promise<t.ListAdPixelsResponses[keyof t.ListAdPixelsResponses]> {
     return this._client.request('GET', '/ads/pixels', { query, options });
@@ -214,6 +219,21 @@ export class AdsResource {
   /** Trigger an account sync `POST /ads/sync` */
   syncAccounts(options?: RequestOptions): Promise<t.SyncAdAccountsResponses[keyof t.SyncAdAccountsResponses]> {
     return this._client.request('POST', '/ads/sync', { options });
+  }
+
+  /** Ads performance analytics `GET /ads/analytics` */
+  analytics(query?: t.AdAnalyticsData['query'], options?: RequestOptions): Promise<t.AdAnalyticsResponses[keyof t.AdAnalyticsResponses]> {
+    return this._client.request('GET', '/ads/analytics', { query, options });
+  }
+
+  /** Search Meta interest targeting `GET /ads/targeting-search` */
+  targetingSearch(query?: t.AdTargetingSearchData['query'], options?: RequestOptions): Promise<t.AdTargetingSearchResponses[keyof t.AdTargetingSearchResponses]> {
+    return this._client.request('GET', '/ads/targeting-search', { query, options });
+  }
+
+  /** List a Page's organic posts `GET /ads/pages/{page_id}/posts` */
+  listPagePosts(pageId: string, query?: t.ListAdPagePostsData['query'], options?: RequestOptions): Promise<t.ListAdPagePostsResponses[keyof t.ListAdPagePostsResponses]> {
+    return this._client.request('GET', `/ads/pages/${encodeURIComponent(pageId)}/posts`, { query, options });
   }
 }
 

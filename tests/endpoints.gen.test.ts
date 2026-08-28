@@ -222,6 +222,13 @@ describe('ads', () => {
     expect(calls[0].path).toBe('/ads/audiences');
   });
 
+  it('ads.createAudience -> POST /ads/audiences', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.createAudience({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/ads/audiences');
+  });
+
   it('ads.listPixels -> GET /ads/pixels', async () => {
     const { client, calls } = mockClient();
     await client.ads.listPixels();
@@ -304,6 +311,27 @@ describe('ads', () => {
     await client.ads.syncAccounts();
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/ads/sync');
+  });
+
+  it('ads.analytics -> GET /ads/analytics', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.analytics();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/ads/analytics');
+  });
+
+  it('ads.targetingSearch -> GET /ads/targeting-search', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.targetingSearch();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/ads/targeting-search');
+  });
+
+  it('ads.listPagePosts -> GET /ads/pages/{page_id}/posts', async () => {
+    const { client, calls } = mockClient();
+    await client.ads.listPagePosts('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/ads/pages/test-id/posts');
   });
 });
 
