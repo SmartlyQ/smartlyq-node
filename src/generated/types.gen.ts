@@ -17862,9 +17862,25 @@ export type BulkAdCampaignStatusError = BulkAdCampaignStatusErrors[keyof BulkAdC
 
 export type BulkAdCampaignStatusResponses = {
     /**
-     * Per-item results
+     * Per-item results - every id succeeded
      */
     200: {
+        success?: true;
+        data?: {
+            ok?: number;
+            results?: Array<{
+                id?: number;
+                ok?: number;
+                error?: string;
+                cooldown_warning?: string;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+    /**
+     * Per-item results - at least one id failed (partial success)
+     */
+    207: {
         success?: true;
         data?: {
             ok?: number;
