@@ -462,6 +462,31 @@ export class AutomationsResource {
   }
 }
 
+/** Calendar endpoints. */
+export class CalendarResource {
+  constructor(private readonly _client: CoreClient) {}
+
+  /** List booking pages `GET /calendar/event-types` */
+  listEventTypes(options?: RequestOptions): Promise<t.ListEventTypesResponses[keyof t.ListEventTypesResponses]> {
+    return this._client.request('GET', '/calendar/event-types', { options });
+  }
+
+  /** List open slots `GET /calendar/slots` */
+  listSlots(query?: t.ListCalendarSlotsData['query'], options?: RequestOptions): Promise<t.ListCalendarSlotsResponses[keyof t.ListCalendarSlotsResponses]> {
+    return this._client.request('GET', '/calendar/slots', { query, options });
+  }
+
+  /** Take a booking `POST /calendar/bookings` */
+  createBooking(body: t.CreateBookingData['body'], options?: RequestOptions): Promise<t.CreateBookingResponses[keyof t.CreateBookingResponses]> {
+    return this._client.request('POST', '/calendar/bookings', { body, options });
+  }
+
+  /** Cancel a booking `POST /calendar/bookings/{id}/cancel` */
+  cancelBooking(id: string, body?: t.CancelBookingData['body'], options?: RequestOptions): Promise<t.CancelBookingResponses[keyof t.CancelBookingResponses]> {
+    return this._client.request('POST', `/calendar/bookings/${encodeURIComponent(id)}/cancel`, { body, options });
+  }
+}
+
 /** Chatbot endpoints. */
 export class ChatbotsResource {
   constructor(private readonly _client: CoreClient) {}
@@ -602,6 +627,46 @@ export class CrmResource {
   }
 }
 
+/** CRM Companies endpoints. */
+export class CrmCompaniesResource {
+  constructor(private readonly _client: CoreClient) {}
+
+  /** List companies `GET /companies` */
+  list(query?: t.ListCompaniesData['query'], options?: RequestOptions): Promise<t.ListCompaniesResponses[keyof t.ListCompaniesResponses]> {
+    return this._client.request('GET', '/companies', { query, options });
+  }
+
+  /** Create a company `POST /companies` */
+  create(body: t.CreateCompanyData['body'], options?: RequestOptions): Promise<t.CreateCompanyResponses[keyof t.CreateCompanyResponses]> {
+    return this._client.request('POST', '/companies', { body, options });
+  }
+
+  /** Get a company `GET /companies/{id}` */
+  get(id: string, options?: RequestOptions): Promise<t.GetCompanyResponses[keyof t.GetCompanyResponses]> {
+    return this._client.request('GET', `/companies/${encodeURIComponent(id)}`, { options });
+  }
+
+  /** Update a company `PATCH /companies/{id}` */
+  update(id: string, body: t.UpdateCompanyData['body'], options?: RequestOptions): Promise<t.UpdateCompanyResponses[keyof t.UpdateCompanyResponses]> {
+    return this._client.request('PATCH', `/companies/${encodeURIComponent(id)}`, { body, options });
+  }
+
+  /** Delete a company `DELETE /companies/{id}` */
+  delete(id: string, options?: RequestOptions): Promise<t.DeleteCompanyResponses[keyof t.DeleteCompanyResponses]> {
+    return this._client.request('DELETE', `/companies/${encodeURIComponent(id)}`, { options });
+  }
+
+  /** Link a contact to a company `POST /companies/{id}/contacts` */
+  linkContact(id: string, body: t.LinkCompanyContactData['body'], options?: RequestOptions): Promise<t.LinkCompanyContactResponses[keyof t.LinkCompanyContactResponses]> {
+    return this._client.request('POST', `/companies/${encodeURIComponent(id)}/contacts`, { body, options });
+  }
+
+  /** Unlink a contact from a company `DELETE /companies/{id}/contacts` */
+  unlinkContact(id: string, body: t.UnlinkCompanyContactData['body'], options?: RequestOptions): Promise<t.UnlinkCompanyContactResponses[keyof t.UnlinkCompanyContactResponses]> {
+    return this._client.request('DELETE', `/companies/${encodeURIComponent(id)}/contacts`, { body, options });
+  }
+}
+
 /** CRM Contacts endpoints. */
 export class ContactsResource {
   constructor(private readonly _client: CoreClient) {}
@@ -729,6 +794,71 @@ export class OpportunitiesResource {
   /** Update opportunity status `POST /opportunities/{id}/status` */
   updateStatus(id: string, body: t.UpdateOpportunityStatusData['body'], options?: RequestOptions): Promise<t.UpdateOpportunityStatusResponses[keyof t.UpdateOpportunityStatusResponses]> {
     return this._client.request('POST', `/opportunities/${encodeURIComponent(id)}/status`, { body, options });
+  }
+}
+
+/** CRM Tags endpoints. */
+export class CrmTagsResource {
+  constructor(private readonly _client: CoreClient) {}
+
+  /** List tags `GET /tags` */
+  list(options?: RequestOptions): Promise<t.ListTagsResponses[keyof t.ListTagsResponses]> {
+    return this._client.request('GET', '/tags', { options });
+  }
+
+  /** Create a tag `POST /tags` */
+  create(body: t.CreateTagData['body'], options?: RequestOptions): Promise<t.CreateTagResponses[keyof t.CreateTagResponses]> {
+    return this._client.request('POST', '/tags', { body, options });
+  }
+
+  /** Rename a tag `POST /tags/rename` */
+  rename(body: t.RenameTagData['body'], options?: RequestOptions): Promise<t.RenameTagResponses[keyof t.RenameTagResponses]> {
+    return this._client.request('POST', '/tags/rename', { body, options });
+  }
+
+  /** Merge tags `POST /tags/merge` */
+  merge(body: t.MergeTagsData['body'], options?: RequestOptions): Promise<t.MergeTagsResponses[keyof t.MergeTagsResponses]> {
+    return this._client.request('POST', '/tags/merge', { body, options });
+  }
+
+  /** Delete a tag `POST /tags/delete` */
+  delete(body: t.DeleteTagData['body'], options?: RequestOptions): Promise<t.DeleteTagResponses[keyof t.DeleteTagResponses]> {
+    return this._client.request('POST', '/tags/delete', { body, options });
+  }
+}
+
+/** CRM Tasks endpoints. */
+export class CrmTasksResource {
+  constructor(private readonly _client: CoreClient) {}
+
+  /** List tasks `GET /tasks` */
+  list(query?: t.ListTasksData['query'], options?: RequestOptions): Promise<t.ListTasksResponses[keyof t.ListTasksResponses]> {
+    return this._client.request('GET', '/tasks', { query, options });
+  }
+
+  /** Create a task `POST /tasks` */
+  create(body: t.CreateTaskData['body'], options?: RequestOptions): Promise<t.CreateTaskResponses[keyof t.CreateTaskResponses]> {
+    return this._client.request('POST', '/tasks', { body, options });
+  }
+
+  /** Get a task `GET /tasks/{id}` */
+  get(id: string, options?: RequestOptions): Promise<t.GetTaskResponses[keyof t.GetTaskResponses]> {
+    return this._client.request('GET', `/tasks/${encodeURIComponent(id)}`, { options });
+  }
+
+  /** Update a task `PATCH /tasks/{id}` */
+  update(id: string, body: t.UpdateTaskData['body'], options?: RequestOptions): Promise<t.UpdateTaskResponses[keyof t.UpdateTaskResponses]> {
+    return this._client.request('PATCH', `/tasks/${encodeURIComponent(id)}`, { body, options });
+  }
+
+  /** Delete a task `DELETE /tasks/{id}` */
+  delete(id: string, options?: RequestOptions): Promise<t.DeleteTaskResponses[keyof t.DeleteTaskResponses]> {
+    return this._client.request('DELETE', `/tasks/${encodeURIComponent(id)}`, { options });
+  }
+
+  /** Log time on a task `POST /tasks/{id}/time` */
+  logTime(id: string, body: t.LogTaskTimeData['body'], options?: RequestOptions): Promise<t.LogTaskTimeResponses[keyof t.LogTaskTimeResponses]> {
+    return this._client.request('POST', `/tasks/${encodeURIComponent(id)}/time`, { body, options });
   }
 }
 
@@ -1951,13 +2081,17 @@ export function createResources(client: CoreClient) {
     articles: new ArticlesResource(client),
     audio: new AudioResource(client),
     automations: new AutomationsResource(client),
+    calendar: new CalendarResource(client),
     chatbots: new ChatbotsResource(client),
     comments: new CommentsResource(client),
     content: new ContentResource(client),
     crm: new CrmResource(client),
+    crmCompanies: new CrmCompaniesResource(client),
     contacts: new ContactsResource(client),
     customFields: new CustomFieldsResource(client),
     opportunities: new OpportunitiesResource(client),
+    crmTags: new CrmTagsResource(client),
+    crmTasks: new CrmTasksResource(client),
     messages: new MessagesResource(client),
     images: new ImagesResource(client),
     jobs: new JobsResource(client),

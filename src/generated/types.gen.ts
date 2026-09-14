@@ -34,7 +34,7 @@ export type PaginationMeta = {
     page?: number;
     per_page?: number;
     total?: number;
-    pages?: number;
+    total_pages?: number;
 };
 
 export type ErrorResponse = {
@@ -832,6 +832,96 @@ export type Profile = {
     status?: 'active' | 'paused' | 'deleted';
     paused_for_billing?: boolean;
     created_at?: string;
+};
+
+export type Company = {
+    id?: number;
+    name?: string;
+    domain?: string;
+    industry?: string;
+    company_size?: string;
+    phone?: string;
+    website?: string;
+    address?: string;
+    notes?: string;
+    assigned_user_id?: number;
+    /**
+     * Contacts linked to this company. Present on the list endpoint.
+     */
+    contact_count?: number;
+    /**
+     * Custom company attribute values, keyed by attribute key. Present on the single-company endpoint.
+     */
+    attributes?: {
+        [key: string]: unknown;
+    };
+    created_at?: string;
+};
+
+export type CompanyDetail = {
+    company?: Company;
+    /**
+     * Every contact linked to this company.
+     */
+    contacts?: Array<{
+        id?: number;
+        name?: string;
+        email?: string;
+        phone?: string;
+        role?: string;
+        status?: string;
+        avatar?: string;
+    }>;
+    deals?: Array<{
+        id?: number;
+        client_name?: string;
+        value?: number;
+        stage?: string;
+        status?: 'open' | 'won' | 'lost';
+    }>;
+    /**
+     * Computed from the deals above, not stored.
+     */
+    rollup?: {
+        deal_count?: number;
+        open_value?: number;
+        won_value?: number;
+    };
+};
+
+export type Task = {
+    id?: number;
+    title?: string;
+    description?: string;
+    status?: 'todo' | 'in_progress' | 'done';
+    priority?: 'low' | 'medium' | 'high' | 'urgent';
+    due_date?: string;
+    linked_deal_id?: number;
+    linked_contact_id?: number;
+    assigned_to?: number;
+    assignee_name?: string;
+    tags?: Array<string>;
+    subtasks?: Array<{
+        [key: string]: unknown;
+    }>;
+    recurrence?: 'none' | 'daily' | 'weekly' | 'biweekly' | 'monthly';
+    time_tracked_minutes?: number;
+    sort_order?: number;
+    activity_type?: 'task' | 'call' | 'meeting' | 'email' | 'deadline';
+    reminder_at?: string;
+    /**
+     * The reminder time has passed and the task is not done.
+     */
+    reminder_due?: boolean;
+    created_at?: string;
+};
+
+export type Tag = {
+    name?: string;
+    /**
+     * Contacts carrying this tag.
+     */
+    count?: number;
 };
 
 /**
@@ -19171,6 +19261,712 @@ export type ListAdPagePostsResponses = {
 };
 
 export type ListAdPagePostsResponse = ListAdPagePostsResponses[keyof ListAdPagePostsResponses];
+
+export type ListCompaniesData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Match name, domain or industry.
+         */
+        search?: string;
+        /**
+         * 1-based page. Defaults to 1.
+         */
+        page?: number;
+        /**
+         * Per page, 10-100. Defaults to 50.
+         */
+        limit?: number;
+    };
+    url: '/companies';
+};
+
+export type ListCompaniesResponses = {
+    /**
+     * Companies
+     */
+    200: {
+        success?: true;
+        data?: Array<Company>;
+        pagination?: PaginationMeta;
+        meta?: RequestMeta;
+    };
+};
+
+export type ListCompaniesResponse = ListCompaniesResponses[keyof ListCompaniesResponses];
+
+export type CreateCompanyData = {
+    body: {
+        /**
+         * Required when creating.
+         */
+        name: string;
+        domain?: string;
+        industry?: string;
+        company_size?: string;
+        phone?: string;
+        website?: string;
+        address?: string;
+        notes?: string;
+        assigned_user_id?: number;
+        attributes?: {
+            [key: string]: unknown;
+        };
+    };
+    path?: never;
+    query?: never;
+    url: '/companies';
+};
+
+export type CreateCompanyResponses = {
+    /**
+     * Created
+     */
+    201: {
+        success?: true;
+        data?: {
+            id?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type CreateCompanyResponse = CreateCompanyResponses[keyof CreateCompanyResponses];
+
+export type DeleteCompanyData = {
+    body?: never;
+    path: {
+        /**
+         * Company id.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/companies/{id}';
+};
+
+export type DeleteCompanyResponses = {
+    /**
+     * Deleted
+     */
+    200: SuccessEnvelope;
+};
+
+export type DeleteCompanyResponse = DeleteCompanyResponses[keyof DeleteCompanyResponses];
+
+export type GetCompanyData = {
+    body?: never;
+    path: {
+        /**
+         * Company id.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/companies/{id}';
+};
+
+export type GetCompanyResponses = {
+    /**
+     * Company
+     */
+    200: {
+        success?: true;
+        data?: CompanyDetail;
+        meta?: RequestMeta;
+    };
+};
+
+export type GetCompanyResponse = GetCompanyResponses[keyof GetCompanyResponses];
+
+export type UpdateCompanyData = {
+    body: {
+        /**
+         * Required when creating.
+         */
+        name?: string;
+        domain?: string;
+        industry?: string;
+        company_size?: string;
+        phone?: string;
+        website?: string;
+        address?: string;
+        notes?: string;
+        assigned_user_id?: number;
+        attributes?: {
+            [key: string]: unknown;
+        };
+    };
+    path: {
+        /**
+         * Company id.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/companies/{id}';
+};
+
+export type UpdateCompanyResponses = {
+    /**
+     * Updated
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type UpdateCompanyResponse = UpdateCompanyResponses[keyof UpdateCompanyResponses];
+
+export type UnlinkCompanyContactData = {
+    body: {
+        contact_id: number;
+    };
+    path: {
+        /**
+         * Company id.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/companies/{id}/contacts';
+};
+
+export type UnlinkCompanyContactResponses = {
+    /**
+     * Unlinked
+     */
+    200: SuccessEnvelope;
+};
+
+export type UnlinkCompanyContactResponse = UnlinkCompanyContactResponses[keyof UnlinkCompanyContactResponses];
+
+export type LinkCompanyContactData = {
+    body: {
+        contact_id: number;
+    };
+    path: {
+        /**
+         * Company id.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/companies/{id}/contacts';
+};
+
+export type LinkCompanyContactResponses = {
+    /**
+     * Linked
+     */
+    200: SuccessEnvelope;
+};
+
+export type LinkCompanyContactResponse = LinkCompanyContactResponses[keyof LinkCompanyContactResponses];
+
+export type ListTasksData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Filter by status.
+         */
+        status?: 'todo' | 'in_progress' | 'done';
+        /**
+         * Only tasks linked to this contact.
+         */
+        contact_id?: number;
+        /**
+         * YYYY-MM-DD. Only tasks due on or before this date.
+         */
+        due_before?: string;
+        /**
+         * Sort column.
+         */
+        sort?: 'title' | 'status' | 'priority' | 'due_date' | 'assignee' | 'created_at' | 'sort_order';
+        /**
+         * Sort direction. Defaults to asc.
+         */
+        dir?: 'asc' | 'desc';
+        /**
+         * 1-based page.
+         */
+        page?: number;
+        /**
+         * Per page, up to 100. Defaults to 50.
+         */
+        limit?: number;
+    };
+    url: '/tasks';
+};
+
+export type ListTasksResponses = {
+    /**
+     * Tasks
+     */
+    200: {
+        success?: true;
+        data?: Array<Task>;
+        pagination?: PaginationMeta;
+        meta?: RequestMeta;
+    };
+};
+
+export type ListTasksResponse = ListTasksResponses[keyof ListTasksResponses];
+
+export type CreateTaskData = {
+    body: {
+        /**
+         * Required when creating.
+         */
+        title: string;
+        description?: string;
+        status?: 'todo' | 'in_progress' | 'done';
+        priority?: 'low' | 'medium' | 'high' | 'urgent';
+        /**
+         * YYYY-MM-DD.
+         */
+        due_date?: string;
+        reminder_at?: string;
+        activity_type?: 'task' | 'call' | 'meeting' | 'email' | 'deadline';
+        recurrence?: 'none' | 'daily' | 'weekly' | 'biweekly' | 'monthly';
+        linked_contact_id?: number;
+        linked_deal_id?: number;
+        assigned_to?: number;
+        tags?: Array<string>;
+        subtasks?: Array<{
+            [key: string]: unknown;
+        }>;
+    };
+    path?: never;
+    query?: never;
+    url: '/tasks';
+};
+
+export type CreateTaskResponses = {
+    /**
+     * Created
+     */
+    201: {
+        success?: true;
+        data?: {
+            id?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type CreateTaskResponse = CreateTaskResponses[keyof CreateTaskResponses];
+
+export type DeleteTaskData = {
+    body?: never;
+    path: {
+        /**
+         * Task id.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/tasks/{id}';
+};
+
+export type DeleteTaskResponses = {
+    /**
+     * Deleted
+     */
+    200: SuccessEnvelope;
+};
+
+export type DeleteTaskResponse = DeleteTaskResponses[keyof DeleteTaskResponses];
+
+export type GetTaskData = {
+    body?: never;
+    path: {
+        /**
+         * Task id.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/tasks/{id}';
+};
+
+export type GetTaskResponses = {
+    /**
+     * Task
+     */
+    200: {
+        success?: true;
+        data?: Task;
+        meta?: RequestMeta;
+    };
+};
+
+export type GetTaskResponse = GetTaskResponses[keyof GetTaskResponses];
+
+export type UpdateTaskData = {
+    body: {
+        /**
+         * Required when creating.
+         */
+        title?: string;
+        description?: string;
+        status?: 'todo' | 'in_progress' | 'done';
+        priority?: 'low' | 'medium' | 'high' | 'urgent';
+        /**
+         * YYYY-MM-DD.
+         */
+        due_date?: string;
+        reminder_at?: string;
+        activity_type?: 'task' | 'call' | 'meeting' | 'email' | 'deadline';
+        recurrence?: 'none' | 'daily' | 'weekly' | 'biweekly' | 'monthly';
+        linked_contact_id?: number;
+        linked_deal_id?: number;
+        assigned_to?: number;
+        tags?: Array<string>;
+        subtasks?: Array<{
+            [key: string]: unknown;
+        }>;
+    };
+    path: {
+        /**
+         * Task id.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/tasks/{id}';
+};
+
+export type UpdateTaskResponses = {
+    /**
+     * Updated
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type UpdateTaskResponse = UpdateTaskResponses[keyof UpdateTaskResponses];
+
+export type LogTaskTimeData = {
+    body: {
+        /**
+         * Minutes to add. Must be positive.
+         */
+        minutes: number;
+    };
+    path: {
+        /**
+         * Task id.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/tasks/{id}/time';
+};
+
+export type LogTaskTimeResponses = {
+    /**
+     * Logged
+     */
+    200: SuccessEnvelope;
+};
+
+export type LogTaskTimeResponse = LogTaskTimeResponses[keyof LogTaskTimeResponses];
+
+export type ListTagsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/tags';
+};
+
+export type ListTagsResponses = {
+    /**
+     * Tags
+     */
+    200: {
+        success?: true;
+        data?: Array<Tag>;
+        pagination?: PaginationMeta;
+        meta?: RequestMeta;
+    };
+};
+
+export type ListTagsResponse = ListTagsResponses[keyof ListTagsResponses];
+
+export type CreateTagData = {
+    body: {
+        name: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/tags';
+};
+
+export type CreateTagResponses = {
+    /**
+     * Created
+     */
+    201: {
+        success?: true;
+        data?: Tag;
+        meta?: RequestMeta;
+    };
+};
+
+export type CreateTagResponse = CreateTagResponses[keyof CreateTagResponses];
+
+export type RenameTagData = {
+    body: {
+        from: string;
+        to: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/tags/rename';
+};
+
+export type RenameTagResponses = {
+    /**
+     * Renamed
+     */
+    200: {
+        success?: true;
+        data?: {
+            name?: string;
+            /**
+             * Contacts changed.
+             */
+            contacts?: number;
+            /**
+             * Automation steps updated.
+             */
+            automations?: number;
+            /**
+             * Segments updated.
+             */
+            segments?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type RenameTagResponse = RenameTagResponses[keyof RenameTagResponses];
+
+export type MergeTagsData = {
+    body: {
+        from: Array<string>;
+        to: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/tags/merge';
+};
+
+export type MergeTagsResponses = {
+    /**
+     * Merged
+     */
+    200: SuccessEnvelope;
+};
+
+export type MergeTagsResponse = MergeTagsResponses[keyof MergeTagsResponses];
+
+export type DeleteTagData = {
+    body: {
+        name: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/tags/delete';
+};
+
+export type DeleteTagResponses = {
+    /**
+     * Deleted
+     */
+    200: {
+        success?: true;
+        data?: {
+            deleted?: boolean;
+            contacts?: number;
+            automations?: number;
+            segments?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeleteTagResponse = DeleteTagResponses[keyof DeleteTagResponses];
+
+export type ListEventTypesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/calendar/event-types';
+};
+
+export type ListEventTypesResponses = {
+    /**
+     * Event types
+     */
+    200: {
+        success?: true;
+        data?: {
+            host_found?: boolean;
+            event_types?: Array<{
+                id?: number;
+                slug?: string;
+                title?: string;
+                description?: string;
+                length_minutes?: number;
+                requires_confirmation?: boolean;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ListEventTypesResponse = ListEventTypesResponses[keyof ListEventTypesResponses];
+
+export type ListCalendarSlotsData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * From the event types endpoint.
+         */
+        event_type_id: number;
+        /**
+         * ISO 8601 start of the window. Defaults to now.
+         */
+        start?: string;
+        /**
+         * ISO 8601 end. Defaults to 7 days after start; 62 days is the maximum span.
+         */
+        end?: string;
+        /**
+         * IANA timezone identifier, e.g. Europe/Athens. Must be an identifier, NOT an abbreviation like EEST - the calendar rejects those.
+         */
+        timezone?: string;
+    };
+    url: '/calendar/slots';
+};
+
+export type ListCalendarSlotsResponses = {
+    /**
+     * Open slots
+     */
+    200: {
+        success?: true;
+        data?: {
+            event_type_id?: number;
+            timezone?: string;
+            /**
+             * Open times keyed by day.
+             */
+            slots?: {
+                [key: string]: unknown;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ListCalendarSlotsResponse = ListCalendarSlotsResponses[keyof ListCalendarSlotsResponses];
+
+export type CreateBookingData = {
+    body: {
+        event_type_id: number;
+        /**
+         * ISO 8601 start time, from the slots endpoint.
+         */
+        start: string;
+        /**
+         * Attendee email. The confirmation goes here.
+         */
+        email: string;
+        /**
+         * Attendee name. Defaults to the email.
+         */
+        name?: string;
+        /**
+         * Attendee's IANA timezone.
+         */
+        timezone?: string;
+        notes?: string;
+        /**
+         * CRM contact to link the booking to.
+         */
+        contact_id?: number;
+    };
+    path?: never;
+    query?: never;
+    url: '/calendar/bookings';
+};
+
+export type CreateBookingResponses = {
+    /**
+     * Booked
+     */
+    201: {
+        success?: true;
+        data?: {
+            booking_uid?: string;
+            start_time?: string;
+            end_time?: string;
+            status?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type CreateBookingResponse = CreateBookingResponses[keyof CreateBookingResponses];
+
+export type CancelBookingData = {
+    body?: {
+        /**
+         * Shown to the attendee. Worth filling in - a blank notice reads badly.
+         */
+        reason?: string;
+    };
+    path: {
+        /**
+         * Booking id, as it appears on the CRM contact's bookings.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/calendar/bookings/{id}/cancel';
+};
+
+export type CancelBookingResponses = {
+    /**
+     * Cancelled
+     */
+    200: {
+        success?: true;
+        data?: {
+            ok?: boolean;
+            status?: 'cancelled';
+            already_cancelled?: boolean;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type CancelBookingResponse = CancelBookingResponses[keyof CancelBookingResponses];
 
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});

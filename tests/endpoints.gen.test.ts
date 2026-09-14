@@ -625,6 +625,36 @@ describe('automations', () => {
   });
 });
 
+describe('calendar', () => {
+  it('calendar.listEventTypes -> GET /calendar/event-types', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.listEventTypes();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/calendar/event-types');
+  });
+
+  it('calendar.listSlots -> GET /calendar/slots', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.listSlots();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/calendar/slots');
+  });
+
+  it('calendar.createBooking -> POST /calendar/bookings', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.createBooking({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/calendar/bookings');
+  });
+
+  it('calendar.cancelBooking -> POST /calendar/bookings/{id}/cancel', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.cancelBooking('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/calendar/bookings/test-id/cancel');
+  });
+});
+
 describe('chatbots', () => {
   it('chatbots.list -> GET /chatbots', async () => {
     const { client, calls } = mockClient();
@@ -801,6 +831,57 @@ describe('crm', () => {
   });
 });
 
+describe('crmCompanies', () => {
+  it('crmCompanies.list -> GET /companies', async () => {
+    const { client, calls } = mockClient();
+    await client.crmCompanies.list();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/companies');
+  });
+
+  it('crmCompanies.create -> POST /companies', async () => {
+    const { client, calls } = mockClient();
+    await client.crmCompanies.create({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/companies');
+  });
+
+  it('crmCompanies.get -> GET /companies/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.crmCompanies.get('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/companies/test-id');
+  });
+
+  it('crmCompanies.update -> PATCH /companies/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.crmCompanies.update('test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/companies/test-id');
+  });
+
+  it('crmCompanies.delete -> DELETE /companies/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.crmCompanies.delete('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/companies/test-id');
+  });
+
+  it('crmCompanies.linkContact -> POST /companies/{id}/contacts', async () => {
+    const { client, calls } = mockClient();
+    await client.crmCompanies.linkContact('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/companies/test-id/contacts');
+  });
+
+  it('crmCompanies.unlinkContact -> DELETE /companies/{id}/contacts', async () => {
+    const { client, calls } = mockClient();
+    await client.crmCompanies.unlinkContact('test-id', {} as never);
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/companies/test-id/contacts');
+  });
+});
+
 describe('contacts', () => {
   it('contacts.list -> GET /contacts', async () => {
     const { client, calls } = mockClient();
@@ -965,6 +1046,87 @@ describe('opportunities', () => {
     await client.opportunities.updateStatus('test-id', {} as never);
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/opportunities/test-id/status');
+  });
+});
+
+describe('crmTags', () => {
+  it('crmTags.list -> GET /tags', async () => {
+    const { client, calls } = mockClient();
+    await client.crmTags.list();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/tags');
+  });
+
+  it('crmTags.create -> POST /tags', async () => {
+    const { client, calls } = mockClient();
+    await client.crmTags.create({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/tags');
+  });
+
+  it('crmTags.rename -> POST /tags/rename', async () => {
+    const { client, calls } = mockClient();
+    await client.crmTags.rename({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/tags/rename');
+  });
+
+  it('crmTags.merge -> POST /tags/merge', async () => {
+    const { client, calls } = mockClient();
+    await client.crmTags.merge({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/tags/merge');
+  });
+
+  it('crmTags.delete -> POST /tags/delete', async () => {
+    const { client, calls } = mockClient();
+    await client.crmTags.delete({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/tags/delete');
+  });
+});
+
+describe('crmTasks', () => {
+  it('crmTasks.list -> GET /tasks', async () => {
+    const { client, calls } = mockClient();
+    await client.crmTasks.list();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/tasks');
+  });
+
+  it('crmTasks.create -> POST /tasks', async () => {
+    const { client, calls } = mockClient();
+    await client.crmTasks.create({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/tasks');
+  });
+
+  it('crmTasks.get -> GET /tasks/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.crmTasks.get('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/tasks/test-id');
+  });
+
+  it('crmTasks.update -> PATCH /tasks/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.crmTasks.update('test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/tasks/test-id');
+  });
+
+  it('crmTasks.delete -> DELETE /tasks/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.crmTasks.delete('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/tasks/test-id');
+  });
+
+  it('crmTasks.logTime -> POST /tasks/{id}/time', async () => {
+    const { client, calls } = mockClient();
+    await client.crmTasks.logTime('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/tasks/test-id/time');
   });
 });
 
