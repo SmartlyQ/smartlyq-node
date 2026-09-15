@@ -17388,6 +17388,68 @@ export type SetFacebookPageCoverResponses = {
 
 export type SetFacebookPageCoverResponse = SetFacebookPageCoverResponses[keyof SetFacebookPageCoverResponses];
 
+export type GetFacebookReelLimitData = {
+    body?: never;
+    path: {
+        /**
+         * Connected social account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/facebook/reel-limit';
+};
+
+export type GetFacebookReelLimitErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type GetFacebookReelLimitError = GetFacebookReelLimitErrors[keyof GetFacebookReelLimitErrors];
+
+export type GetFacebookReelLimitResponses = {
+    /**
+     * Reel limit
+     */
+    200: {
+        success?: true;
+        data?: {
+            /**
+             * Connected social account id.
+             */
+            account_id?: number;
+            /**
+             * Reels allowed per Page in a moving 24-hour window. Always 30.
+             */
+            limit?: number;
+            /**
+             * Reels published through the API or the app in the last 24 hours, plus Reels already scheduled inside that window. Reels posted outside this platform are not counted.
+             */
+            used?: number;
+            /**
+             * Reels that can still be published or scheduled in the window.
+             */
+            remaining?: number;
+            /**
+             * ISO-8601 UTC time when one more Reel fits. `null` unless the Page is at the limit.
+             */
+            next_available_at?: string | null;
+        };
+    };
+};
+
+export type GetFacebookReelLimitResponse = GetFacebookReelLimitResponses[keyof GetFacebookReelLimitResponses];
+
 export type UpdateYoutubePlaylistData = {
     body: {
         title?: string;

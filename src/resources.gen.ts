@@ -1701,6 +1701,11 @@ export class SocialResource {
     return this._client.request('POST', `/social/accounts/${encodeURIComponent(accountId)}/facebook/page/cover`, { body, options });
   }
 
+  /** Get Facebook Reel limit `GET /social/accounts/{account_id}/facebook/reel-limit` */
+  getFacebookReelLimit(accountId: string, options?: RequestOptions): Promise<t.GetFacebookReelLimitResponses[keyof t.GetFacebookReelLimitResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/facebook/reel-limit`, { options });
+  }
+
   /** Update a YouTube playlist `PATCH /social/accounts/{account_id}/youtube/playlists/{playlist_id}` */
   updateYoutubePlaylist(accountId: string, playlistId: string, body: t.UpdateYoutubePlaylistData['body'], options?: RequestOptions): Promise<t.UpdateYoutubePlaylistResponses[keyof t.UpdateYoutubePlaylistResponses]> {
     return this._client.request('PATCH', `/social/accounts/${encodeURIComponent(accountId)}/youtube/playlists/${encodeURIComponent(playlistId)}`, { body, options });

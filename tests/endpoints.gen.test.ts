@@ -2250,6 +2250,13 @@ describe('social', () => {
     expect(calls[0].path).toBe('/social/accounts/test-id/facebook/page/cover');
   });
 
+  it('social.getFacebookReelLimit -> GET /social/accounts/{account_id}/facebook/reel-limit', async () => {
+    const { client, calls } = mockClient();
+    await client.social.getFacebookReelLimit('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/facebook/reel-limit');
+  });
+
   it('social.updateYoutubePlaylist -> PATCH /social/accounts/{account_id}/youtube/playlists/{playlist_id}', async () => {
     const { client, calls } = mockClient();
     await client.social.updateYoutubePlaylist('test-id', 'test-id', {} as never);
