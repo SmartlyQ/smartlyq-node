@@ -382,7 +382,7 @@ export type SocialPostCreateRequest = {
      */
     media_urls?: Array<string>;
     /**
-     * URL to include with the post
+     * Destination URL for the post. Applied to the platforms that have a link field (currently Facebook); other selected platforms are reported back in data.warnings, so put the URL in the post text for those. On Facebook a text-only post renders it as a preview card; when media is attached Meta drops the parameter, so the URL is appended to the post text instead. A per-platform platform_options.<platform>.link always takes precedence.
      */
     link?: string;
     /**
@@ -19172,6 +19172,24 @@ export type AdAnalyticsResponses = {
                 conversions?: number;
                 leads?: number;
                 purchase_value?: number;
+            }>;
+            /**
+             * One entry per campaign that had activity in the range. A campaign absent from this list spent nothing between these dates.
+             */
+            by_campaign?: Array<{
+                /**
+                 * Campaign id, as returned by GET /ads/campaigns.
+                 */
+                id?: number;
+                spent?: number;
+                impressions?: number;
+                clicks?: number;
+                conversions?: number;
+                leads?: number;
+                purchase_value?: number;
+                ctr?: number;
+                cpa?: number;
+                roas?: number;
             }>;
             spend_chart?: {
                 labels?: Array<string>;
