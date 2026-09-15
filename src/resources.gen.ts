@@ -1681,6 +1681,26 @@ export class SocialResource {
     return this._client.request('PATCH', `/social/accounts/${encodeURIComponent(accountId)}/facebook/page`, { body, options });
   }
 
+  /** Get Facebook page settings `GET /social/accounts/{account_id}/facebook/page/settings` */
+  getFacebookPageSettings(accountId: string, options?: RequestOptions): Promise<t.GetFacebookPageSettingsResponses[keyof t.GetFacebookPageSettingsResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/facebook/page/settings`, { options });
+  }
+
+  /** Update Facebook page settings `PATCH /social/accounts/{account_id}/facebook/page/settings` */
+  updateFacebookPageSettings(accountId: string, body: t.UpdateFacebookPageSettingsData['body'], options?: RequestOptions): Promise<t.UpdateFacebookPageSettingsResponses[keyof t.UpdateFacebookPageSettingsResponses]> {
+    return this._client.request('PATCH', `/social/accounts/${encodeURIComponent(accountId)}/facebook/page/settings`, { body, options });
+  }
+
+  /** Set Facebook page profile picture `POST /social/accounts/{account_id}/facebook/page/picture` */
+  setFacebookPagePicture(accountId: string, body: t.SetFacebookPagePictureData['body'], options?: RequestOptions): Promise<t.SetFacebookPagePictureResponses[keyof t.SetFacebookPagePictureResponses]> {
+    return this._client.request('POST', `/social/accounts/${encodeURIComponent(accountId)}/facebook/page/picture`, { body, options });
+  }
+
+  /** Set Facebook page cover photo `POST /social/accounts/{account_id}/facebook/page/cover` */
+  setFacebookPageCover(accountId: string, body: t.SetFacebookPageCoverData['body'], options?: RequestOptions): Promise<t.SetFacebookPageCoverResponses[keyof t.SetFacebookPageCoverResponses]> {
+    return this._client.request('POST', `/social/accounts/${encodeURIComponent(accountId)}/facebook/page/cover`, { body, options });
+  }
+
   /** Update a YouTube playlist `PATCH /social/accounts/{account_id}/youtube/playlists/{playlist_id}` */
   updateYoutubePlaylist(accountId: string, playlistId: string, body: t.UpdateYoutubePlaylistData['body'], options?: RequestOptions): Promise<t.UpdateYoutubePlaylistResponses[keyof t.UpdateYoutubePlaylistResponses]> {
     return this._client.request('PATCH', `/social/accounts/${encodeURIComponent(accountId)}/youtube/playlists/${encodeURIComponent(playlistId)}`, { body, options });

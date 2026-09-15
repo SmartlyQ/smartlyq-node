@@ -17016,7 +17016,67 @@ export type GetFacebookPageResponses = {
         success?: true;
         data?: {
             page?: {
-                [key: string]: unknown;
+                /**
+                 * Facebook Page id.
+                 */
+                id?: string;
+                name?: string;
+                username?: string;
+                /**
+                 * Short description shown under the page name.
+                 */
+                about?: string;
+                /**
+                 * Long description.
+                 */
+                description?: string;
+                category?: string;
+                phone?: string;
+                website?: string;
+                emails?: Array<string>;
+                /**
+                 * The page's address on one line.
+                 */
+                single_line_address?: string;
+                /**
+                 * The page's URL on Facebook.
+                 */
+                link?: string;
+                /**
+                 * Number of people who like the page.
+                 */
+                fan_count?: number;
+                followers_count?: number;
+                /**
+                 * Opening hours keyed the way Facebook reports them, e.g. mon_1_open / mon_1_close.
+                 */
+                hours?: {
+                    [key: string]: unknown;
+                };
+                is_published?: boolean;
+                verification_status?: string;
+                /**
+                 * The page's profile picture as a small thumbnail.
+                 */
+                picture?: {
+                    data?: {
+                        url?: string;
+                    };
+                };
+                /**
+                 * The page's cover photo. Absent when the page has no cover photo.
+                 */
+                cover?: {
+                    /**
+                     * Image URL.
+                     */
+                    source?: string;
+                    /**
+                     * Vertical offset of the image within the cover frame, 0-100.
+                     */
+                    offset_y?: number;
+                    id?: string;
+                };
             };
         };
     };
@@ -17096,6 +17156,237 @@ export type UpdateFacebookPageResponses = {
 };
 
 export type UpdateFacebookPageResponse = UpdateFacebookPageResponses[keyof UpdateFacebookPageResponses];
+
+export type GetFacebookPageSettingsData = {
+    body?: never;
+    path: {
+        /**
+         * Connected social account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/facebook/page/settings';
+};
+
+export type GetFacebookPageSettingsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type GetFacebookPageSettingsError = GetFacebookPageSettingsErrors[keyof GetFacebookPageSettingsErrors];
+
+export type GetFacebookPageSettingsResponses = {
+    /**
+     * Page settings
+     */
+    200: {
+        success?: true;
+        data?: {
+            settings?: {
+                /**
+                 * Whether people can message the Page. `null` when Facebook did not report the setting.
+                 */
+                users_can_message?: boolean | null;
+            };
+        };
+    };
+};
+
+export type GetFacebookPageSettingsResponse = GetFacebookPageSettingsResponses[keyof GetFacebookPageSettingsResponses];
+
+export type UpdateFacebookPageSettingsData = {
+    body: {
+        /**
+         * `false` hides the Message button and blocks replies in existing chats; `true` restores both.
+         */
+        users_can_message: boolean;
+    };
+    path: {
+        /**
+         * Connected social account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/facebook/page/settings';
+};
+
+export type UpdateFacebookPageSettingsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type UpdateFacebookPageSettingsError = UpdateFacebookPageSettingsErrors[keyof UpdateFacebookPageSettingsErrors];
+
+export type UpdateFacebookPageSettingsResponses = {
+    /**
+     * Page settings updated
+     */
+    200: {
+        success?: true;
+        data?: {
+            updated?: boolean;
+            settings?: {
+                users_can_message?: boolean;
+            };
+        };
+    };
+};
+
+export type UpdateFacebookPageSettingsResponse = UpdateFacebookPageSettingsResponses[keyof UpdateFacebookPageSettingsResponses];
+
+export type SetFacebookPagePictureData = {
+    body: {
+        /**
+         * URL of the image. JPG, PNG, GIF, BMP or TIFF, 10 MB max.
+         */
+        url: string;
+    };
+    path: {
+        /**
+         * Connected social account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/facebook/page/picture';
+};
+
+export type SetFacebookPagePictureErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type SetFacebookPagePictureError = SetFacebookPagePictureErrors[keyof SetFacebookPagePictureErrors];
+
+export type SetFacebookPagePictureResponses = {
+    /**
+     * Profile picture updated
+     */
+    200: {
+        success?: true;
+        data?: {
+            updated?: boolean;
+        };
+    };
+};
+
+export type SetFacebookPagePictureResponse = SetFacebookPagePictureResponses[keyof SetFacebookPagePictureResponses];
+
+export type SetFacebookPageCoverData = {
+    body: {
+        /**
+         * URL of the image. JPG, PNG, GIF, BMP or TIFF, 10 MB max, at least 400 x 150 px.
+         */
+        url: string;
+        /**
+         * Vertical offset of the image within the cover frame, 0-100.
+         */
+        offset_y?: number;
+    };
+    path: {
+        /**
+         * Connected social account id.
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/facebook/page/cover';
+};
+
+export type SetFacebookPageCoverErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Bad request
+     */
+    502: ErrorResponse;
+};
+
+export type SetFacebookPageCoverError = SetFacebookPageCoverErrors[keyof SetFacebookPageCoverErrors];
+
+export type SetFacebookPageCoverResponses = {
+    /**
+     * Cover photo updated
+     */
+    200: {
+        success?: true;
+        data?: {
+            updated?: boolean;
+        };
+    };
+};
+
+export type SetFacebookPageCoverResponse = SetFacebookPageCoverResponses[keyof SetFacebookPageCoverResponses];
 
 export type UpdateYoutubePlaylistData = {
     body: {

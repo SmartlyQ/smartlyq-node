@@ -544,6 +544,10 @@ All methods below are available on the client. Full request/response documentati
 | `sq.social.connectSelect(accountId, body)` | `POST /social/accounts/{account_id}/connect-select` | Select connection target |
 | `sq.social.getFacebookPage(accountId)` | `GET /social/accounts/{account_id}/facebook/page` | Get Facebook page details |
 | `sq.social.updateFacebookPage(accountId, body)` | `PATCH /social/accounts/{account_id}/facebook/page` | Update Facebook page details |
+| `sq.social.getFacebookPageSettings(accountId)` | `GET /social/accounts/{account_id}/facebook/page/settings` | Get Facebook page settings |
+| `sq.social.updateFacebookPageSettings(accountId, body)` | `PATCH /social/accounts/{account_id}/facebook/page/settings` | Update Facebook page settings |
+| `sq.social.setFacebookPagePicture(accountId, body)` | `POST /social/accounts/{account_id}/facebook/page/picture` | Set Facebook page profile picture |
+| `sq.social.setFacebookPageCover(accountId, body)` | `POST /social/accounts/{account_id}/facebook/page/cover` | Set Facebook page cover photo |
 | `sq.social.updateYoutubePlaylist(accountId, playlistId, body)` | `PATCH /social/accounts/{account_id}/youtube/playlists/{playlist_id}` | Update a YouTube playlist |
 | `sq.social.listMentions(accountId, query?)` | `GET /social/accounts/{account_id}/mentions` | List mentions |
 | `sq.social.replyToMention(accountId, mentionId, body)` | `POST /social/accounts/{account_id}/mentions/{mention_id}/reply` | Reply to a mention |

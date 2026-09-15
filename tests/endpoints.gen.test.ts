@@ -2222,6 +2222,34 @@ describe('social', () => {
     expect(calls[0].path).toBe('/social/accounts/test-id/facebook/page');
   });
 
+  it('social.getFacebookPageSettings -> GET /social/accounts/{account_id}/facebook/page/settings', async () => {
+    const { client, calls } = mockClient();
+    await client.social.getFacebookPageSettings('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/facebook/page/settings');
+  });
+
+  it('social.updateFacebookPageSettings -> PATCH /social/accounts/{account_id}/facebook/page/settings', async () => {
+    const { client, calls } = mockClient();
+    await client.social.updateFacebookPageSettings('test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/social/accounts/test-id/facebook/page/settings');
+  });
+
+  it('social.setFacebookPagePicture -> POST /social/accounts/{account_id}/facebook/page/picture', async () => {
+    const { client, calls } = mockClient();
+    await client.social.setFacebookPagePicture('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/accounts/test-id/facebook/page/picture');
+  });
+
+  it('social.setFacebookPageCover -> POST /social/accounts/{account_id}/facebook/page/cover', async () => {
+    const { client, calls } = mockClient();
+    await client.social.setFacebookPageCover('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/social/accounts/test-id/facebook/page/cover');
+  });
+
   it('social.updateYoutubePlaylist -> PATCH /social/accounts/{account_id}/youtube/playlists/{playlist_id}', async () => {
     const { client, calls } = mockClient();
     await client.social.updateYoutubePlaylist('test-id', 'test-id', {} as never);
