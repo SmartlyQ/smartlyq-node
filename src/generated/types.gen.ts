@@ -17186,10 +17186,6 @@ export type GetFacebookPageSettingsErrors = {
      * Validation error
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type GetFacebookPageSettingsError = GetFacebookPageSettingsErrors[keyof GetFacebookPageSettingsErrors];
@@ -17247,10 +17243,6 @@ export type UpdateFacebookPageSettingsErrors = {
      * Validation error
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type UpdateFacebookPageSettingsError = UpdateFacebookPageSettingsErrors[keyof UpdateFacebookPageSettingsErrors];
@@ -17306,10 +17298,6 @@ export type SetFacebookPagePictureErrors = {
      * Validation error
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type SetFacebookPagePictureError = SetFacebookPagePictureErrors[keyof SetFacebookPagePictureErrors];
@@ -17366,10 +17354,6 @@ export type SetFacebookPageCoverErrors = {
      * Validation error
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type SetFacebookPageCoverError = SetFacebookPageCoverErrors[keyof SetFacebookPageCoverErrors];
