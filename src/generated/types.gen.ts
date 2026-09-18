@@ -9321,13 +9321,9 @@ export type UnpublishPostErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request: one or more native deletes failed; the post is unchanged. The error details carry per-platform results.
      */
-    422: ErrorResponse;
-    /**
-     * One or more native deletes failed; the post is unchanged. The error details carry per-platform results.
-     */
-    502: {
+    422: {
         success?: false;
         error?: {
             code?: 'PLATFORM_DELETE_FAILED';
@@ -9817,20 +9813,9 @@ export type TiktokCreatorInfoErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * TikTok rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type TiktokCreatorInfoError = TiktokCreatorInfoErrors[keyof TiktokCreatorInfoErrors];
@@ -10666,16 +10651,9 @@ export type DeleteReviewReplyErrors = {
      */
     409: ErrorResponse;
     /**
-     * Platform rejected the request
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
+    422: ErrorResponse;
 };
 
 export type DeleteReviewReplyError = DeleteReviewReplyErrors[keyof DeleteReviewReplyErrors];
@@ -10716,20 +10694,9 @@ export type ReplyToReviewErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Google rejected the reply
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type ReplyToReviewError = ReplyToReviewErrors[keyof ReplyToReviewErrors];
@@ -11613,20 +11580,9 @@ export type PinterestBoardsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type PinterestBoardsError = PinterestBoardsErrors[keyof PinterestBoardsErrors];
@@ -11679,13 +11635,9 @@ export type CreatePinterestBoardErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type CreatePinterestBoardError = CreatePinterestBoardErrors[keyof CreatePinterestBoardErrors];
@@ -11731,20 +11683,9 @@ export type YoutubePlaylistsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type YoutubePlaylistsError = YoutubePlaylistsErrors[keyof YoutubePlaylistsErrors];
@@ -11792,20 +11733,9 @@ export type InstagramPublishingLimitErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type InstagramPublishingLimitError = InstagramPublishingLimitErrors[keyof InstagramPublishingLimitErrors];
@@ -11852,20 +11782,9 @@ export type GmbPerformanceErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbPerformanceError = GmbPerformanceErrors[keyof GmbPerformanceErrors];
@@ -11912,20 +11831,9 @@ export type GmbSearchKeywordsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbSearchKeywordsError = GmbSearchKeywordsErrors[keyof GmbSearchKeywordsErrors];
@@ -11975,20 +11883,9 @@ export type RedditSearchErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type RedditSearchError = RedditSearchErrors[keyof RedditSearchErrors];
@@ -12044,20 +11941,9 @@ export type RedditFeedErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type RedditFeedError = RedditFeedErrors[keyof RedditFeedErrors];
@@ -12109,20 +11995,9 @@ export type RedditSubredditsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type RedditSubredditsError = RedditSubredditsErrors[keyof RedditSubredditsErrors];
@@ -12171,20 +12046,9 @@ export type RedditSubredditRulesErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type RedditSubredditRulesError = RedditSubredditRulesErrors[keyof RedditSubredditRulesErrors];
@@ -12231,20 +12095,9 @@ export type InstagramStoriesErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type InstagramStoriesError = InstagramStoriesErrors[keyof InstagramStoriesErrors];
@@ -12297,20 +12150,9 @@ export type FacebookPostReactionsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type FacebookPostReactionsError = FacebookPostReactionsErrors[keyof FacebookPostReactionsErrors];
@@ -12362,20 +12204,9 @@ export type InstagramStoryInsightsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type InstagramStoryInsightsError = InstagramStoryInsightsErrors[keyof InstagramStoryInsightsErrors];
@@ -12419,20 +12250,9 @@ export type XRetweetErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type XRetweetError = XRetweetErrors[keyof XRetweetErrors];
@@ -12473,20 +12293,9 @@ export type XUnretweetErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type XUnretweetError = XUnretweetErrors[keyof XUnretweetErrors];
@@ -12539,20 +12348,9 @@ export type EditPublishedPostErrors = {
      */
     409: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type EditPublishedPostError = EditPublishedPostErrors[keyof EditPublishedPostErrors];
@@ -12606,20 +12404,9 @@ export type UpdatePostMetadataErrors = {
      */
     409: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type UpdatePostMetadataError = UpdatePostMetadataErrors[keyof UpdatePostMetadataErrors];
@@ -12668,20 +12455,9 @@ export type SyncExternalPostsErrors = {
      */
     409: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type SyncExternalPostsError = SyncExternalPostsErrors[keyof SyncExternalPostsErrors];
@@ -12721,20 +12497,9 @@ export type AccountInsightsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type AccountInsightsError = AccountInsightsErrors[keyof AccountInsightsErrors];
@@ -12785,23 +12550,9 @@ export type GmbLocationsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Google rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-            details?: {
-                google_status?: string;
-            };
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbLocationsError = GmbLocationsErrors[keyof GmbLocationsErrors];
@@ -12847,23 +12598,9 @@ export type GmbLocationErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Google rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-            details?: {
-                google_status?: string;
-            };
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbLocationError = GmbLocationErrors[keyof GmbLocationErrors];
@@ -12919,23 +12656,9 @@ export type GmbUpdateLocationErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Google rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-            details?: {
-                google_status?: string;
-            };
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbUpdateLocationError = GmbUpdateLocationErrors[keyof GmbUpdateLocationErrors];
@@ -12980,23 +12703,9 @@ export type GmbAttributesErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Google rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-            details?: {
-                google_status?: string;
-            };
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbAttributesError = GmbAttributesErrors[keyof GmbAttributesErrors];
@@ -13052,23 +12761,9 @@ export type GmbUpdateAttributesErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Google rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-            details?: {
-                google_status?: string;
-            };
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbUpdateAttributesError = GmbUpdateAttributesErrors[keyof GmbUpdateAttributesErrors];
@@ -13113,23 +12808,9 @@ export type GmbAttributeMetadataErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Google rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-            details?: {
-                google_status?: string;
-            };
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbAttributeMetadataError = GmbAttributeMetadataErrors[keyof GmbAttributeMetadataErrors];
@@ -13178,23 +12859,9 @@ export type GmbDeleteMediaErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Google rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-            details?: {
-                google_status?: string;
-            };
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbDeleteMediaError = GmbDeleteMediaErrors[keyof GmbDeleteMediaErrors];
@@ -13236,23 +12903,9 @@ export type GmbMediaErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Google rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-            details?: {
-                google_status?: string;
-            };
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbMediaError = GmbMediaErrors[keyof GmbMediaErrors];
@@ -13303,23 +12956,9 @@ export type GmbCreateMediaErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Google rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-            details?: {
-                google_status?: string;
-            };
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbCreateMediaError = GmbCreateMediaErrors[keyof GmbCreateMediaErrors];
@@ -13364,23 +13003,9 @@ export type GmbFoodMenusErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Google rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-            details?: {
-                google_status?: string;
-            };
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbFoodMenusError = GmbFoodMenusErrors[keyof GmbFoodMenusErrors];
@@ -13429,23 +13054,9 @@ export type GmbUpdateFoodMenusErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Google rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-            details?: {
-                google_status?: string;
-            };
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbUpdateFoodMenusError = GmbUpdateFoodMenusErrors[keyof GmbUpdateFoodMenusErrors];
@@ -13492,23 +13103,9 @@ export type GmbDeletePlaceActionErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Google rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-            details?: {
-                google_status?: string;
-            };
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbDeletePlaceActionError = GmbDeletePlaceActionErrors[keyof GmbDeletePlaceActionErrors];
@@ -13550,23 +13147,9 @@ export type GmbPlaceActionsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Google rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-            details?: {
-                google_status?: string;
-            };
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbPlaceActionsError = GmbPlaceActionsErrors[keyof GmbPlaceActionsErrors];
@@ -13610,20 +13193,9 @@ export type GmbUpdatePlaceActionErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbUpdatePlaceActionError = GmbUpdatePlaceActionErrors[keyof GmbUpdatePlaceActionErrors];
@@ -13671,23 +13243,9 @@ export type GmbCreatePlaceActionErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Google rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-            details?: {
-                google_status?: string;
-            };
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbCreatePlaceActionError = GmbCreatePlaceActionErrors[keyof GmbCreatePlaceActionErrors];
@@ -13732,23 +13290,9 @@ export type GmbVerificationsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Google rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-            details?: {
-                google_status?: string;
-            };
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbVerificationsError = GmbVerificationsErrors[keyof GmbVerificationsErrors];
@@ -13794,23 +13338,9 @@ export type GmbVerificationOptionsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Google rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-            details?: {
-                google_status?: string;
-            };
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GmbVerificationOptionsError = GmbVerificationOptionsErrors[keyof GmbVerificationOptionsErrors];
@@ -13852,20 +13382,9 @@ export type RedditSubredditInfoErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type RedditSubredditInfoError = RedditSubredditInfoErrors[keyof RedditSubredditInfoErrors];
@@ -13915,20 +13434,9 @@ export type XMentionsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type XMentionsError = XMentionsErrors[keyof XMentionsErrors];
@@ -14011,20 +13519,9 @@ export type SendTypingIndicatorErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type SendTypingIndicatorError = SendTypingIndicatorErrors[keyof SendTypingIndicatorErrors];
@@ -14068,20 +13565,9 @@ export type CommentPrivateReplyErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type CommentPrivateReplyError = CommentPrivateReplyErrors[keyof CommentPrivateReplyErrors];
@@ -14121,20 +13607,9 @@ export type DeleteMessengerMenuErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type DeleteMessengerMenuError = DeleteMessengerMenuErrors[keyof DeleteMessengerMenuErrors];
@@ -14173,20 +13648,9 @@ export type GetMessengerMenuErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GetMessengerMenuError = GetMessengerMenuErrors[keyof GetMessengerMenuErrors];
@@ -14231,20 +13695,9 @@ export type SetMessengerMenuErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type SetMessengerMenuError = SetMessengerMenuErrors[keyof SetMessengerMenuErrors];
@@ -14283,20 +13736,9 @@ export type DeleteIceBreakersErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type DeleteIceBreakersError = DeleteIceBreakersErrors[keyof DeleteIceBreakersErrors];
@@ -14335,20 +13777,9 @@ export type GetIceBreakersErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type GetIceBreakersError = GetIceBreakersErrors[keyof GetIceBreakersErrors];
@@ -14393,20 +13824,9 @@ export type SetIceBreakersErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type SetIceBreakersError = SetIceBreakersErrors[keyof SetIceBreakersErrors];
@@ -14448,20 +13868,9 @@ export type FacebookPageInsightsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type FacebookPageInsightsError = FacebookPageInsightsErrors[keyof FacebookPageInsightsErrors];
@@ -14506,20 +13915,9 @@ export type InstagramAudienceErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type InstagramAudienceError = InstagramAudienceErrors[keyof InstagramAudienceErrors];
@@ -14562,20 +13960,9 @@ export type ConnectOptionsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type ConnectOptionsError = ConnectOptionsErrors[keyof ConnectOptionsErrors];
@@ -14622,20 +14009,9 @@ export type ConnectSelectErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Platform rejected the request
-     */
-    502: {
-        success?: false;
-        error?: {
-            code?: 'PLATFORM_ERROR';
-            message?: string;
-        };
-        meta?: RequestMeta;
-    };
 };
 
 export type ConnectSelectError = ConnectSelectErrors[keyof ConnectSelectErrors];
@@ -14975,13 +14351,9 @@ export type SendWhatsAppMessageErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request: whatsApp rejected the message (e.g. outside the 24h window with no template).
      */
     422: ErrorResponse;
-    /**
-     * WhatsApp rejected the message (e.g. outside the 24h window with no template).
-     */
-    502: unknown;
 };
 
 export type SendWhatsAppMessageError = SendWhatsAppMessageErrors[keyof SendWhatsAppMessageErrors];
@@ -15423,13 +14795,9 @@ export type UploadWhatsAppFlowJsonData = {
 
 export type UploadWhatsAppFlowJsonErrors = {
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request: whatsApp rejected the upload.
      */
     422: ErrorResponse;
-    /**
-     * WhatsApp rejected the upload.
-     */
-    502: unknown;
 };
 
 export type UploadWhatsAppFlowJsonError = UploadWhatsAppFlowJsonErrors[keyof UploadWhatsAppFlowJsonErrors];
@@ -15506,10 +14874,12 @@ export type PublishWhatsAppFlowData = {
 
 export type PublishWhatsAppFlowErrors = {
     /**
-     * The flow failed Meta's publish validation.
+     * Invalid input, or the connected platform refused the request: the flow failed Meta's publish validation.
      */
-    502: unknown;
+    422: ErrorResponse;
 };
+
+export type PublishWhatsAppFlowError = PublishWhatsAppFlowErrors[keyof PublishWhatsAppFlowErrors];
 
 export type PublishWhatsAppFlowResponses = {
     /**
@@ -15621,13 +14991,9 @@ export type BlockWhatsAppUsersData = {
 
 export type BlockWhatsAppUsersErrors = {
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * WhatsApp rejected the request.
-     */
-    502: unknown;
 };
 
 export type BlockWhatsAppUsersError = BlockWhatsAppUsersErrors[keyof BlockWhatsAppUsersErrors];
@@ -16361,13 +15727,9 @@ export type DeleteWhatsappTemplateErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type DeleteWhatsappTemplateError = DeleteWhatsappTemplateErrors[keyof DeleteWhatsappTemplateErrors];
@@ -16410,13 +15772,9 @@ export type GetWhatsappTemplateErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type GetWhatsappTemplateError = GetWhatsappTemplateErrors[keyof GetWhatsappTemplateErrors];
@@ -16483,13 +15841,9 @@ export type UpdateWhatsappTemplateErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type UpdateWhatsappTemplateError = UpdateWhatsappTemplateErrors[keyof UpdateWhatsappTemplateErrors];
@@ -16540,13 +15894,9 @@ export type UpdateWhatsappProfilePhotoErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type UpdateWhatsappProfilePhotoError = UpdateWhatsappProfilePhotoErrors[keyof UpdateWhatsappProfilePhotoErrors];
@@ -16591,13 +15941,9 @@ export type GetWhatsappDisplayNameErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type GetWhatsappDisplayNameError = GetWhatsappDisplayNameErrors[keyof GetWhatsappDisplayNameErrors];
@@ -16656,13 +16002,9 @@ export type UpdateWhatsappDisplayNameErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type UpdateWhatsappDisplayNameError = UpdateWhatsappDisplayNameErrors[keyof UpdateWhatsappDisplayNameErrors];
@@ -16717,13 +16059,9 @@ export type GetYoutubeChannelInsightsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type GetYoutubeChannelInsightsError = GetYoutubeChannelInsightsErrors[keyof GetYoutubeChannelInsightsErrors];
@@ -16787,13 +16125,9 @@ export type GetYoutubeDailyViewsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type GetYoutubeDailyViewsError = GetYoutubeDailyViewsErrors[keyof GetYoutubeDailyViewsErrors];
@@ -16861,13 +16195,9 @@ export type GetYoutubeVideoRetentionErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type GetYoutubeVideoRetentionError = GetYoutubeVideoRetentionErrors[keyof GetYoutubeVideoRetentionErrors];
@@ -16935,13 +16265,9 @@ export type GetYoutubeDemographicsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type GetYoutubeDemographicsError = GetYoutubeDemographicsErrors[keyof GetYoutubeDemographicsErrors];
@@ -16997,13 +16323,9 @@ export type GetFacebookPageErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type GetFacebookPageError = GetFacebookPageErrors[keyof GetFacebookPageErrors];
@@ -17128,13 +16450,9 @@ export type UpdateFacebookPageErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type UpdateFacebookPageError = UpdateFacebookPageErrors[keyof UpdateFacebookPageErrors];
@@ -17148,7 +16466,7 @@ export type UpdateFacebookPageResponses = {
         data?: {
             updated?: boolean;
             /**
-             * Fields that were sent.
+             * Fields that were saved.
              */
             fields?: Array<string>;
         };
@@ -17468,13 +16786,9 @@ export type UpdateYoutubePlaylistErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type UpdateYoutubePlaylistError = UpdateYoutubePlaylistErrors[keyof UpdateYoutubePlaylistErrors];
@@ -17526,13 +16840,9 @@ export type ListMentionsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type ListMentionsError = ListMentionsErrors[keyof ListMentionsErrors];
@@ -17591,13 +16901,9 @@ export type ReplyToMentionErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type ReplyToMentionError = ReplyToMentionErrors[keyof ReplyToMentionErrors];
@@ -17648,13 +16954,9 @@ export type ListRedditFlairsErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type ListRedditFlairsError = ListRedditFlairsErrors[keyof ListRedditFlairsErrors];
@@ -17711,13 +17013,9 @@ export type ListWhatsappTemplateLibraryErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type ListWhatsappTemplateLibraryError = ListWhatsappTemplateLibraryErrors[keyof ListWhatsappTemplateLibraryErrors];
@@ -17787,13 +17085,9 @@ export type CreateWhatsappTemplateFromLibraryErrors = {
      */
     404: ErrorResponse;
     /**
-     * Validation error
+     * Invalid input, or the connected platform refused the request. `error.message` carries the platform's own reason, for example an expired token or a value it does not accept.
      */
     422: ErrorResponse;
-    /**
-     * Bad request
-     */
-    502: ErrorResponse;
 };
 
 export type CreateWhatsappTemplateFromLibraryError = CreateWhatsappTemplateFromLibraryErrors[keyof CreateWhatsappTemplateFromLibraryErrors];
