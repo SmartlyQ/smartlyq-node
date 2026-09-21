@@ -6720,6 +6720,16 @@ export type ListContactsResponses = {
                 [key: string]: unknown;
             };
             source?: string;
+            address1?: string | null;
+            city?: string | null;
+            state?: string | null;
+            postal_code?: string | null;
+            /**
+             * ISO 3166-1 alpha-2.
+             */
+            country?: string | null;
+            date_of_birth?: string | null;
+            website?: string | null;
             created_at?: string;
             updated_at?: string;
         }>;
@@ -6746,6 +6756,31 @@ export type CreateContactData = {
         timezone?: string;
         language?: string;
         source?: string;
+        /**
+         * Street line.
+         */
+        address1?: string;
+        city?: string;
+        /**
+         * State, region or province.
+         */
+        state?: string;
+        /**
+         * Text, not a number - leading zeros and letters are kept ("02134", "SW1A 1AA").
+         */
+        postal_code?: string;
+        /**
+         * ISO 3166-1 alpha-2 code ("GR") or an English country name ("Greece"); stored and returned as the code. An unknown country is a 422.
+         */
+        country?: string;
+        /**
+         * YYYY-MM-DD (DD/MM/YYYY also accepted). A real past date after 1900; anything else is a 422.
+         */
+        date_of_birth?: string;
+        /**
+         * A bare domain gets https:// added.
+         */
+        website?: string;
         tags?: Array<string>;
         /**
          * Custom attribute values keyed by attribute key.
@@ -6797,6 +6832,16 @@ export type CreateContactResponses = {
                 [key: string]: unknown;
             };
             source?: string;
+            address1?: string | null;
+            city?: string | null;
+            state?: string | null;
+            postal_code?: string | null;
+            /**
+             * ISO 3166-1 alpha-2.
+             */
+            country?: string | null;
+            date_of_birth?: string | null;
+            website?: string | null;
             created_at?: string;
             updated_at?: string;
         };
@@ -6825,6 +6870,16 @@ export type CreateContactResponses = {
                 [key: string]: unknown;
             };
             source?: string;
+            address1?: string | null;
+            city?: string | null;
+            state?: string | null;
+            postal_code?: string | null;
+            /**
+             * ISO 3166-1 alpha-2.
+             */
+            country?: string | null;
+            date_of_birth?: string | null;
+            website?: string | null;
             created_at?: string;
             updated_at?: string;
         };
@@ -6910,6 +6965,16 @@ export type GetContactResponses = {
                 [key: string]: unknown;
             };
             source?: string;
+            address1?: string | null;
+            city?: string | null;
+            state?: string | null;
+            postal_code?: string | null;
+            /**
+             * ISO 3166-1 alpha-2.
+             */
+            country?: string | null;
+            date_of_birth?: string | null;
+            website?: string | null;
             created_at?: string;
             updated_at?: string;
         };
@@ -6932,6 +6997,31 @@ export type UpdateContactData = {
         timezone?: string;
         language?: string;
         source?: string;
+        /**
+         * Street line.
+         */
+        address1?: string;
+        city?: string;
+        /**
+         * State, region or province.
+         */
+        state?: string;
+        /**
+         * Text, not a number - leading zeros and letters are kept ("02134", "SW1A 1AA").
+         */
+        postal_code?: string;
+        /**
+         * ISO 3166-1 alpha-2 code ("GR") or an English country name ("Greece"); stored and returned as the code. An unknown country is a 422.
+         */
+        country?: string;
+        /**
+         * YYYY-MM-DD (DD/MM/YYYY also accepted). A real past date after 1900; anything else is a 422.
+         */
+        date_of_birth?: string;
+        /**
+         * A bare domain gets https:// added.
+         */
+        website?: string;
         tags?: Array<string>;
         attributes?: {
             [key: string]: unknown;
@@ -6978,6 +7068,16 @@ export type UpdateContactResponses = {
                 [key: string]: unknown;
             };
             source?: string;
+            address1?: string | null;
+            city?: string | null;
+            state?: string | null;
+            postal_code?: string | null;
+            /**
+             * ISO 3166-1 alpha-2.
+             */
+            country?: string | null;
+            date_of_birth?: string | null;
+            website?: string | null;
             created_at?: string;
             updated_at?: string;
         };
