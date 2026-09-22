@@ -7175,15 +7175,40 @@ export type ListContactNotesData = {
 
 export type ListContactNotesResponses = {
     /**
-     * Notes for the contact, newest first
+     * Notes for the contact: pinned first, then newest first
      */
     200: {
         success?: true;
         data?: Array<{
             id?: number;
+            contact_id?: number;
+            /**
+             * Empty string when the note has no title.
+             */
+            title?: string;
+            /**
+             * Plain text, always present.
+             */
             body?: string;
+            /**
+             * Formatted version, empty when the note was written as plain text.
+             */
+            body_html?: string;
+            color?: '' | 'yellow' | 'green' | 'blue' | 'gray' | 'teal' | 'purple' | 'orange' | 'pink' | 'violet' | 'cyan';
+            pinned?: boolean;
             author_name?: string;
+            attachments?: Array<{
+                id?: number;
+                file_name?: string;
+                file_url?: string;
+                mime_type?: string;
+                file_size?: number;
+            }>;
             created_at?: string;
+            /**
+             * Set when the note was edited.
+             */
+            updated_at?: string | null;
         }>;
         pagination?: PaginationMeta;
         meta?: RequestMeta;
@@ -7194,7 +7219,21 @@ export type ListContactNotesResponse = ListContactNotesResponses[keyof ListConta
 
 export type AddContactNoteData = {
     body: {
-        body: string;
+        title?: string;
+        /**
+         * Plain text. Use body or body_html.
+         */
+        body?: string;
+        /**
+         * Formatted text: bold, italic, underline, strike, lists, quotes and http(s)/mailto/tel links. Anything else is removed; body is derived from it.
+         */
+        body_html?: string;
+        color?: 'yellow' | 'green' | 'blue' | 'gray' | 'teal' | 'purple' | 'orange' | 'pink' | 'violet' | 'cyan';
+        pinned?: boolean;
+        /**
+         * Ids of files already on the contact (max 5).
+         */
+        attachment_file_ids?: Array<number>;
         author_name?: string;
     };
     path: {
@@ -7225,13 +7264,144 @@ export type AddContactNoteResponses = {
         success?: true;
         data?: {
             id?: number;
+            contact_id?: number;
+            /**
+             * Empty string when the note has no title.
+             */
+            title?: string;
+            /**
+             * Plain text, always present.
+             */
             body?: string;
+            /**
+             * Formatted version, empty when the note was written as plain text.
+             */
+            body_html?: string;
+            color?: '' | 'yellow' | 'green' | 'blue' | 'gray' | 'teal' | 'purple' | 'orange' | 'pink' | 'violet' | 'cyan';
+            pinned?: boolean;
+            author_name?: string;
+            attachments?: Array<{
+                id?: number;
+                file_name?: string;
+                file_url?: string;
+                mime_type?: string;
+                file_size?: number;
+            }>;
+            created_at?: string;
+            /**
+             * Set when the note was edited.
+             */
+            updated_at?: string | null;
         };
         meta?: RequestMeta;
     };
 };
 
 export type AddContactNoteResponse = AddContactNoteResponses[keyof AddContactNoteResponses];
+
+export type DeleteContactNoteData = {
+    body?: never;
+    path: {
+        id: number;
+        note_id: number;
+    };
+    query?: never;
+    url: '/contacts/{id}/notes/{note_id}';
+};
+
+export type DeleteContactNoteErrors = {
+    /**
+     * Contact or note not found
+     */
+    404: unknown;
+};
+
+export type DeleteContactNoteResponses = {
+    /**
+     * Deleted
+     */
+    200: unknown;
+};
+
+export type UpdateContactNoteData = {
+    body: {
+        title?: string;
+        /**
+         * Plain text. Use body or body_html.
+         */
+        body?: string;
+        /**
+         * Formatted text: bold, italic, underline, strike, lists, quotes and http(s)/mailto/tel links. Anything else is removed; body is derived from it.
+         */
+        body_html?: string;
+        color?: 'yellow' | 'green' | 'blue' | 'gray' | 'teal' | 'purple' | 'orange' | 'pink' | 'violet' | 'cyan';
+        pinned?: boolean;
+        /**
+         * Ids of files already on the contact (max 5).
+         */
+        attachment_file_ids?: Array<number>;
+    };
+    path: {
+        id: number;
+        note_id: number;
+    };
+    query?: never;
+    url: '/contacts/{id}/notes/{note_id}';
+};
+
+export type UpdateContactNoteErrors = {
+    /**
+     * Contact or note not found
+     */
+    404: unknown;
+    /**
+     * Invalid field (title too long, unknown colour, more than 5 attachments, a file of another contact)
+     */
+    422: unknown;
+};
+
+export type UpdateContactNoteResponses = {
+    /**
+     * The note after the edit
+     */
+    200: {
+        success?: true;
+        data?: {
+            id?: number;
+            contact_id?: number;
+            /**
+             * Empty string when the note has no title.
+             */
+            title?: string;
+            /**
+             * Plain text, always present.
+             */
+            body?: string;
+            /**
+             * Formatted version, empty when the note was written as plain text.
+             */
+            body_html?: string;
+            color?: '' | 'yellow' | 'green' | 'blue' | 'gray' | 'teal' | 'purple' | 'orange' | 'pink' | 'violet' | 'cyan';
+            pinned?: boolean;
+            author_name?: string;
+            attachments?: Array<{
+                id?: number;
+                file_name?: string;
+                file_url?: string;
+                mime_type?: string;
+                file_size?: number;
+            }>;
+            created_at?: string;
+            /**
+             * Set when the note was edited.
+             */
+            updated_at?: string | null;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type UpdateContactNoteResponse = UpdateContactNoteResponses[keyof UpdateContactNoteResponses];
 
 export type ListPipelinesData = {
     body?: never;

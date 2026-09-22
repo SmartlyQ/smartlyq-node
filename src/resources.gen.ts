@@ -711,6 +711,16 @@ export class ContactsResource {
     return this._client.request('POST', `/contacts/${encodeURIComponent(id)}/notes`, { body, options });
   }
 
+  /** Edit a contact note `PATCH /contacts/{id}/notes/{note_id}` */
+  updateNote(id: string, noteId: string, body: t.UpdateContactNoteData['body'], options?: RequestOptions): Promise<t.UpdateContactNoteResponses[keyof t.UpdateContactNoteResponses]> {
+    return this._client.request('PATCH', `/contacts/${encodeURIComponent(id)}/notes/${encodeURIComponent(noteId)}`, { body, options });
+  }
+
+  /** Delete a contact note `DELETE /contacts/{id}/notes/{note_id}` */
+  deleteNote(id: string, noteId: string, options?: RequestOptions): Promise<t.DeleteContactNoteResponses[keyof t.DeleteContactNoteResponses]> {
+    return this._client.request('DELETE', `/contacts/${encodeURIComponent(id)}/notes/${encodeURIComponent(noteId)}`, { options });
+  }
+
   /** Enroll a contact in an automation `POST /contacts/{id}/enroll` */
   enroll(id: string, body: t.EnrollContactData['body'], options?: RequestOptions): Promise<t.EnrollContactResponses[keyof t.EnrollContactResponses]> {
     return this._client.request('POST', `/contacts/${encodeURIComponent(id)}/enroll`, { body, options });

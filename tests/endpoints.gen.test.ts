@@ -939,6 +939,20 @@ describe('contacts', () => {
     expect(calls[0].path).toBe('/contacts/test-id/notes');
   });
 
+  it('contacts.updateNote -> PATCH /contacts/{id}/notes/{note_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.contacts.updateNote('test-id', 'test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/contacts/test-id/notes/test-id');
+  });
+
+  it('contacts.deleteNote -> DELETE /contacts/{id}/notes/{note_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.contacts.deleteNote('test-id', 'test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/contacts/test-id/notes/test-id');
+  });
+
   it('contacts.enroll -> POST /contacts/{id}/enroll', async () => {
     const { client, calls } = mockClient();
     await client.contacts.enroll('test-id', {} as never);
