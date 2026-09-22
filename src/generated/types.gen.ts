@@ -7332,6 +7332,7 @@ export type ListOpportunitiesResponses = {
             name?: string;
             contact_email?: string;
             company?: string;
+            source?: string;
             value?: number;
             stage?: string;
             status?: string;
@@ -7353,6 +7354,10 @@ export type CreateOpportunityData = {
         name: string;
         contact_email?: string;
         company?: string;
+        /**
+         * Where the deal came from (a form, a campaign, an ad, typed by hand). Max 100 characters. Omit it on create and the contact's own source is used.
+         */
+        source?: string;
         /**
          * Monetary value.
          */
@@ -7393,6 +7398,7 @@ export type CreateOpportunityResponses = {
             name?: string;
             contact_email?: string;
             company?: string;
+            source?: string;
             value?: number;
             stage?: string;
             status?: string;
@@ -7468,6 +7474,7 @@ export type GetOpportunityResponses = {
             name?: string;
             contact_email?: string;
             company?: string;
+            source?: string;
             value?: number;
             stage?: string;
             status?: string;
@@ -7485,6 +7492,10 @@ export type UpdateOpportunityData = {
         name?: string;
         contact_email?: string;
         company?: string;
+        /**
+         * Where the deal came from (a form, a campaign, an ad, typed by hand). Max 100 characters. Omit it on create and the contact's own source is used.
+         */
+        source?: string;
         value?: number;
         pipeline_id?: number;
         stage?: string;
@@ -7521,6 +7532,7 @@ export type UpdateOpportunityResponses = {
             name?: string;
             contact_email?: string;
             company?: string;
+            source?: string;
             value?: number;
             stage?: string;
             status?: string;
@@ -7569,6 +7581,7 @@ export type UpdateOpportunityStatusResponses = {
             name?: string;
             contact_email?: string;
             company?: string;
+            source?: string;
             value?: number;
             stage?: string;
             status?: string;
