@@ -843,6 +843,17 @@ export type Company = {
     phone?: string;
     website?: string;
     address?: string;
+    city?: string;
+    /**
+     * State or region.
+     */
+    state?: string;
+    postal_code?: string;
+    /**
+     * ISO 3166-1 alpha-2 code, e.g. GR. On create or update an English country name is accepted too.
+     */
+    country?: string;
+    email?: string;
     notes?: string;
     assigned_user_id?: number;
     /**
@@ -19240,6 +19251,17 @@ export type CreateCompanyData = {
         phone?: string;
         website?: string;
         address?: string;
+        city?: string;
+        /**
+         * State or region.
+         */
+        state?: string;
+        postal_code?: string;
+        /**
+         * ISO 3166-1 alpha-2 code, e.g. GR. On create or update an English country name is accepted too.
+         */
+        country?: string;
+        email?: string;
         notes?: string;
         assigned_user_id?: number;
         attributes?: {
@@ -19324,6 +19346,17 @@ export type UpdateCompanyData = {
         phone?: string;
         website?: string;
         address?: string;
+        city?: string;
+        /**
+         * State or region.
+         */
+        state?: string;
+        postal_code?: string;
+        /**
+         * ISO 3166-1 alpha-2 code, e.g. GR. On create or update an English country name is accepted too.
+         */
+        country?: string;
+        email?: string;
         notes?: string;
         assigned_user_id?: number;
         attributes?: {
