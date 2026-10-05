@@ -390,10 +390,11 @@ export type SocialPostCreateRequest = {
      */
     allow_duplicates?: boolean;
     /**
-     * Per-platform composer options - the same payload the web composer stores; publish handlers read it as-is (unknown keys are ignored, max 20KB). Keyed by platform, e.g. {"tiktok": {"privacy_level": "SELF_ONLY"}, "instagram": {"content": "IG-specific caption"}, "_thumbnail": {"timestamp_ms": 3000}}. Common keys: per-platform `content` override; tiktok privacy/duet/stitch options; `_thumbnail` custom video cover. See the Platform options guide for every key each platform accepts (privacy, flair, first comments, formatting, AI-disclosure flags, thumbnails and more).
+     * Per-platform composer options - the same payload the web composer stores; publish handlers read it as-is (unknown keys are ignored, max 20KB). Keyed by platform, e.g. {"tiktok": {"visibility": "private"}, "instagram": {"content": "IG-specific caption"}, "_thumbnail": {"timestamp_ms": 3000}}. Common keys: per-platform `content` override; tiktok `visibility` (REQUIRED for every TikTok post: public | friends | private - a TikTok post without it is refused with VALIDATION_ERROR; `branded_content` cannot be combined with private), `type` (video | photo), allow_comments/allow_duet/allow_stitch, disclose_content + your_brand/branded_content; `_thumbnail` custom video cover. See the Platform options guide for every key each platform accepts (privacy, flair, first comments, formatting, AI-disclosure flags, thumbnails and more).
      */
     platform_options?: {
-        [key: string]: unknown;
+        tiktok?: TikTokPlatformOptions;
+        [key: string]: unknown | TikTokPlatformOptions | undefined;
     };
 };
 
@@ -455,17 +456,76 @@ export type SocialPostScheduleRequest = {
      */
     allow_duplicates?: boolean;
     /**
-     * Per-platform composer options - the same payload the web composer stores; publish handlers read it as-is (unknown keys are ignored, max 20KB). Keyed by platform, e.g. {"tiktok": {"privacy_level": "SELF_ONLY"}, "instagram": {"content": "IG-specific caption"}, "_thumbnail": {"timestamp_ms": 3000}}. Common keys: per-platform `content` override; tiktok privacy/duet/stitch options; `_thumbnail` custom video cover. Per-platform STAGGER: give any platform its own `scheduled_time` here (interpreted in the request `timezone`) and it publishes at that moment - platforms without one use the request-level scheduled_time. One call, one post per distinct time (response carries `staggered[]` with the created legs). Not combinable with queue_id or recycle.
+     * Per-platform composer options - the same payload the web composer stores; publish handlers read it as-is (unknown keys are ignored, max 20KB). Keyed by platform, e.g. {"tiktok": {"visibility": "private"}, "instagram": {"content": "IG-specific caption"}, "_thumbnail": {"timestamp_ms": 3000}}. Common keys: per-platform `content` override; tiktok `visibility` (REQUIRED for every TikTok post: public | friends | private - a TikTok post without it is refused with VALIDATION_ERROR; `branded_content` cannot be combined with private), `type` (video | photo), allow_comments/allow_duet/allow_stitch, disclose_content + your_brand/branded_content; `_thumbnail` custom video cover. Per-platform STAGGER: give any platform its own `scheduled_time` here (interpreted in the request `timezone`) and it publishes at that moment - platforms without one use the request-level scheduled_time. One call, one post per distinct time (response carries `staggered[]` with the created legs). Not combinable with queue_id or recycle.
      */
     platform_options?: {
-        [key: string]: unknown;
+        tiktok?: TikTokPlatformOptions;
+        [key: string]: unknown | TikTokPlatformOptions | undefined;
     };
+};
+
+/**
+ * TikTok options. TikTok requires the person posting to choose who can see the post, so `visibility` is required for every post that includes TikTok; without it the post is refused with VALIDATION_ERROR. `branded_content` cannot be combined with `visibility: private`.
+ */
+export type TikTokPlatformOptions = {
+    /**
+     * Who can view: everyone, friends, or only the account (private).
+     */
+    visibility: 'public' | 'friends' | 'private';
+    /**
+     * video (default) or photo for a photo post.
+     */
+    type?: 'video' | 'photo';
+    /**
+     * Allow comments. Off unless true.
+     */
+    allow_comments?: boolean;
+    /**
+     * Allow duet (video). Off unless true.
+     */
+    allow_duet?: boolean;
+    /**
+     * Allow stitch (video). Off unless true.
+     */
+    allow_stitch?: boolean;
+    /**
+     * The post promotes goods or services. Then set your_brand, branded_content, or both.
+     */
+    disclose_content?: boolean;
+    /**
+     * Promotes yourself or your own business (labeled 'Promotional content').
+     */
+    your_brand?: boolean;
+    /**
+     * Paid partnership promoting a third party (labeled 'Paid partnership'). Not allowed with visibility private.
+     */
+    branded_content?: boolean;
+    /**
+     * Photo posts: title (the caption is used when empty).
+     */
+    photo_title?: string;
+    /**
+     * Photo posts: 0-based index of the cover image.
+     */
+    photo_cover_index?: number;
+    /**
+     * Photo posts: let TikTok add recommended music.
+     */
+    auto_add_music?: boolean;
+    [key: string]: unknown | ('public' | 'friends' | 'private') | ('video' | 'photo') | boolean | string | number | undefined;
 };
 
 /**
  * At least one field must be provided.
  */
 export type SocialPostUpdateRequest = {
+    /**
+     * Per-platform options, MERGED over the post's stored options (send null for a key to clear it). Same keys as on create. A post that will be scheduled after the edit is checked against each platform's rules - e.g. a TikTok post without platform_options.tiktok.visibility is refused with VALIDATION_ERROR.
+     */
+    platform_options?: {
+        tiktok?: TikTokPlatformOptions;
+        [key: string]: unknown | TikTokPlatformOptions | undefined;
+    };
     content?: string;
     /**
      * Target platforms. Use `twitter` for X and `gmb` for Google Business. `telegram` posts via the workspace's connected bot (created with @BotFather); `discord` posts via the connected server webhook. Both are connected in the dashboard's Social Accounts page.
@@ -9837,10 +9897,11 @@ export type BulkSchedulePostsData = {
             media_urls?: Array<string>;
             link?: string;
             /**
-             * Per-platform composer options - the same payload the web composer stores; publish handlers read it as-is (unknown keys are ignored, max 20KB). Keyed by platform, e.g. {"tiktok": {"privacy_level": "SELF_ONLY"}, "instagram": {"content": "IG-specific caption"}, "_thumbnail": {"timestamp_ms": 3000}}. Common keys: per-platform `content` override; tiktok privacy/duet/stitch options; `_thumbnail` custom video cover.
+             * Per-platform composer options - the same payload the web composer stores; publish handlers read it as-is (unknown keys are ignored, max 20KB). Keyed by platform, e.g. {"tiktok": {"visibility": "private"}, "instagram": {"content": "IG-specific caption"}, "_thumbnail": {"timestamp_ms": 3000}}. Common keys: per-platform `content` override; tiktok `visibility` (REQUIRED for every TikTok post: public | friends | private - a TikTok post without it is refused with VALIDATION_ERROR; `branded_content` cannot be combined with private), `type` (video | photo), allow_comments/allow_duet/allow_stitch, disclose_content + your_brand/branded_content; `_thumbnail` custom video cover.
              */
             platform_options?: {
-                [key: string]: unknown;
+                tiktok?: TikTokPlatformOptions;
+                [key: string]: unknown | TikTokPlatformOptions | undefined;
             };
         }>;
         /**
@@ -9928,10 +9989,11 @@ export type ValidateBulkBatchData = {
             media_urls?: Array<string>;
             link?: string;
             /**
-             * Per-platform composer options - the same payload the web composer stores; publish handlers read it as-is (unknown keys are ignored, max 20KB). Keyed by platform, e.g. {"tiktok": {"privacy_level": "SELF_ONLY"}, "instagram": {"content": "IG-specific caption"}, "_thumbnail": {"timestamp_ms": 3000}}. Common keys: per-platform `content` override; tiktok privacy/duet/stitch options; `_thumbnail` custom video cover.
+             * Per-platform composer options - the same payload the web composer stores; publish handlers read it as-is (unknown keys are ignored, max 20KB). Keyed by platform, e.g. {"tiktok": {"visibility": "private"}, "instagram": {"content": "IG-specific caption"}, "_thumbnail": {"timestamp_ms": 3000}}. Common keys: per-platform `content` override; tiktok `visibility` (REQUIRED for every TikTok post: public | friends | private - a TikTok post without it is refused with VALIDATION_ERROR; `branded_content` cannot be combined with private), `type` (video | photo), allow_comments/allow_duet/allow_stitch, disclose_content + your_brand/branded_content; `_thumbnail` custom video cover.
              */
             platform_options?: {
-                [key: string]: unknown;
+                tiktok?: TikTokPlatformOptions;
+                [key: string]: unknown | TikTokPlatformOptions | undefined;
             };
         }>;
         /**
