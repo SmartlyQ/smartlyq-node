@@ -9905,7 +9905,7 @@ export type BulkSchedulePostsData = {
             };
         }>;
         /**
-         * Alternative to posts: inline CSV with a header line. Columns: content, platforms, account_ids, scheduled_time, media_urls, link (list cells split on | or ,). Provide posts OR csv, not both.
+         * Alternative to posts: inline CSV with a header line. Basic columns: content, platforms, account_ids, scheduled_time, media_urls, link, first_comment (list cells split on | or ,; a quoted cell may span lines). Platform options go in `<platform>.<field>` columns, e.g. tiktok.visibility, tiktok.type, youtube.title, pinterest.board_id, instagram.type, gmb.post_type - see the Bulk scheduling guide. Provide posts OR csv, not both.
          */
         csv?: string;
         /**
@@ -9997,7 +9997,7 @@ export type ValidateBulkBatchData = {
             };
         }>;
         /**
-         * Alternative to posts: inline CSV with a header line. Columns: content, platforms, account_ids, scheduled_time, media_urls, link (list cells split on | or ,). Provide posts OR csv, not both.
+         * Alternative to posts: inline CSV with a header line. Basic columns: content, platforms, account_ids, scheduled_time, media_urls, link, first_comment (list cells split on | or ,; a quoted cell may span lines). Platform options go in `<platform>.<field>` columns, e.g. tiktok.visibility, tiktok.type, youtube.title, pinterest.board_id, instagram.type, gmb.post_type - see the Bulk scheduling guide. Provide posts OR csv, not both.
          */
         csv?: string;
         /**
