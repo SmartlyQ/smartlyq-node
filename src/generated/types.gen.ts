@@ -6522,6 +6522,53 @@ export type GenerateShortsData = {
          * Spoken language code.
          */
         language?: string;
+        /**
+         * Caption style id for this job (default: your brand template's style). List them with GET /v1/shorts/caption-styles.
+         */
+        caption_style?: string;
+        /**
+         * Text formatting on top of the caption style, for this job only. Each switch is optional; leave one out to keep the style's own look.
+         */
+        caption_format?: {
+            italic?: boolean;
+            underline?: boolean;
+            strikethrough?: boolean;
+            /**
+             * true = all caps, false = as spoken. Left out = the style's own casing.
+             */
+            uppercase?: boolean;
+            /**
+             * Light to Bold: words start light and turn bold as they are spoken. Applies only to styles whose font has both weights (light_bold: true in GET /v1/shorts/caption-styles); ignored otherwise.
+             */
+            light_bold?: boolean;
+        };
+        /**
+         * Target clip length: auto (20-90 s), 30 (12-30 s), 60 (30-60 s) or 90 (60-90 s). Clips always start and end on whole sentences.
+         */
+        clip_length?: 'auto' | '30' | '60' | '90';
+        /**
+         * What kind of video it is, so the AI knows what makes a good moment. Left out = detected.
+         */
+        genre?: 'podcast' | 'lifestyle' | 'sports' | 'marketing' | 'entertainment' | 'news' | 'education';
+        /**
+         * What to look for, in plain words, e.g. 'the moments about pricing' or 'only when the guest is speaking'.
+         */
+        focus?: string;
+        /**
+         * Only pick clips from this part of the video. Leave end_s out for 'to the end'. Must be at least as long as the shortest clip for clip_length.
+         */
+        timeframe?: {
+            start_s?: number;
+            end_s?: number;
+        };
+        /**
+         * Add a stock b-roll cutaway to each clip (6 s or longer, not in split screen).
+         */
+        magic_broll?: boolean;
+        /**
+         * false = clean clips with no captions, hook, logo or music (caption_style and caption_format cannot be used then).
+         */
+        apply_brand_template?: boolean;
     };
     path?: never;
     query?: never;
@@ -6559,6 +6606,12 @@ export type GenerateShortsResponses = {
             job_uid?: string;
             status?: string;
             clip_count?: number;
+            /**
+             * The optional choices you sent, as applied.
+             */
+            options?: {
+                [key: string]: unknown;
+            };
         };
         meta?: RequestMeta;
     };
@@ -6618,6 +6671,52 @@ export type ListShortsResponses = {
 
 export type ListShortsResponse = ListShortsResponses[keyof ListShortsResponses];
 
+export type ListShortsCaptionStylesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/shorts/caption-styles';
+};
+
+export type ListShortsCaptionStylesErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+};
+
+export type ListShortsCaptionStylesError = ListShortsCaptionStylesErrors[keyof ListShortsCaptionStylesErrors];
+
+export type ListShortsCaptionStylesResponses = {
+    /**
+     * Caption styles and option values.
+     */
+    200: {
+        success?: true;
+        data?: {
+            caption_styles?: Array<{
+                id?: string;
+                label?: string;
+                font?: string;
+                /**
+                 * Whether caption_format.light_bold applies to this style.
+                 */
+                light_bold?: boolean;
+            }>;
+            caption_format?: Array<string>;
+            clip_lengths?: Array<string>;
+            genres?: Array<string>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ListShortsCaptionStylesResponse = ListShortsCaptionStylesResponses[keyof ListShortsCaptionStylesResponses];
+
 export type GetShortsData = {
     body?: never;
     path: {
@@ -6665,6 +6764,23 @@ export type GetShortsResponses = {
                 end?: number;
             }>;
             created_at?: string;
+            /**
+             * The optional choices the job was made with.
+             */
+            options?: {
+                apply_brand_template?: boolean;
+                caption_style?: string;
+                caption_format?: {
+                    [key: string]: unknown;
+                };
+                clip_length?: string;
+                genre?: string;
+                focus?: string;
+                timeframe?: {
+                    [key: string]: unknown;
+                };
+                magic_broll?: boolean;
+            };
         };
         meta?: RequestMeta;
     };

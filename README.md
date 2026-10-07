@@ -447,6 +447,7 @@ All methods below are available on the client. Full request/response documentati
 | --- | --- | --- |
 | `sq.shorts.generate(body?)` | `POST /shorts/generate` | Generate viral shorts from a long video |
 | `sq.shorts.list(query?)` | `GET /shorts` | List shorts jobs |
+| `sq.shorts.listCaptionStyles()` | `GET /shorts/caption-styles` | List caption styles for shorts |
 | `sq.shorts.get(uid)` | `GET /shorts/{uid}` | Get shorts job + clips |
 
 ### Social

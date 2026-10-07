@@ -1216,6 +1216,11 @@ export class ShortsResource {
     return this._client.request('GET', '/shorts', { query, options });
   }
 
+  /** List caption styles for shorts `GET /shorts/caption-styles` */
+  listCaptionStyles(options?: RequestOptions): Promise<t.ListShortsCaptionStylesResponses[keyof t.ListShortsCaptionStylesResponses]> {
+    return this._client.request('GET', '/shorts/caption-styles', { options });
+  }
+
   /** Get shorts job + clips `GET /shorts/{uid}` */
   get(uid: string, options?: RequestOptions): Promise<t.GetShortsResponses[keyof t.GetShortsResponses]> {
     return this._client.request('GET', `/shorts/${encodeURIComponent(uid)}`, { options });

@@ -1576,6 +1576,13 @@ describe('shorts', () => {
     expect(calls[0].path).toBe('/shorts');
   });
 
+  it('shorts.listCaptionStyles -> GET /shorts/caption-styles', async () => {
+    const { client, calls } = mockClient();
+    await client.shorts.listCaptionStyles();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/shorts/caption-styles');
+  });
+
   it('shorts.get -> GET /shorts/{uid}', async () => {
     const { client, calls } = mockClient();
     await client.shorts.get('test-id');
