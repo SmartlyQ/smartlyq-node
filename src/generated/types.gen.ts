@@ -6577,7 +6577,7 @@ export type GenerateShortsData = {
             end_s?: number;
         };
         /**
-         * Add a stock b-roll cutaway to each clip (6 s or longer, not in split screen).
+         * Stock b-roll cutaways (clips of 6 s or longer, not in split screen): true = on, false = off even if the brand template has it on, omit = brand template.
          */
         magic_broll?: boolean;
         /**
@@ -6794,6 +6794,9 @@ export type GetShortsResponses = {
                 timeframe?: {
                     [key: string]: unknown;
                 };
+                /**
+                 * Whether the clips got stock b-roll: asked for, or the brand template's (false when the job turned it off).
+                 */
                 magic_broll?: boolean;
             };
         };
