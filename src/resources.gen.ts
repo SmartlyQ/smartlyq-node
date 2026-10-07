@@ -912,6 +912,41 @@ export class MessagesResource {
   }
 }
 
+/** Edits endpoints. */
+export class EditsResource {
+  constructor(private readonly _client: CoreClient) {}
+
+  /** List video edits `GET /edits` */
+  list(query?: t.ListEditsData['query'], options?: RequestOptions): Promise<t.ListEditsResponses[keyof t.ListEditsResponses]> {
+    return this._client.request('GET', '/edits', { query, options });
+  }
+
+  /** Create a video edit `POST /edits` */
+  create(body: t.CreateEditData['body'], options?: RequestOptions): Promise<t.CreateEditResponses[keyof t.CreateEditResponses]> {
+    return this._client.request('POST', '/edits', { body, options });
+  }
+
+  /** List edit options `GET /edits/options` */
+  listOptions(options?: RequestOptions): Promise<t.ListEditOptionsResponses[keyof t.ListEditOptionsResponses]> {
+    return this._client.request('GET', '/edits/options', { options });
+  }
+
+  /** Get a video edit `GET /edits/{uid}` */
+  get(uid: string, options?: RequestOptions): Promise<t.GetEditResponses[keyof t.GetEditResponses]> {
+    return this._client.request('GET', `/edits/${encodeURIComponent(uid)}`, { options });
+  }
+
+  /** Update a video edit `PATCH /edits/{uid}` */
+  update(uid: string, body: t.UpdateEditData['body'], options?: RequestOptions): Promise<t.UpdateEditResponses[keyof t.UpdateEditResponses]> {
+    return this._client.request('PATCH', `/edits/${encodeURIComponent(uid)}`, { body, options });
+  }
+
+  /** Export a video edit `POST /edits/{uid}/export` */
+  export(uid: string, options?: RequestOptions): Promise<t.ExportEditResponses[keyof t.ExportEditResponses]> {
+    return this._client.request('POST', `/edits/${encodeURIComponent(uid)}/export`, { options });
+  }
+}
+
 /** Images endpoints. */
 export class ImagesResource {
   constructor(private readonly _client: CoreClient) {}
@@ -2138,6 +2173,7 @@ export function createResources(client: CoreClient) {
     crmTags: new CrmTagsResource(client),
     crmTasks: new CrmTasksResource(client),
     messages: new MessagesResource(client),
+    edits: new EditsResource(client),
     images: new ImagesResource(client),
     jobs: new JobsResource(client),
     logs: new LogsResource(client),

@@ -351,6 +351,17 @@ All methods below are available on the client. Full request/response documentati
 | `sq.messages.reactTo(conversationId, messageId, body)` | `POST /social/conversations/{conversation_id}/messages/{message_id}/reactions` | React to a message |
 | `sq.messages.removeReaction(conversationId, messageId)` | `DELETE /social/conversations/{conversation_id}/messages/{message_id}/reactions` | Remove a message reaction |
 
+### Edits
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `sq.edits.list(query?)` | `GET /edits` | List video edits |
+| `sq.edits.create(body)` | `POST /edits` | Create a video edit |
+| `sq.edits.listOptions()` | `GET /edits/options` | List edit options |
+| `sq.edits.get(uid)` | `GET /edits/{uid}` | Get a video edit |
+| `sq.edits.update(uid, body)` | `PATCH /edits/{uid}` | Update a video edit |
+| `sq.edits.export(uid)` | `POST /edits/{uid}/export` | Export a video edit |
+
 ### Images
 
 | Method | Endpoint | Description |

@@ -1037,6 +1037,118 @@ export type ShortsClip = {
 };
 
 /**
+ * How the edit looks. Every key is optional; GET /v1/edits/options lists them with their defaults and allowed values. An unknown key or value is a 422 naming it (e.g. settings.caption_style).
+ */
+export type EditSettings = {
+    /**
+     * Burn word-by-word captions into the video.
+     */
+    captions?: boolean;
+    /**
+     * Caption style id (GET /v1/edits/options). Not sent: your brand template's style.
+     */
+    caption_style?: string;
+    /**
+     * Text formatting switches.
+     */
+    caption_format?: {
+        italic?: boolean;
+        underline?: boolean;
+        strikethrough?: boolean;
+        uppercase?: boolean;
+        light_bold?: boolean;
+    };
+    caption_position?: 'bottom' | 'middle' | 'top';
+    /**
+     * Punch-in zooms on key moments.
+     */
+    magic_zooms?: boolean;
+    /**
+     * Stock b-roll cutaways over the speaker.
+     */
+    magic_broll?: boolean;
+    /**
+     * Share of the eligible moments that get b-roll (with magic_broll).
+     */
+    broll_percentage?: number;
+    /**
+     * Shorten pauses between phrases to 0.6 s (natural), 0.2 s (fast) or 0.1 s (extra_fast).
+     */
+    remove_silence?: 'off' | 'natural' | 'fast' | 'extra_fast';
+    /**
+     * Cut filler sounds such as "um" and "uh".
+     */
+    remove_fillers?: boolean;
+    /**
+     * Voice-only cleaned soundtrack. Billed separately (edits/clean-audio, per source minute).
+     */
+    clean_audio?: boolean;
+    /**
+     * Headline shown for the first 3 seconds.
+     */
+    hook_title?: string;
+    /**
+     * Background music (public https URL).
+     */
+    music_url?: string;
+    /**
+     * Music volume under the voice.
+     */
+    music_volume?: number;
+    /**
+     * Use the workspace brand template (logo, caption styling, hook style, music).
+     */
+    apply_brand_template?: boolean;
+};
+
+export type Edit = {
+    edit_uid?: string;
+    title?: string;
+    /**
+     * ready = edited and open in the editor (editor_url); completed = exported (output_url).
+     */
+    status?: 'queued' | 'processing' | 'ready' | 'rebuilding' | 'exporting' | 'completed' | 'failed';
+    /**
+     * The step while processing: source, measure, prepare, billing, clean, words, design, rebuild.
+     */
+    stage?: string;
+    progress?: number;
+    language?: string;
+    /**
+     * Source length.
+     */
+    duration_ms?: number;
+    width?: number;
+    height?: number;
+    settings?: EditSettings;
+    auto_export?: boolean;
+    /**
+     * Open and fine-tune the edit in the SmartlyQ video editor.
+     */
+    editor_url?: string;
+    /**
+     * The exported MP4 (after POST /v1/edits/{uid}/export). Also saved to your workspace Media Library and never deleted automatically.
+     */
+    output_url?: string;
+    /**
+     * Minutes the last export was billed for.
+     */
+    export_minutes?: number;
+    error?: string;
+    /**
+     * insufficient_balance, source_too_long, source_unreadable, working_copy_failed, transcription_failed, clean_audio_failed, design_failed, render_failed, timed_out, billing_unavailable, billing_error.
+     */
+    error_code?: string;
+    webhook_url?: string;
+    created_at?: string;
+    updated_at?: string;
+    /**
+     * true once the edit's working files (source copy, b-roll) were deleted, 30 days after it finished. Its exports stay; it can no longer be changed or exported again (410 EDIT_EXPIRED).
+     */
+    files_expired?: boolean;
+};
+
+/**
  * Page number (1-based).
  */
 export type PageParam = number;
@@ -20221,6 +20333,342 @@ export type ListLanguagesResponses = {
 };
 
 export type ListLanguagesResponse = ListLanguagesResponses[keyof ListLanguagesResponses];
+
+export type ListEditsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        page?: number;
+        per_page?: number;
+    };
+    url: '/edits';
+};
+
+export type ListEditsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+};
+
+export type ListEditsError = ListEditsErrors[keyof ListEditsErrors];
+
+export type ListEditsResponses = {
+    /**
+     * OK
+     */
+    200: {
+        success?: true;
+        data?: {
+            edits?: Array<{
+                edit_uid?: string;
+                title?: string;
+                status?: string;
+                progress?: number;
+                duration_ms?: number;
+                output_url?: string;
+                created_at?: string;
+            }>;
+            page?: number;
+            per_page?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ListEditsResponse = ListEditsResponses[keyof ListEditsResponses];
+
+export type CreateEditData = {
+    body: {
+        /**
+         * Direct https media URL of the video (MP4/MOV/WebM).
+         */
+        video_url: string;
+        title?: string;
+        /**
+         * Spoken language: a code from GET /v1/languages, or "auto".
+         */
+        language?: string;
+        settings?: EditSettings;
+        /**
+         * Public https URL told when the edit is ready, exported or failed (job.completed / job.failed), signed with this edit's webhook_secret.
+         */
+        webhook_url?: string;
+        /**
+         * Export as soon as the edit is ready (export minutes are billed then).
+         */
+        auto_export?: boolean;
+    };
+    path?: never;
+    query?: never;
+    url: '/edits';
+};
+
+export type CreateEditErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Insufficient credits
+     */
+    402: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type CreateEditError = CreateEditErrors[keyof CreateEditErrors];
+
+export type CreateEditResponses = {
+    /**
+     * Accepted: the edit is queued.
+     */
+    202: {
+        success?: true;
+        data?: {
+            edit_uid?: string;
+            status?: string;
+            title?: string;
+            language?: string;
+            settings?: EditSettings;
+            auto_export?: boolean;
+            webhook_url?: string;
+            /**
+             * Only when you sent webhook_url. Shown once.
+             */
+            webhook_secret?: string;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type CreateEditResponse = CreateEditResponses[keyof CreateEditResponses];
+
+export type ListEditOptionsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/edits/options';
+};
+
+export type ListEditOptionsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+};
+
+export type ListEditOptionsError = ListEditOptionsErrors[keyof ListEditOptionsErrors];
+
+export type ListEditOptionsResponses = {
+    /**
+     * OK
+     */
+    200: {
+        success?: true;
+        data?: {
+            settings?: {
+                [key: string]: unknown;
+            };
+            caption_styles?: Array<{
+                id?: string;
+                label?: string;
+                font?: string;
+                light_bold?: boolean;
+            }>;
+            languages?: string;
+            limits?: {
+                [key: string]: unknown;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ListEditOptionsResponse = ListEditOptionsResponses[keyof ListEditOptionsResponses];
+
+export type GetEditData = {
+    body?: never;
+    path: {
+        /**
+         * The edit_uid returned by POST /v1/edits.
+         */
+        uid: string;
+    };
+    query?: never;
+    url: '/edits/{uid}';
+};
+
+export type GetEditErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type GetEditError = GetEditErrors[keyof GetEditErrors];
+
+export type GetEditResponses = {
+    /**
+     * OK
+     */
+    200: {
+        success?: true;
+        data?: Edit;
+        meta?: RequestMeta;
+    };
+};
+
+export type GetEditResponse = GetEditResponses[keyof GetEditResponses];
+
+export type UpdateEditData = {
+    body: {
+        title?: string;
+        settings?: EditSettings;
+    };
+    path: {
+        /**
+         * The edit_uid returned by POST /v1/edits.
+         */
+        uid: string;
+    };
+    query?: never;
+    url: '/edits/{uid}';
+};
+
+export type UpdateEditErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Insufficient credits
+     */
+    402: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict (e.g. duplicate idempotency or already-finished job)
+     */
+    409: ErrorResponse;
+    /**
+     * EDIT_EXPIRED: the edit's working files were deleted 30 days after it finished; create a new edit to change it.
+     */
+    410: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type UpdateEditError = UpdateEditErrors[keyof UpdateEditErrors];
+
+export type UpdateEditResponses = {
+    /**
+     * Title changed (nothing rebuilt).
+     */
+    200: {
+        success?: true;
+        data?: Edit;
+        meta?: RequestMeta;
+    };
+    /**
+     * Accepted: the edit is rebuilding.
+     */
+    202: {
+        success?: true;
+        data?: Edit;
+        meta?: RequestMeta;
+    };
+};
+
+export type UpdateEditResponse = UpdateEditResponses[keyof UpdateEditResponses];
+
+export type ExportEditData = {
+    body?: never;
+    path: {
+        /**
+         * The edit_uid returned by POST /v1/edits.
+         */
+        uid: string;
+    };
+    query?: never;
+    url: '/edits/{uid}/export';
+};
+
+export type ExportEditErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Insufficient credits
+     */
+    402: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict (e.g. duplicate idempotency or already-finished job)
+     */
+    409: ErrorResponse;
+    /**
+     * EDIT_EXPIRED: the edit's working files were deleted 30 days after it finished; create a new edit to change it.
+     */
+    410: ErrorResponse;
+};
+
+export type ExportEditError = ExportEditErrors[keyof ExportEditErrors];
+
+export type ExportEditResponses = {
+    /**
+     * Accepted: the export is rendering.
+     */
+    202: {
+        success?: true;
+        data?: {
+            edit_uid?: string;
+            status?: string;
+            export_minutes?: number;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ExportEditResponse = ExportEditResponses[keyof ExportEditResponses];
 
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});

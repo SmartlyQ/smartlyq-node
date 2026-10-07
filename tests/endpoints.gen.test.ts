@@ -1195,6 +1195,50 @@ describe('messages', () => {
   });
 });
 
+describe('edits', () => {
+  it('edits.list -> GET /edits', async () => {
+    const { client, calls } = mockClient();
+    await client.edits.list();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/edits');
+  });
+
+  it('edits.create -> POST /edits', async () => {
+    const { client, calls } = mockClient();
+    await client.edits.create({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/edits');
+  });
+
+  it('edits.listOptions -> GET /edits/options', async () => {
+    const { client, calls } = mockClient();
+    await client.edits.listOptions();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/edits/options');
+  });
+
+  it('edits.get -> GET /edits/{uid}', async () => {
+    const { client, calls } = mockClient();
+    await client.edits.get('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/edits/test-id');
+  });
+
+  it('edits.update -> PATCH /edits/{uid}', async () => {
+    const { client, calls } = mockClient();
+    await client.edits.update('test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/edits/test-id');
+  });
+
+  it('edits.export -> POST /edits/{uid}/export', async () => {
+    const { client, calls } = mockClient();
+    await client.edits.export('test-id');
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/edits/test-id/export');
+  });
+});
+
 describe('images', () => {
   it('images.generate -> POST /images/generate', async () => {
     const { client, calls } = mockClient();
