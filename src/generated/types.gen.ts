@@ -374,9 +374,13 @@ export type SocialPostCreateRequest = {
      */
     platforms: Array<'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'gmb' | 'threads' | 'bluesky' | 'tumblr' | 'telegram' | 'discord'>;
     /**
-     * IDs of connected social accounts to post to
+     * IDs of connected social accounts to post to. Optional when account_group_ids is sent; at least one of the two is required.
      */
-    account_ids: Array<number>;
+    account_ids?: Array<number>;
+    /**
+     * IDs of account groups (GET /social/account-groups). Their connected accounts are added to account_ids, each account once. Send account_ids, account_group_ids or both. An unknown group id answers 404 RESOURCE_NOT_FOUND naming it; a group with no connected accounts left answers 422 VALIDATION_ERROR naming it.
+     */
+    account_group_ids?: Array<number>;
     /**
      * Media URLs to attach to the post
      */
@@ -411,9 +415,13 @@ export type SocialPostScheduleRequest = {
      */
     platforms: Array<'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'gmb' | 'threads' | 'bluesky' | 'tumblr' | 'telegram' | 'discord'>;
     /**
-     * IDs of connected social accounts
+     * IDs of connected social accounts to post to. Optional when account_group_ids is sent; at least one of the two is required.
      */
-    account_ids: Array<number>;
+    account_ids?: Array<number>;
+    /**
+     * IDs of account groups (GET /social/account-groups). Their connected accounts are added to account_ids, each account once. Send account_ids, account_group_ids or both. An unknown group id answers 404 RESOURCE_NOT_FOUND naming it; a group with no connected accounts left answers 422 VALIDATION_ERROR naming it.
+     */
+    account_group_ids?: Array<number>;
     /**
      * When to publish (ISO 8601)
      */
@@ -531,7 +539,14 @@ export type SocialPostUpdateRequest = {
      * Target platforms. Use `twitter` for X and `gmb` for Google Business. `telegram` posts via the workspace's connected bot (created with @BotFather); `discord` posts via the connected server webhook. Both are connected in the dashboard's Social Accounts page.
      */
     platforms?: Array<'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'gmb' | 'threads' | 'bluesky' | 'tumblr' | 'telegram' | 'discord'>;
+    /**
+     * Replaces the accounts the post goes to.
+     */
     account_ids?: Array<number>;
+    /**
+     * IDs of account groups; their connected accounts are added to account_ids (each once) and the result replaces the post's accounts. Unknown or empty groups are refused by name.
+     */
+    account_group_ids?: Array<number>;
     scheduled_time?: string;
     media_urls?: Array<string>;
     link?: string;
@@ -9996,12 +10011,16 @@ export type StopPostRecycleResponse = StopPostRecycleResponses[keyof StopPostRec
 export type BulkSchedulePostsData = {
     body: {
         /**
-         * Up to 50 posts. Each row needs content, platforms, account_ids and scheduled_time.
+         * Up to 50 posts. Each row needs content, platforms, account_ids or account_group_ids, and scheduled_time.
          */
         posts?: Array<{
             content: string;
             platforms: Array<string>;
-            account_ids: Array<number>;
+            account_ids?: Array<number>;
+            /**
+             * Account group ids; their connected accounts are added to account_ids. A row needs account_ids, account_group_ids or both. An unknown or empty group fails that row by name (the whole batch is rejected and refunded before anything is created).
+             */
+            account_group_ids?: Array<number>;
             /**
              * When to publish (interpreted in `timezone`, default UTC).
              */
@@ -10021,7 +10040,7 @@ export type BulkSchedulePostsData = {
             };
         }>;
         /**
-         * Alternative to posts: inline CSV with a header line. Basic columns: content, platforms, account_ids, scheduled_time, media_urls, link, first_comment (list cells split on | or ,; a quoted cell may span lines). Platform options go in `<platform>.<field>` columns, e.g. tiktok.visibility, tiktok.type, youtube.title, pinterest.board_id, instagram.type, gmb.post_type - see the Bulk scheduling guide. Provide posts OR csv, not both.
+         * Alternative to posts: inline CSV with a header line. Basic columns: content, platforms, account_ids, account_group_ids, scheduled_time, media_urls, link, first_comment (list cells split on | or ,; a quoted cell may span lines). Platform options go in `<platform>.<field>` columns, e.g. tiktok.visibility, tiktok.type, youtube.title, pinterest.board_id, instagram.type, gmb.post_type - see the Bulk scheduling guide. Provide posts OR csv, not both.
          */
         csv?: string;
         /**
@@ -10088,12 +10107,16 @@ export type BulkSchedulePostsResponse = BulkSchedulePostsResponses[keyof BulkSch
 export type ValidateBulkBatchData = {
     body: {
         /**
-         * Up to 50 posts. Each row needs content, platforms, account_ids and scheduled_time.
+         * Up to 50 posts. Each row needs content, platforms, account_ids or account_group_ids, and scheduled_time.
          */
         posts?: Array<{
             content: string;
             platforms: Array<string>;
-            account_ids: Array<number>;
+            account_ids?: Array<number>;
+            /**
+             * Account group ids; their connected accounts are added to account_ids. A row needs account_ids, account_group_ids or both. An unknown or empty group fails that row by name (dry run: nothing is created or charged).
+             */
+            account_group_ids?: Array<number>;
             /**
              * When to publish (interpreted in `timezone`, default UTC).
              */
@@ -10113,7 +10136,7 @@ export type ValidateBulkBatchData = {
             };
         }>;
         /**
-         * Alternative to posts: inline CSV with a header line. Basic columns: content, platforms, account_ids, scheduled_time, media_urls, link, first_comment (list cells split on | or ,; a quoted cell may span lines). Platform options go in `<platform>.<field>` columns, e.g. tiktok.visibility, tiktok.type, youtube.title, pinterest.board_id, instagram.type, gmb.post_type - see the Bulk scheduling guide. Provide posts OR csv, not both.
+         * Alternative to posts: inline CSV with a header line. Basic columns: content, platforms, account_ids, account_group_ids, scheduled_time, media_urls, link, first_comment (list cells split on | or ,; a quoted cell may span lines). Platform options go in `<platform>.<field>` columns, e.g. tiktok.visibility, tiktok.type, youtube.title, pinterest.board_id, instagram.type, gmb.post_type - see the Bulk scheduling guide. Provide posts OR csv, not both.
          */
         csv?: string;
         /**
