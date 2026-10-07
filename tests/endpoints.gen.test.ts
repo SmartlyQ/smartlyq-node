@@ -1589,6 +1589,13 @@ describe('shorts', () => {
     expect(calls[0].method).toBe('GET');
     expect(calls[0].path).toBe('/shorts/test-id');
   });
+
+  it('shorts.listLanguages -> GET /languages', async () => {
+    const { client, calls } = mockClient();
+    await client.shorts.listLanguages();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/languages');
+  });
 });
 
 describe('social', () => {

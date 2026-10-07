@@ -1225,6 +1225,11 @@ export class ShortsResource {
   get(uid: string, options?: RequestOptions): Promise<t.GetShortsResponses[keyof t.GetShortsResponses]> {
     return this._client.request('GET', `/shorts/${encodeURIComponent(uid)}`, { options });
   }
+
+  /** List speech languages `GET /languages` */
+  listLanguages(options?: RequestOptions): Promise<t.ListLanguagesResponses[keyof t.ListLanguagesResponses]> {
+    return this._client.request('GET', '/languages', { options });
+  }
 }
 
 /** Social endpoints. */

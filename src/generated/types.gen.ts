@@ -1011,6 +1011,32 @@ export type Tag = {
 };
 
 /**
+ * One clip of a Magic Shorts job (GET /v1/shorts/{uid} and the job.completed webhook).
+ */
+export type ShortsClip = {
+    id?: string;
+    title?: string;
+    hook_text?: string;
+    transcript?: string;
+    clip_url?: string;
+    thumbnail?: string;
+    duration_ms?: number;
+    start_ms?: number;
+    end_ms?: number;
+    status?: 'queued' | 'processing' | 'completed' | 'failed';
+    /**
+     * Virality scores, 0-100.
+     */
+    scores?: {
+        overall?: number;
+        hook?: number;
+        flow?: number;
+        value?: number;
+        trend?: number;
+    };
+};
+
+/**
  * Page number (1-based).
  */
 export type PageParam = number;
@@ -6534,7 +6560,7 @@ export type GenerateShortsData = {
          */
         clip_count?: number;
         /**
-         * Spoken language code.
+         * Spoken language: a code from GET /v1/languages, or "auto" to detect it. An unknown code is a 422.
          */
         language?: string;
         /**
@@ -6584,6 +6610,10 @@ export type GenerateShortsData = {
          * false = clean clips with no captions, hook, logo or music (caption_style and caption_format cannot be used then).
          */
         apply_brand_template?: boolean;
+        /**
+         * Public HTTPS URL to POST `job.completed` or `job.failed` to when this job finishes (same envelope, signature and retries as registered webhooks). It is signed with this job's own `webhook_secret`, returned once in the 202.
+         */
+        webhook_url?: string;
     };
     path?: never;
     query?: never;
@@ -6627,6 +6657,18 @@ export type GenerateShortsResponses = {
             options?: {
                 [key: string]: unknown;
             };
+            /**
+             * The speech language the job uses ("auto" = detected).
+             */
+            language?: string;
+            /**
+             * Only when you sent webhook_url.
+             */
+            webhook_url?: string;
+            /**
+             * Only when you sent webhook_url. Shown once: verify X-SmartlyQ-Signature on this job's deliveries with it.
+             */
+            webhook_secret?: string;
         };
         meta?: RequestMeta;
     };
@@ -6771,13 +6813,10 @@ export type GetShortsResponses = {
             job_uid?: string;
             status?: string;
             clip_count?: number;
-            clips?: Array<{
-                url?: string;
-                title?: string;
-                score?: number;
-                start?: number;
-                end?: number;
-            }>;
+            /**
+             * Ranked by score, best first.
+             */
+            clips?: Array<ShortsClip>;
             created_at?: string;
             /**
              * The optional choices the job was made with.
@@ -6799,6 +6838,14 @@ export type GetShortsResponses = {
                  */
                 magic_broll?: boolean;
             };
+            /**
+             * Why the job failed (empty otherwise).
+             */
+            error?: string;
+            /**
+             * The webhook_url the job was created with.
+             */
+            webhook_url?: string;
         };
         meta?: RequestMeta;
     };
@@ -20136,6 +20183,44 @@ export type CancelBookingResponses = {
 };
 
 export type CancelBookingResponse = CancelBookingResponses[keyof CancelBookingResponses];
+
+export type ListLanguagesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/languages';
+};
+
+export type ListLanguagesErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+};
+
+export type ListLanguagesError = ListLanguagesErrors[keyof ListLanguagesErrors];
+
+export type ListLanguagesResponses = {
+    /**
+     * Supported languages.
+     */
+    200: {
+        success?: true;
+        data?: {
+            languages?: Array<{
+                code?: string;
+                name?: string;
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ListLanguagesResponse = ListLanguagesResponses[keyof ListLanguagesResponses];
 
 export type ClientOptions = {
     baseUrl: 'https://api.smartlyq.com/v1' | (string & {});
