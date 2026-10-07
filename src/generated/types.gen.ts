@@ -1088,7 +1088,7 @@ export type EditSettings = {
      */
     hook_title?: string;
     /**
-     * Background music (public https URL).
+     * Background music: a public https URL (a private or internal host is refused with a 422).
      */
     music_url?: string;
     /**
@@ -20442,9 +20442,12 @@ export type CreateEditResponses = {
             language?: string;
             settings?: EditSettings;
             auto_export?: boolean;
+            /**
+             * Only present when you sent webhook_url.
+             */
             webhook_url?: string;
             /**
-             * Only when you sent webhook_url. Shown once.
+             * Only present when you sent webhook_url. Shown once: verify X-SmartlyQ-Signature with it.
              */
             webhook_secret?: string;
         };
@@ -20563,10 +20566,6 @@ export type UpdateEditErrors = {
      * Missing or invalid API key
      */
     401: ErrorResponse;
-    /**
-     * Insufficient credits
-     */
-    402: ErrorResponse;
     /**
      * Forbidden (scope or access)
      */
