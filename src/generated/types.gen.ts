@@ -10020,6 +10020,20 @@ export type ValidatePostData = {
          * Media URLs the post would carry (used for required-media and extension checks).
          */
         media_urls?: Array<string>;
+        /**
+         * Optional. Per-platform options as on create (post type, TikTok privacy, ...). The post type decides which media a platform needs.
+         */
+        platform_options?: {
+            [key: string]: {
+                [key: string]: unknown;
+            };
+        };
+        /**
+         * Optional. Per-platform text and media as on create; each platform is checked against its own.
+         */
+        platform_overrides?: {
+            [key: string]: unknown;
+        };
     };
     path?: never;
     query?: never;
@@ -10051,6 +10065,12 @@ export type ValidatePostResponses = {
              * Human-readable, actionable problems (empty when valid).
              */
             errors?: Array<string>;
+            /**
+             * Non-blocking advisories per platform (e.g. aspect ratio); they do not make the post invalid.
+             */
+            warnings?: {
+                [key: string]: Array<string>;
+            };
             platforms?: {
                 [key: string]: {
                     characters?: number;
