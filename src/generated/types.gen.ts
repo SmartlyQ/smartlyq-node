@@ -1018,6 +1018,10 @@ export type ShortsClip = {
     title?: string;
     hook_text?: string;
     transcript?: string;
+    /**
+     * The clip's aspect ratio.
+     */
+    format?: '9:16' | '4:5' | '1:1' | '16:9';
     clip_url?: string;
     thumbnail?: string;
     duration_ms?: number;
@@ -6723,6 +6727,10 @@ export type GenerateShortsData = {
          */
         apply_brand_template?: boolean;
         /**
+         * Output format (aspect ratio) of every clip: 9:16 vertical (TikTok, Reels, Shorts), 4:5 portrait (Instagram feed), 1:1 square or 16:9 landscape (YouTube, LinkedIn). The speaker is followed and the captions, hook, logo and CTA are placed for that canvas. GET /v1/shorts/caption-styles lists them with their pixel size.
+         */
+        format?: '9:16' | '4:5' | '1:1' | '16:9';
+        /**
          * Public HTTPS URL to POST `job.completed` or `job.failed` to when this job finishes (same envelope, signature and retries as registered webhooks). It is signed with this job's own `webhook_secret`, returned once in the 202.
          */
         webhook_url?: string;
@@ -6949,6 +6957,10 @@ export type GetShortsResponses = {
                  * Whether the clips got stock b-roll: asked for, or the brand template's (false when the job turned it off).
                  */
                 magic_broll?: boolean;
+                /**
+                 * The clips' aspect ratio (9:16 for jobs made before formats existed).
+                 */
+                format?: '9:16' | '4:5' | '1:1' | '16:9';
             };
             /**
              * Why the job failed (empty otherwise).
