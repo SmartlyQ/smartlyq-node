@@ -439,7 +439,7 @@ export type SocialPostScheduleRequest = {
      */
     queue_id?: number;
     /**
-     * IANA timezone scheduled_time is expressed in (default UTC). Ignored with queue_id (the queue's own timezone applies).
+     * IANA timezone scheduled_time is expressed in when it carries no offset, e.g. Europe/Athens (default UTC). A scheduled_time ending in Z or an offset such as +03:00 is taken as given. Also applies to platform_options.{platform}.scheduled_time. Ignored with queue_id (the queue's own timezone applies).
      */
     timezone?: string;
     /**
@@ -5053,6 +5053,14 @@ export type GetAccountHealthResponses = {
              * Days until the token expires.
              */
             validity_days?: number;
+            /**
+             * Whether the account must be reconnected before it can post again (stored verdict of the token check or a refused publish).
+             */
+            needs_reconnect?: boolean;
+            /**
+             * Why it must be reconnected, in words for the user, when known (e.g. the password was changed, the role on the Page was removed, a permission is missing). null otherwise.
+             */
+            reconnect_reason?: string | null;
         };
         meta?: RequestMeta;
     };
@@ -10416,6 +10424,14 @@ export type BulkAccountHealthResponses = {
                 status?: string;
                 token_expired?: boolean;
                 validity_days?: number;
+                /**
+                 * Whether the account must be reconnected before it can post again (stored verdict of the token check or a refused publish).
+                 */
+                needs_reconnect?: boolean;
+                /**
+                 * Why it must be reconnected, in words for the user, when known (e.g. the password was changed, the role on the Page was removed, a permission is missing). null otherwise.
+                 */
+                reconnect_reason?: string | null;
             }>;
         };
         meta?: RequestMeta;
