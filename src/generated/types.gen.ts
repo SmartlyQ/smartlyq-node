@@ -6271,6 +6271,10 @@ export type ConnectSocialAccountStatusResponse = ConnectSocialAccountStatusRespo
 export type ConnectSocialAccountData = {
     body?: {
         /**
+         * X (twitter) only: X is charged per action (posts, replies, DMs, fetched items) at X's price, unlike the other networks. Send true to agree for this workspace; without an agreement (here or in the app) connecting X returns 422 X_CHARGES_NOT_ACCEPTED.
+         */
+        accept_x_charges?: boolean;
+        /**
          * Optional URL to redirect the user to after they finish authorizing.
          */
         return_url?: string;
@@ -9340,6 +9344,10 @@ export type CreateProfileConnectLinkData = {
          */
         platforms?: Array<string>;
         /**
+         * X (twitter) only: X is charged per action (posts, replies, DMs, fetched items) at X's price, unlike the other networks. Send true to agree for this workspace; without an agreement (here or in the app) connecting X returns 422 X_CHARGES_NOT_ACCEPTED.
+         */
+        accept_x_charges?: boolean;
+        /**
          * Where the customer lands after each connect (default: back on the hosted page)
          */
         return_url?: string;
@@ -9390,6 +9398,10 @@ export type CreateProfileConnectLinkResponse = CreateProfileConnectLinkResponses
 
 export type CreateProfileConnectUrlData = {
     body?: {
+        /**
+         * X (twitter) only: X is charged per action (posts, replies, DMs, fetched items) at X's price, unlike the other networks. Send true to agree for this workspace; without an agreement (here or in the app) connecting X returns 422 X_CHARGES_NOT_ACCEPTED.
+         */
+        accept_x_charges?: boolean;
         return_url?: string;
     };
     path: {
