@@ -7864,6 +7864,52 @@ export type CreatePipelineResponses = {
 
 export type CreatePipelineResponse = CreatePipelineResponses[keyof CreatePipelineResponses];
 
+export type ListPipelineStagesData = {
+    body?: never;
+    path: {
+        /**
+         * Pipeline id from GET /pipelines
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/pipelines/{id}/stages';
+};
+
+export type ListPipelineStagesErrors = {
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+};
+
+export type ListPipelineStagesError = ListPipelineStagesErrors[keyof ListPipelineStagesErrors];
+
+export type ListPipelineStagesResponses = {
+    /**
+     * Stages of the pipeline, in board order
+     */
+    200: {
+        success?: true;
+        data?: Array<{
+            id?: number;
+            pipeline_id?: number;
+            /**
+             * Use this value as an opportunity's `stage`.
+             */
+            stage_key?: string;
+            label?: string;
+            color?: string;
+            sort_order?: number;
+            probability?: number;
+            is_won?: boolean;
+            is_lost?: boolean;
+        }>;
+    };
+};
+
+export type ListPipelineStagesResponse = ListPipelineStagesResponses[keyof ListPipelineStagesResponses];
+
 export type ListOpportunitiesData = {
     body?: never;
     path?: never;

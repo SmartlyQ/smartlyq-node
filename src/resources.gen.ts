@@ -776,6 +776,11 @@ export class OpportunitiesResource {
     return this._client.request('POST', '/pipelines', { body, options });
   }
 
+  /** List a pipeline's stages `GET /pipelines/{id}/stages` */
+  listPipelineStages(id: string, options?: RequestOptions): Promise<t.ListPipelineStagesResponses[keyof t.ListPipelineStagesResponses]> {
+    return this._client.request('GET', `/pipelines/${encodeURIComponent(id)}/stages`, { options });
+  }
+
   /** List opportunities `GET /opportunities` */
   list(query?: t.ListOpportunitiesData['query'], options?: RequestOptions): Promise<t.ListOpportunitiesResponses[keyof t.ListOpportunitiesResponses]> {
     return this._client.request('GET', '/opportunities', { query, options });

@@ -1020,6 +1020,13 @@ describe('opportunities', () => {
     expect(calls[0].path).toBe('/pipelines');
   });
 
+  it('opportunities.listPipelineStages -> GET /pipelines/{id}/stages', async () => {
+    const { client, calls } = mockClient();
+    await client.opportunities.listPipelineStages('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/pipelines/test-id/stages');
+  });
+
   it('opportunities.list -> GET /opportunities', async () => {
     const { client, calls } = mockClient();
     await client.opportunities.list();
