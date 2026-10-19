@@ -7067,7 +7067,7 @@ export type ListContactsData = {
          * Only contacts carrying this tag.
          */
         tag?: string;
-        status?: 'active' | 'prospect' | 'inactive';
+        status?: 'active' | 'prospect' | 'in_progress' | 'lost';
         page?: number;
         per_page?: number;
     };
@@ -7140,7 +7140,7 @@ export type CreateContactData = {
         phone?: string;
         company?: string;
         role?: string;
-        status?: 'active' | 'prospect' | 'inactive';
+        status?: 'active' | 'prospect' | 'in_progress' | 'lost';
         timezone?: string;
         language?: string;
         source?: string;
@@ -7381,7 +7381,7 @@ export type UpdateContactData = {
         phone?: string;
         company?: string;
         role?: string;
-        status?: 'active' | 'prospect' | 'inactive';
+        status?: 'active' | 'prospect' | 'in_progress' | 'lost';
         timezone?: string;
         language?: string;
         source?: string;
