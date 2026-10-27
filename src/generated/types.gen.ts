@@ -1103,6 +1103,10 @@ export type EditSettings = {
      * Use the workspace brand template (logo, caption styling, hook style, music).
      */
     apply_brand_template?: boolean;
+    /**
+     * Names, brand and foreign words spoken in this video, spelled the way the captions must show them. An entry `heard => Right` fixes a known mishearing. Used together with the brand template's custom vocabulary. One word or name per entry, no commas. Changing it with PATCH respells the existing transcript at no extra charge.
+     */
+    vocabulary?: Array<string>;
 };
 
 export type Edit = {
