@@ -8291,7 +8291,7 @@ export type BulkWorkspaceActionData = {
         workspace_ids: Array<number>;
         action: 'pause' | 'resume' | 'disable_saas';
         /**
-         * For disable_saas only: also cancel each client's Stripe subscription.
+         * Deprecated and ignored: disable_saas always cancels each client's subscription.
          */
         cancel_subscription?: boolean;
         /**
@@ -8426,7 +8426,7 @@ export type GetWorkspaceResponse = GetWorkspaceResponses[keyof GetWorkspaceRespo
 export type DisableWorkspaceSaasData = {
     body?: {
         /**
-         * Also cancel the client's Stripe subscription.
+         * Deprecated and ignored: the client's subscription is always cancelled.
          */
         cancel_subscription?: boolean;
     };
