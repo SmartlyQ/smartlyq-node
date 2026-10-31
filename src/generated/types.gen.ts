@@ -7124,6 +7124,22 @@ export type ListContactsResponses = {
             website?: string | null;
             created_at?: string;
             updated_at?: string;
+            /**
+             * Where the contact's list came from, as given on import or with `list_source`. Null when it was never given.
+             */
+            list_source?: 'own_customers' | 'events' | 'bought' | 'found_online' | 'lead_finder';
+            /**
+             * The importer confirmed consent (own customers or events). Null when no source was given.
+             */
+            list_consent?: boolean;
+            /**
+             * Result of the free email check. `risky` = a role address such as info@. Null when not checked.
+             */
+            email_check?: 'ok' | 'risky' | 'invalid';
+            /**
+             * `outreach_only`: never emailed through the built-in email service (campaigns and automation emails skip it), only through your own mail server. `invalid`: never emailed. Null: sent as normal.
+             */
+            email_send_block?: 'outreach_only' | 'invalid';
         }>;
         pagination?: PaginationMeta;
         meta?: RequestMeta;
@@ -7180,6 +7196,14 @@ export type CreateContactData = {
         attributes?: {
             [key: string]: unknown;
         };
+        /**
+         * Optional. Where these contacts came from. Leave it out and the contact is not marked (as before). `bought`, `found_online` and `lead_finder` make the contact outreach only: it is never emailed through the built-in email service, only through your own mail server. `own_customers` and `events` need `list_consent: true`. Every email also gets a free check (format, throwaway domains, domains that accept no mail, your suppression list); an invalid address is never emailed.
+         */
+        list_source?: 'own_customers' | 'events' | 'bought' | 'found_online' | 'lead_finder';
+        /**
+         * Required as `true` when `list_source` is `own_customers` or `events`: these people agreed to receive email from you. Ignored for the other sources.
+         */
+        list_consent?: boolean;
     };
     path?: never;
     query?: never;
@@ -7236,6 +7260,22 @@ export type CreateContactResponses = {
             website?: string | null;
             created_at?: string;
             updated_at?: string;
+            /**
+             * Where the contact's list came from, as given on import or with `list_source`. Null when it was never given.
+             */
+            list_source?: 'own_customers' | 'events' | 'bought' | 'found_online' | 'lead_finder';
+            /**
+             * The importer confirmed consent (own customers or events). Null when no source was given.
+             */
+            list_consent?: boolean;
+            /**
+             * Result of the free email check. `risky` = a role address such as info@. Null when not checked.
+             */
+            email_check?: 'ok' | 'risky' | 'invalid';
+            /**
+             * `outreach_only`: never emailed through the built-in email service (campaigns and automation emails skip it), only through your own mail server. `invalid`: never emailed. Null: sent as normal.
+             */
+            email_send_block?: 'outreach_only' | 'invalid';
         };
         meta?: RequestMeta;
     };
@@ -7274,6 +7314,22 @@ export type CreateContactResponses = {
             website?: string | null;
             created_at?: string;
             updated_at?: string;
+            /**
+             * Where the contact's list came from, as given on import or with `list_source`. Null when it was never given.
+             */
+            list_source?: 'own_customers' | 'events' | 'bought' | 'found_online' | 'lead_finder';
+            /**
+             * The importer confirmed consent (own customers or events). Null when no source was given.
+             */
+            list_consent?: boolean;
+            /**
+             * Result of the free email check. `risky` = a role address such as info@. Null when not checked.
+             */
+            email_check?: 'ok' | 'risky' | 'invalid';
+            /**
+             * `outreach_only`: never emailed through the built-in email service (campaigns and automation emails skip it), only through your own mail server. `invalid`: never emailed. Null: sent as normal.
+             */
+            email_send_block?: 'outreach_only' | 'invalid';
         };
         meta?: RequestMeta;
     };
@@ -7369,6 +7425,22 @@ export type GetContactResponses = {
             website?: string | null;
             created_at?: string;
             updated_at?: string;
+            /**
+             * Where the contact's list came from, as given on import or with `list_source`. Null when it was never given.
+             */
+            list_source?: 'own_customers' | 'events' | 'bought' | 'found_online' | 'lead_finder';
+            /**
+             * The importer confirmed consent (own customers or events). Null when no source was given.
+             */
+            list_consent?: boolean;
+            /**
+             * Result of the free email check. `risky` = a role address such as info@. Null when not checked.
+             */
+            email_check?: 'ok' | 'risky' | 'invalid';
+            /**
+             * `outreach_only`: never emailed through the built-in email service (campaigns and automation emails skip it), only through your own mail server. `invalid`: never emailed. Null: sent as normal.
+             */
+            email_send_block?: 'outreach_only' | 'invalid';
         };
         meta?: RequestMeta;
     };
@@ -7472,6 +7544,22 @@ export type UpdateContactResponses = {
             website?: string | null;
             created_at?: string;
             updated_at?: string;
+            /**
+             * Where the contact's list came from, as given on import or with `list_source`. Null when it was never given.
+             */
+            list_source?: 'own_customers' | 'events' | 'bought' | 'found_online' | 'lead_finder';
+            /**
+             * The importer confirmed consent (own customers or events). Null when no source was given.
+             */
+            list_consent?: boolean;
+            /**
+             * Result of the free email check. `risky` = a role address such as info@. Null when not checked.
+             */
+            email_check?: 'ok' | 'risky' | 'invalid';
+            /**
+             * `outreach_only`: never emailed through the built-in email service (campaigns and automation emails skip it), only through your own mail server. `invalid`: never emailed. Null: sent as normal.
+             */
+            email_send_block?: 'outreach_only' | 'invalid';
         };
         meta?: RequestMeta;
     };
@@ -12282,6 +12370,14 @@ export type BulkImportContactsData = {
         contacts: Array<{
             [key: string]: unknown;
         }>;
+        /**
+         * Optional. One answer for every row in the call; the batch is checked as one list. Where these contacts came from. Leave it out and the contact is not marked (as before). `bought`, `found_online` and `lead_finder` make the contact outreach only: it is never emailed through the built-in email service, only through your own mail server. `own_customers` and `events` need `list_consent: true`. Every email also gets a free check (format, throwaway domains, domains that accept no mail, your suppression list); an invalid address is never emailed.
+         */
+        list_source?: 'own_customers' | 'events' | 'bought' | 'found_online' | 'lead_finder';
+        /**
+         * Required as `true` when `list_source` is `own_customers` or `events`: these people agreed to receive email from you. Ignored for the other sources.
+         */
+        list_consent?: boolean;
     };
     path?: never;
     query?: never;
@@ -12318,6 +12414,24 @@ export type BulkImportContactsResponses = {
                 matched_by?: string;
                 error?: string;
             }>;
+            /**
+             * Present when `list_source` was sent: the free check over this call's emails and the decision for the batch.
+             */
+            list_check?: {
+                source?: 'own_customers' | 'events' | 'bought' | 'found_online' | 'lead_finder';
+                /**
+                 * `outreach_only` when the source is bought, found online or Lead Finder, or when at least 20 emails were checked and risky + invalid ones are more than `risky_pct` percent of them.
+                 */
+                decision?: 'campaign_ready' | 'outreach_only';
+                ok?: number;
+                risky?: number;
+                invalid?: number;
+                /**
+                 * Most domain lookups failed, so no address was marked invalid for its domain.
+                 */
+                dns_unreliable?: boolean;
+                risky_pct?: number;
+            };
         };
         meta?: RequestMeta;
     };
