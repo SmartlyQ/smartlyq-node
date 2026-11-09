@@ -219,8 +219,23 @@ All methods below are available on the client. Full request/response documentati
 | --- | --- | --- |
 | `sq.calendar.listEventTypes()` | `GET /calendar/event-types` | List booking pages |
 | `sq.calendar.listSlots(query?)` | `GET /calendar/slots` | List open slots |
+| `sq.calendar.listBookings(query?)` | `GET /calendar/bookings` | List bookings |
 | `sq.calendar.createBooking(body)` | `POST /calendar/bookings` | Take a booking |
 | `sq.calendar.cancelBooking(id, body?)` | `POST /calendar/bookings/{id}/cancel` | Cancel a booking |
+| `sq.calendar.getBooking(id)` | `GET /calendar/bookings/{id}` | Get a booking |
+| `sq.calendar.setBookingStatus(id, body)` | `POST /calendar/bookings/{id}/status` | Set a booking's status |
+| `sq.calendar.rescheduleBooking(id, body)` | `POST /calendar/bookings/{id}/reschedule` | Reschedule a booking |
+| `sq.calendar.listBookingNotes(id)` | `GET /calendar/bookings/{id}/notes` | List booking notes |
+| `sq.calendar.addBookingNote(id, body)` | `POST /calendar/bookings/{id}/notes` | Add a booking note |
+| `sq.calendar.deleteBookingNote(id, noteId)` | `DELETE /calendar/bookings/{id}/notes/{note_id}` | Delete a booking note |
+| `sq.calendar.listBlockedTimes(query?)` | `GET /calendar/blocked-times` | List blocked time |
+| `sq.calendar.createBlockedTime(body)` | `POST /calendar/blocked-times` | Block off time |
+| `sq.calendar.deleteBlockedTime(id)` | `DELETE /calendar/blocked-times/{id}` | Free blocked time |
+| `sq.calendar.listAvailabilitySchedules()` | `GET /calendar/availability` | List availability schedules |
+| `sq.calendar.createAvailabilitySchedule(body)` | `POST /calendar/availability` | Create an availability schedule |
+| `sq.calendar.updateAvailabilitySchedule(id, body?)` | `PATCH /calendar/availability/{id}` | Update an availability schedule |
+| `sq.calendar.deleteAvailabilitySchedule(id)` | `DELETE /calendar/availability/{id}` | Delete an availability schedule |
+| `sq.calendar.listBusyTimes(query?)` | `GET /calendar/busy-times` | List busy times |
 
 ### Chatbot
 

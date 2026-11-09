@@ -476,6 +476,11 @@ export class CalendarResource {
     return this._client.request('GET', '/calendar/slots', { query, options });
   }
 
+  /** List bookings `GET /calendar/bookings` */
+  listBookings(query?: t.ListBookingsData['query'], options?: RequestOptions): Promise<t.ListBookingsResponses[keyof t.ListBookingsResponses]> {
+    return this._client.request('GET', '/calendar/bookings', { query, options });
+  }
+
   /** Take a booking `POST /calendar/bookings` */
   createBooking(body: t.CreateBookingData['body'], options?: RequestOptions): Promise<t.CreateBookingResponses[keyof t.CreateBookingResponses]> {
     return this._client.request('POST', '/calendar/bookings', { body, options });
@@ -484,6 +489,76 @@ export class CalendarResource {
   /** Cancel a booking `POST /calendar/bookings/{id}/cancel` */
   cancelBooking(id: string, body?: t.CancelBookingData['body'], options?: RequestOptions): Promise<t.CancelBookingResponses[keyof t.CancelBookingResponses]> {
     return this._client.request('POST', `/calendar/bookings/${encodeURIComponent(id)}/cancel`, { body, options });
+  }
+
+  /** Get a booking `GET /calendar/bookings/{id}` */
+  getBooking(id: string, options?: RequestOptions): Promise<t.GetBookingResponses[keyof t.GetBookingResponses]> {
+    return this._client.request('GET', `/calendar/bookings/${encodeURIComponent(id)}`, { options });
+  }
+
+  /** Set a booking's status `POST /calendar/bookings/{id}/status` */
+  setBookingStatus(id: string, body: t.SetBookingStatusData['body'], options?: RequestOptions): Promise<t.SetBookingStatusResponses[keyof t.SetBookingStatusResponses]> {
+    return this._client.request('POST', `/calendar/bookings/${encodeURIComponent(id)}/status`, { body, options });
+  }
+
+  /** Reschedule a booking `POST /calendar/bookings/{id}/reschedule` */
+  rescheduleBooking(id: string, body: t.RescheduleBookingData['body'], options?: RequestOptions): Promise<t.RescheduleBookingResponses[keyof t.RescheduleBookingResponses]> {
+    return this._client.request('POST', `/calendar/bookings/${encodeURIComponent(id)}/reschedule`, { body, options });
+  }
+
+  /** List booking notes `GET /calendar/bookings/{id}/notes` */
+  listBookingNotes(id: string, options?: RequestOptions): Promise<t.ListBookingNotesResponses[keyof t.ListBookingNotesResponses]> {
+    return this._client.request('GET', `/calendar/bookings/${encodeURIComponent(id)}/notes`, { options });
+  }
+
+  /** Add a booking note `POST /calendar/bookings/{id}/notes` */
+  addBookingNote(id: string, body: t.AddBookingNoteData['body'], options?: RequestOptions): Promise<t.AddBookingNoteResponses[keyof t.AddBookingNoteResponses]> {
+    return this._client.request('POST', `/calendar/bookings/${encodeURIComponent(id)}/notes`, { body, options });
+  }
+
+  /** Delete a booking note `DELETE /calendar/bookings/{id}/notes/{note_id}` */
+  deleteBookingNote(id: string, noteId: string, options?: RequestOptions): Promise<t.DeleteBookingNoteResponses[keyof t.DeleteBookingNoteResponses]> {
+    return this._client.request('DELETE', `/calendar/bookings/${encodeURIComponent(id)}/notes/${encodeURIComponent(noteId)}`, { options });
+  }
+
+  /** List blocked time `GET /calendar/blocked-times` */
+  listBlockedTimes(query?: t.ListBlockedTimesData['query'], options?: RequestOptions): Promise<t.ListBlockedTimesResponses[keyof t.ListBlockedTimesResponses]> {
+    return this._client.request('GET', '/calendar/blocked-times', { query, options });
+  }
+
+  /** Block off time `POST /calendar/blocked-times` */
+  createBlockedTime(body: t.CreateBlockedTimeData['body'], options?: RequestOptions): Promise<t.CreateBlockedTimeResponses[keyof t.CreateBlockedTimeResponses]> {
+    return this._client.request('POST', '/calendar/blocked-times', { body, options });
+  }
+
+  /** Free blocked time `DELETE /calendar/blocked-times/{id}` */
+  deleteBlockedTime(id: string, options?: RequestOptions): Promise<t.DeleteBlockedTimeResponses[keyof t.DeleteBlockedTimeResponses]> {
+    return this._client.request('DELETE', `/calendar/blocked-times/${encodeURIComponent(id)}`, { options });
+  }
+
+  /** List availability schedules `GET /calendar/availability` */
+  listAvailabilitySchedules(options?: RequestOptions): Promise<t.ListAvailabilitySchedulesResponses[keyof t.ListAvailabilitySchedulesResponses]> {
+    return this._client.request('GET', '/calendar/availability', { options });
+  }
+
+  /** Create an availability schedule `POST /calendar/availability` */
+  createAvailabilitySchedule(body: t.CreateAvailabilityScheduleData['body'], options?: RequestOptions): Promise<t.CreateAvailabilityScheduleResponses[keyof t.CreateAvailabilityScheduleResponses]> {
+    return this._client.request('POST', '/calendar/availability', { body, options });
+  }
+
+  /** Update an availability schedule `PATCH /calendar/availability/{id}` */
+  updateAvailabilitySchedule(id: string, body?: t.UpdateAvailabilityScheduleData['body'], options?: RequestOptions): Promise<t.UpdateAvailabilityScheduleResponses[keyof t.UpdateAvailabilityScheduleResponses]> {
+    return this._client.request('PATCH', `/calendar/availability/${encodeURIComponent(id)}`, { body, options });
+  }
+
+  /** Delete an availability schedule `DELETE /calendar/availability/{id}` */
+  deleteAvailabilitySchedule(id: string, options?: RequestOptions): Promise<t.DeleteAvailabilityScheduleResponses[keyof t.DeleteAvailabilityScheduleResponses]> {
+    return this._client.request('DELETE', `/calendar/availability/${encodeURIComponent(id)}`, { options });
+  }
+
+  /** List busy times `GET /calendar/busy-times` */
+  listBusyTimes(query?: t.ListBusyTimesData['query'], options?: RequestOptions): Promise<t.ListBusyTimesResponses[keyof t.ListBusyTimesResponses]> {
+    return this._client.request('GET', '/calendar/busy-times', { query, options });
   }
 }
 

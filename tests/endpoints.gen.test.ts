@@ -640,6 +640,13 @@ describe('calendar', () => {
     expect(calls[0].path).toBe('/calendar/slots');
   });
 
+  it('calendar.listBookings -> GET /calendar/bookings', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.listBookings();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/calendar/bookings');
+  });
+
   it('calendar.createBooking -> POST /calendar/bookings', async () => {
     const { client, calls } = mockClient();
     await client.calendar.createBooking({} as never);
@@ -652,6 +659,104 @@ describe('calendar', () => {
     await client.calendar.cancelBooking('test-id', {} as never);
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/calendar/bookings/test-id/cancel');
+  });
+
+  it('calendar.getBooking -> GET /calendar/bookings/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.getBooking('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/calendar/bookings/test-id');
+  });
+
+  it('calendar.setBookingStatus -> POST /calendar/bookings/{id}/status', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.setBookingStatus('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/calendar/bookings/test-id/status');
+  });
+
+  it('calendar.rescheduleBooking -> POST /calendar/bookings/{id}/reschedule', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.rescheduleBooking('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/calendar/bookings/test-id/reschedule');
+  });
+
+  it('calendar.listBookingNotes -> GET /calendar/bookings/{id}/notes', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.listBookingNotes('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/calendar/bookings/test-id/notes');
+  });
+
+  it('calendar.addBookingNote -> POST /calendar/bookings/{id}/notes', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.addBookingNote('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/calendar/bookings/test-id/notes');
+  });
+
+  it('calendar.deleteBookingNote -> DELETE /calendar/bookings/{id}/notes/{note_id}', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.deleteBookingNote('test-id', 'test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/calendar/bookings/test-id/notes/test-id');
+  });
+
+  it('calendar.listBlockedTimes -> GET /calendar/blocked-times', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.listBlockedTimes();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/calendar/blocked-times');
+  });
+
+  it('calendar.createBlockedTime -> POST /calendar/blocked-times', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.createBlockedTime({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/calendar/blocked-times');
+  });
+
+  it('calendar.deleteBlockedTime -> DELETE /calendar/blocked-times/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.deleteBlockedTime('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/calendar/blocked-times/test-id');
+  });
+
+  it('calendar.listAvailabilitySchedules -> GET /calendar/availability', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.listAvailabilitySchedules();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/calendar/availability');
+  });
+
+  it('calendar.createAvailabilitySchedule -> POST /calendar/availability', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.createAvailabilitySchedule({} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/calendar/availability');
+  });
+
+  it('calendar.updateAvailabilitySchedule -> PATCH /calendar/availability/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.updateAvailabilitySchedule('test-id', {} as never);
+    expect(calls[0].method).toBe('PATCH');
+    expect(calls[0].path).toBe('/calendar/availability/test-id');
+  });
+
+  it('calendar.deleteAvailabilitySchedule -> DELETE /calendar/availability/{id}', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.deleteAvailabilitySchedule('test-id');
+    expect(calls[0].method).toBe('DELETE');
+    expect(calls[0].path).toBe('/calendar/availability/test-id');
+  });
+
+  it('calendar.listBusyTimes -> GET /calendar/busy-times', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.listBusyTimes();
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/calendar/busy-times');
   });
 });
 

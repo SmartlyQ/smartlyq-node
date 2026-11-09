@@ -20438,6 +20438,58 @@ export type ListCalendarSlotsResponses = {
 
 export type ListCalendarSlotsResponse = ListCalendarSlotsResponses[keyof ListCalendarSlotsResponses];
 
+export type ListBookingsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * ISO 8601 start of the window, by booking start time. Defaults to now, or to 30 days before `to`.
+         */
+        from?: string;
+        /**
+         * ISO 8601 end of the window. Defaults to 30 days after `from`. At most 370 days after `from`.
+         */
+        to?: string;
+        /**
+         * Comma-separated: new, confirmed, cancelled, completed, no_show, rescheduled.
+         */
+        status?: string;
+        /**
+         * Only this CRM contact's bookings.
+         */
+        contact_id?: number;
+        /**
+         * Only bookings of this booking page.
+         */
+        event_type_id?: number;
+        /**
+         * Page number, from 1.
+         */
+        page?: number;
+        /**
+         * Results per page. Default 20, maximum 100.
+         */
+        per_page?: number;
+    };
+    url: '/calendar/bookings';
+};
+
+export type ListBookingsResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: Array<{
+            [key: string]: unknown;
+        }>;
+        pagination?: PaginationMeta;
+        meta?: RequestMeta;
+    };
+};
+
+export type ListBookingsResponse = ListBookingsResponses[keyof ListBookingsResponses];
+
 export type CreateBookingData = {
     body: {
         event_type_id: number;
@@ -20519,6 +20571,443 @@ export type CancelBookingResponses = {
 };
 
 export type CancelBookingResponse = CancelBookingResponses[keyof CancelBookingResponses];
+
+export type GetBookingData = {
+    body?: never;
+    path: {
+        /**
+         * Booking id, as it appears on the CRM contact's bookings and in booking webhooks.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/calendar/bookings/{id}';
+};
+
+export type GetBookingResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GetBookingResponse = GetBookingResponses[keyof GetBookingResponses];
+
+export type SetBookingStatusData = {
+    body: {
+        /**
+         * confirmed, completed or no_show.
+         */
+        status: 'confirmed' | 'completed' | 'no_show';
+    };
+    path: {
+        /**
+         * Booking id, as it appears on the CRM contact's bookings and in booking webhooks.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/calendar/bookings/{id}/status';
+};
+
+export type SetBookingStatusResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type SetBookingStatusResponse = SetBookingStatusResponses[keyof SetBookingStatusResponses];
+
+export type RescheduleBookingData = {
+    body: {
+        /**
+         * New ISO 8601 start time, from the slots endpoint.
+         */
+        start: string;
+        /**
+         * Shown to the attendee. At most 500 characters.
+         */
+        reason?: string;
+    };
+    path: {
+        /**
+         * Booking id, as it appears on the CRM contact's bookings and in booking webhooks.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/calendar/bookings/{id}/reschedule';
+};
+
+export type RescheduleBookingResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type RescheduleBookingResponse = RescheduleBookingResponses[keyof RescheduleBookingResponses];
+
+export type ListBookingNotesData = {
+    body?: never;
+    path: {
+        /**
+         * Booking id, as it appears on the CRM contact's bookings and in booking webhooks.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/calendar/bookings/{id}/notes';
+};
+
+export type ListBookingNotesResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ListBookingNotesResponse = ListBookingNotesResponses[keyof ListBookingNotesResponses];
+
+export type AddBookingNoteData = {
+    body: {
+        /**
+         * Note text, at most 5000 characters.
+         */
+        body: string;
+    };
+    path: {
+        /**
+         * Booking id, as it appears on the CRM contact's bookings and in booking webhooks.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/calendar/bookings/{id}/notes';
+};
+
+export type AddBookingNoteResponses = {
+    /**
+     * Success
+     */
+    201: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type AddBookingNoteResponse = AddBookingNoteResponses[keyof AddBookingNoteResponses];
+
+export type DeleteBookingNoteData = {
+    body?: never;
+    path: {
+        /**
+         * Booking id, as it appears on the CRM contact's bookings and in booking webhooks.
+         */
+        id: number;
+        /**
+         * Note id, from the notes list.
+         */
+        note_id: number;
+    };
+    query?: never;
+    url: '/calendar/bookings/{id}/notes/{note_id}';
+};
+
+export type DeleteBookingNoteResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeleteBookingNoteResponse = DeleteBookingNoteResponses[keyof DeleteBookingNoteResponses];
+
+export type ListBlockedTimesData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * ISO 8601 start of the window, at most 70 days before `to`.
+         */
+        from: string;
+        /**
+         * ISO 8601 end of the window.
+         */
+        to: string;
+    };
+    url: '/calendar/blocked-times';
+};
+
+export type ListBlockedTimesResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ListBlockedTimesResponse = ListBlockedTimesResponses[keyof ListBlockedTimesResponses];
+
+export type CreateBlockedTimeData = {
+    body: {
+        /**
+         * ISO 8601 start.
+         */
+        start: string;
+        /**
+         * ISO 8601 end, after start.
+         */
+        end: string;
+        /**
+         * Label, at most 80 characters.
+         */
+        title?: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/calendar/blocked-times';
+};
+
+export type CreateBlockedTimeResponses = {
+    /**
+     * Success
+     */
+    201: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type CreateBlockedTimeResponse = CreateBlockedTimeResponses[keyof CreateBlockedTimeResponses];
+
+export type DeleteBlockedTimeData = {
+    body?: never;
+    path: {
+        /**
+         * Block id, from the blocked time list.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/calendar/blocked-times/{id}';
+};
+
+export type DeleteBlockedTimeResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeleteBlockedTimeResponse = DeleteBlockedTimeResponses[keyof DeleteBlockedTimeResponses];
+
+export type ListAvailabilitySchedulesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/calendar/availability';
+};
+
+export type ListAvailabilitySchedulesResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ListAvailabilitySchedulesResponse = ListAvailabilitySchedulesResponses[keyof ListAvailabilitySchedulesResponses];
+
+export type CreateAvailabilityScheduleData = {
+    body: {
+        /**
+         * Schedule name, at most 120 characters.
+         */
+        name: string;
+    };
+    path?: never;
+    query?: never;
+    url: '/calendar/availability';
+};
+
+export type CreateAvailabilityScheduleResponses = {
+    /**
+     * Success
+     */
+    201: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type CreateAvailabilityScheduleResponse = CreateAvailabilityScheduleResponses[keyof CreateAvailabilityScheduleResponses];
+
+export type DeleteAvailabilityScheduleData = {
+    body?: never;
+    path: {
+        /**
+         * Schedule id, from the availability list.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/calendar/availability/{id}';
+};
+
+export type DeleteAvailabilityScheduleResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeleteAvailabilityScheduleResponse = DeleteAvailabilityScheduleResponses[keyof DeleteAvailabilityScheduleResponses];
+
+export type UpdateAvailabilityScheduleData = {
+    body?: {
+        /**
+         * Schedule name.
+         */
+        name?: string;
+        /**
+         * IANA timezone identifier, e.g. Europe/Athens.
+         */
+        time_zone?: string;
+        /**
+         * Make this the default schedule.
+         */
+        is_default?: boolean;
+        /**
+         * 7 days, Sunday first, each a list of {start, end} ranges in HH:MM. An empty list = closed.
+         */
+        weekly?: Array<unknown>;
+        /**
+         * List of {date: YYYY-MM-DD, ranges: [{start, end}]}, replacing the existing overrides.
+         */
+        overrides?: Array<unknown>;
+    };
+    path: {
+        /**
+         * Schedule id, from the availability list.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/calendar/availability/{id}';
+};
+
+export type UpdateAvailabilityScheduleResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type UpdateAvailabilityScheduleResponse = UpdateAvailabilityScheduleResponses[keyof UpdateAvailabilityScheduleResponses];
+
+export type ListBusyTimesData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * ISO 8601 start of the window, at most 70 days before `to`.
+         */
+        from: string;
+        /**
+         * ISO 8601 end of the window.
+         */
+        to: string;
+        /**
+         * Comma-separated user ids of up to 9 active members of this workspace. Not available to keys limited to assigned data.
+         */
+        user_ids?: string;
+    };
+    url: '/calendar/busy-times';
+};
+
+export type ListBusyTimesResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ListBusyTimesResponse = ListBusyTimesResponses[keyof ListBusyTimesResponses];
 
 export type ListLanguagesData = {
     body?: never;
