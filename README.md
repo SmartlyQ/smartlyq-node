@@ -111,23 +111,23 @@ All methods below are available on the client. Full request/response documentati
 | `sq.ads.getCampaign(id)` | `GET /ads/campaigns/{id}` | Get a campaign |
 | `sq.ads.updateCampaign(id, body)` | `PATCH /ads/campaigns/{id}` | Update a campaign |
 | `sq.ads.deleteCampaign(id)` | `DELETE /ads/campaigns/{id}` | Delete a campaign |
-| `sq.ads.pauseCampaign(id)` | `POST /ads/campaigns/{id}/pause` | Pause a campaign |
-| `sq.ads.resumeCampaign(id)` | `POST /ads/campaigns/{id}/resume` | Resume a campaign |
+| `sq.ads.pauseCampaign(id, body?)` | `POST /ads/campaigns/{id}/pause` | Pause a campaign |
+| `sq.ads.resumeCampaign(id, body?)` | `POST /ads/campaigns/{id}/resume` | Resume a campaign |
 | `sq.ads.duplicateCampaign(id)` | `POST /ads/campaigns/{id}/duplicate` | Duplicate a campaign |
 | `sq.ads.archiveCampaign(id)` | `POST /ads/campaigns/{id}/archive` | Archive a campaign |
 | `sq.ads.bulkCampaignStatus(body)` | `POST /ads/campaigns/bulk-status` | Bulk pause/resume campaigns |
 | `sq.ads.listSets(query?)` | `GET /ads/ad-sets` | List ad sets |
 | `sq.ads.getSet(id)` | `GET /ads/ad-sets/{id}` | Get an ad set |
 | `sq.ads.deleteSet(id)` | `DELETE /ads/ad-sets/{id}` | Delete an ad set |
-| `sq.ads.pauseSet(id)` | `POST /ads/ad-sets/{id}/pause` | Pause an ad set |
-| `sq.ads.resumeSet(id)` | `POST /ads/ad-sets/{id}/resume` | Resume an ad set |
+| `sq.ads.pauseSet(id, body?)` | `POST /ads/ad-sets/{id}/pause` | Pause an ad set |
+| `sq.ads.resumeSet(id, body?)` | `POST /ads/ad-sets/{id}/resume` | Resume an ad set |
 | `sq.ads.duplicateSet(id)` | `POST /ads/ad-sets/{id}/duplicate` | Duplicate an ad set |
 | `sq.ads.archiveSet(id)` | `POST /ads/ad-sets/{id}/archive` | Archive an ad set |
 | `sq.ads.list(query?)` | `GET /ads/ads` | List ads |
 | `sq.ads.get(id)` | `GET /ads/ads/{id}` | Get an ad |
 | `sq.ads.delete(id)` | `DELETE /ads/ads/{id}` | Delete an ad |
-| `sq.ads.pause(id)` | `POST /ads/ads/{id}/pause` | Pause an ad |
-| `sq.ads.resume(id)` | `POST /ads/ads/{id}/resume` | Resume an ad |
+| `sq.ads.pause(id, body?)` | `POST /ads/ads/{id}/pause` | Pause an ad |
+| `sq.ads.resume(id, body?)` | `POST /ads/ads/{id}/resume` | Resume an ad |
 | `sq.ads.duplicate(id)` | `POST /ads/ads/{id}/duplicate` | Duplicate an ad |
 | `sq.ads.archive(id)` | `POST /ads/ads/{id}/archive` | Archive an ad |
 | `sq.ads.listAudiences(query?)` | `GET /ads/audiences` | List audiences |
@@ -162,7 +162,7 @@ All methods below are available on the client. Full request/response documentati
 | --- | --- | --- |
 | `sq.analytics.getOverview(query?)` | `GET /analytics/overview` | Get analytics overview |
 | `sq.analytics.getPosts(query?)` | `GET /analytics/posts` | Get post analytics |
-| `sq.analytics.getAccount(accountId, query?)` | `GET /analytics/accounts/{account_id}` | Get account analytics |
+| `sq.analytics.getAccount(accountId)` | `GET /analytics/accounts/{account_id}` | Get account analytics |
 | `sq.analytics.dailyMetrics(query?)` | `GET /analytics/daily-metrics` | Daily metrics |
 | `sq.analytics.bestTime(query?)` | `GET /analytics/best-time` | Best time to post |
 | `sq.analytics.contentDecay(query?)` | `GET /analytics/content-decay` | Content decay |

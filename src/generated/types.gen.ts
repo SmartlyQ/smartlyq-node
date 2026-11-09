@@ -4641,12 +4641,7 @@ export type GetAnalyticsAccountData = {
     path: {
         account_id: number;
     };
-    query?: {
-        /**
-         * Time period for analytics
-         */
-        period?: 'today' | '7d' | '30d' | '90d';
-    };
+    query?: never;
     url: '/analytics/accounts/{account_id}';
 };
 
@@ -5307,6 +5302,14 @@ export type ListCommentsData = {
     query?: {
         platform?: string;
         social_account_id?: number;
+        /**
+         * Only comments made on or after this day (YYYY-MM-DD).
+         */
+        date_from?: string;
+        /**
+         * Only comments made on or before this day (YYYY-MM-DD).
+         */
+        date_to?: string;
         search?: string;
         page?: number;
         per_page?: number;
@@ -6050,9 +6053,9 @@ export type CreateWebhookData = {
          */
         url: string;
         /**
-         * Events to subscribe to. Must be from the 25-event catalog (see the webhooks object in this spec and the Webhooks guide).
+         * Events to subscribe to. Must be from the event catalog (see the webhooks object in this spec and the Webhooks guide).
          */
-        events: Array<'post.published' | 'post.partial' | 'post.failed' | 'account.connected' | 'account.disconnected' | 'account.token_expired' | 'comment.received' | 'message.received' | 'job.completed' | 'job.failed' | 'balance.low' | 'balance.depleted' | 'key.revoked' | 'wallet.recharge.succeeded' | 'wallet.recharge.failed' | 'account_billing.charged' | 'account_billing.failed' | 'contact.created' | 'contact.updated' | 'contact.tag_added' | 'contact.tag_removed' | 'deal.created' | 'deal.stage_changed' | 'deal.won' | 'deal.lost' | 'booking.created' | 'booking.requested' | 'booking.confirmed' | 'booking.rescheduled' | 'booking.cancelled' | 'booking.rejected' | 'booking.no_show' | 'booking.completed' | 'booking.paid' | 'booking.started' | 'booking.ended' | 'post.scheduled' | 'post.cancelled' | 'post.recycled' | 'post.external.created' | 'post.external.updated' | 'message.sent' | 'conversation.started' | 'reaction.received' | 'review.new' | 'review.updated' | 'message.delivered' | 'message.read' | 'message.failed'>;
+        events: Array<'post.published' | 'post.partial' | 'post.failed' | 'account.connected' | 'account.disconnected' | 'account.token_expired' | 'comment.received' | 'message.received' | 'job.completed' | 'job.failed' | 'balance.low' | 'balance.depleted' | 'key.revoked' | 'wallet.recharge.succeeded' | 'wallet.recharge.failed' | 'account_billing.charged' | 'account_billing.failed' | 'contact.created' | 'contact.updated' | 'contact.tag_added' | 'contact.tag_removed' | 'deal.created' | 'deal.stage_changed' | 'deal.won' | 'deal.lost' | 'booking.created' | 'booking.requested' | 'booking.confirmed' | 'booking.rescheduled' | 'booking.cancelled' | 'booking.rejected' | 'booking.no_show' | 'booking.completed' | 'booking.paid' | 'booking.started' | 'booking.ended' | 'post.scheduled' | 'post.cancelled' | 'post.recycled' | 'post.external.created' | 'post.external.updated' | 'message.sent' | 'conversation.started' | 'reaction.received' | 'review.new' | 'review.updated' | 'message.delivered' | 'message.read' | 'message.failed' | 'order.paid' | 'order.payment_failed' | 'subscription.canceled'>;
     };
     path?: never;
     query?: never;
@@ -6155,7 +6158,7 @@ export type UpdateWebhookData = {
         /**
          * Full replacement list of subscribed events.
          */
-        events?: Array<'post.published' | 'post.partial' | 'post.failed' | 'account.connected' | 'account.disconnected' | 'account.token_expired' | 'comment.received' | 'message.received' | 'job.completed' | 'job.failed' | 'balance.low' | 'balance.depleted' | 'key.revoked' | 'wallet.recharge.succeeded' | 'wallet.recharge.failed' | 'account_billing.charged' | 'account_billing.failed' | 'contact.created' | 'contact.updated' | 'contact.tag_added' | 'contact.tag_removed' | 'deal.created' | 'deal.stage_changed' | 'deal.won' | 'deal.lost' | 'booking.created' | 'booking.requested' | 'booking.confirmed' | 'booking.rescheduled' | 'booking.cancelled' | 'booking.rejected' | 'booking.no_show' | 'booking.completed' | 'booking.paid' | 'booking.started' | 'booking.ended' | 'post.scheduled' | 'post.cancelled' | 'post.recycled' | 'post.external.created' | 'post.external.updated' | 'message.sent' | 'conversation.started' | 'reaction.received' | 'review.new' | 'review.updated' | 'message.delivered' | 'message.read' | 'message.failed'>;
+        events?: Array<'post.published' | 'post.partial' | 'post.failed' | 'account.connected' | 'account.disconnected' | 'account.token_expired' | 'comment.received' | 'message.received' | 'job.completed' | 'job.failed' | 'balance.low' | 'balance.depleted' | 'key.revoked' | 'wallet.recharge.succeeded' | 'wallet.recharge.failed' | 'account_billing.charged' | 'account_billing.failed' | 'contact.created' | 'contact.updated' | 'contact.tag_added' | 'contact.tag_removed' | 'deal.created' | 'deal.stage_changed' | 'deal.won' | 'deal.lost' | 'booking.created' | 'booking.requested' | 'booking.confirmed' | 'booking.rescheduled' | 'booking.cancelled' | 'booking.rejected' | 'booking.no_show' | 'booking.completed' | 'booking.paid' | 'booking.started' | 'booking.ended' | 'post.scheduled' | 'post.cancelled' | 'post.recycled' | 'post.external.created' | 'post.external.updated' | 'message.sent' | 'conversation.started' | 'reaction.received' | 'review.new' | 'review.updated' | 'message.delivered' | 'message.read' | 'message.failed' | 'order.paid' | 'order.payment_failed' | 'subscription.canceled'>;
         /**
          * Pause or resume deliveries.
          */
@@ -8852,6 +8855,18 @@ export type AddContactMessageData = {
          */
         channel?: string;
         subject?: string;
+        /**
+         * Sender address shown on the timeline, such as an email address or phone number. Up to 255 characters are kept.
+         */
+        from_addr?: string;
+        /**
+         * Recipient address shown on the timeline. Up to 255 characters are kept.
+         */
+        to_addr?: string;
+        /**
+         * Alias of `body_text`, read only when `body_text` is not sent.
+         */
+        body?: string;
     };
     path: {
         id: number;
@@ -10491,14 +10506,6 @@ export type ValidateBulkBatchData = {
          * Alternative to posts: inline CSV with a header line. Basic columns: content, platforms, account_ids, account_group_ids, scheduled_time, media_urls, link, first_comment (list cells split on | or ,; a quoted cell may span lines). Platform options go in `<platform>.<field>` columns, e.g. tiktok.visibility, tiktok.type, youtube.title, pinterest.board_id, instagram.type, gmb.post_type - see the Bulk scheduling guide. Provide posts OR csv, not both.
          */
         csv?: string;
-        /**
-         * Default timezone for rows without their own (IANA name, default UTC).
-         */
-        timezone?: string;
-        /**
-         * Skip the 24h duplicate-content guard for this batch.
-         */
-        allow_duplicates?: boolean;
     };
     path?: never;
     query?: never;
@@ -18226,7 +18233,6 @@ export type UpdateAdCampaignData = {
     body?: {
         name?: string;
         budget_amount?: number;
-        confirm_cooldown?: boolean;
     };
     path: {
         /**
@@ -18267,7 +18273,12 @@ export type UpdateAdCampaignResponses = {
 export type UpdateAdCampaignResponse = UpdateAdCampaignResponses[keyof UpdateAdCampaignResponses];
 
 export type PauseAdCampaignData = {
-    body?: never;
+    body?: {
+        /**
+         * Go ahead even though the campaign was edited in the last 72 hours.
+         */
+        confirm_cooldown?: boolean;
+    };
     path: {
         /**
          * Campaign ID
@@ -18311,7 +18322,12 @@ export type PauseAdCampaignResponses = {
 export type PauseAdCampaignResponse = PauseAdCampaignResponses[keyof PauseAdCampaignResponses];
 
 export type ResumeAdCampaignData = {
-    body?: never;
+    body?: {
+        /**
+         * Go ahead even though the campaign was edited in the last 72 hours.
+         */
+        confirm_cooldown?: boolean;
+    };
     path: {
         /**
          * Campaign ID
@@ -18632,7 +18648,12 @@ export type GetAdSetResponses = {
 export type GetAdSetResponse = GetAdSetResponses[keyof GetAdSetResponses];
 
 export type PauseAdSetData = {
-    body?: never;
+    body?: {
+        /**
+         * Go ahead even though the ad set was edited in the last 72 hours.
+         */
+        confirm_cooldown?: boolean;
+    };
     path: {
         /**
          * Ad set ID
@@ -18652,6 +18673,10 @@ export type PauseAdSetErrors = {
      * Validation error
      */
     422: ErrorResponse;
+    /**
+     * Rate limit exceeded
+     */
+    429: ErrorResponse;
 };
 
 export type PauseAdSetError = PauseAdSetErrors[keyof PauseAdSetErrors];
@@ -18672,7 +18697,12 @@ export type PauseAdSetResponses = {
 export type PauseAdSetResponse = PauseAdSetResponses[keyof PauseAdSetResponses];
 
 export type ResumeAdSetData = {
-    body?: never;
+    body?: {
+        /**
+         * Go ahead even though the ad set was edited in the last 72 hours.
+         */
+        confirm_cooldown?: boolean;
+    };
     path: {
         /**
          * Ad set ID
@@ -18692,6 +18722,10 @@ export type ResumeAdSetErrors = {
      * Validation error
      */
     422: ErrorResponse;
+    /**
+     * Rate limit exceeded
+     */
+    429: ErrorResponse;
 };
 
 export type ResumeAdSetError = ResumeAdSetErrors[keyof ResumeAdSetErrors];
@@ -18931,7 +18965,12 @@ export type GetAdResponses = {
 export type GetAdResponse = GetAdResponses[keyof GetAdResponses];
 
 export type PauseAdData = {
-    body?: never;
+    body?: {
+        /**
+         * Go ahead even though the ad was edited in the last 72 hours.
+         */
+        confirm_cooldown?: boolean;
+    };
     path: {
         /**
          * Ad ID
@@ -18951,6 +18990,10 @@ export type PauseAdErrors = {
      * Validation error
      */
     422: ErrorResponse;
+    /**
+     * Rate limit exceeded
+     */
+    429: ErrorResponse;
 };
 
 export type PauseAdError = PauseAdErrors[keyof PauseAdErrors];
@@ -18971,7 +19014,12 @@ export type PauseAdResponses = {
 export type PauseAdResponse = PauseAdResponses[keyof PauseAdResponses];
 
 export type ResumeAdData = {
-    body?: never;
+    body?: {
+        /**
+         * Go ahead even though the ad was edited in the last 72 hours.
+         */
+        confirm_cooldown?: boolean;
+    };
     path: {
         /**
          * Ad ID
@@ -18991,6 +19039,10 @@ export type ResumeAdErrors = {
      * Validation error
      */
     422: ErrorResponse;
+    /**
+     * Rate limit exceeded
+     */
+    429: ErrorResponse;
 };
 
 export type ResumeAdError = ResumeAdErrors[keyof ResumeAdErrors];
@@ -20514,6 +20566,10 @@ export type CreateBookingData = {
          * CRM contact to link the booking to.
          */
         contact_id?: number;
+        /**
+         * People to copy on the invitation and the calendar event: an array of email addresses, or one string with the addresses separated by commas, semicolons or spaces. The attendee's own email and repeats are skipped, and only the first 20 are kept. An address that is not a valid email rejects the booking with 422.
+         */
+        guests?: Array<string> | string;
     };
     path?: never;
     query?: never;
@@ -20651,6 +20707,35 @@ export type RescheduleBookingData = {
     query?: never;
     url: '/calendar/bookings/{id}/reschedule';
 };
+
+export type RescheduleBookingErrors = {
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict (e.g. duplicate idempotency or already-finished job)
+     */
+    409: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Rate limit exceeded
+     */
+    429: ErrorResponse;
+    /**
+     * The calendar did not answer in time (`UPSTREAM_UNAVAILABLE`). The booking may or may not have moved: read it before trying again.
+     */
+    502: unknown;
+};
+
+export type RescheduleBookingError = RescheduleBookingErrors[keyof RescheduleBookingErrors];
 
 export type RescheduleBookingResponses = {
     /**

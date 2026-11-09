@@ -57,13 +57,13 @@ export class AdsResource {
   }
 
   /** Pause a campaign `POST /ads/campaigns/{id}/pause` */
-  pauseCampaign(id: string, options?: RequestOptions): Promise<t.PauseAdCampaignResponses[keyof t.PauseAdCampaignResponses]> {
-    return this._client.request('POST', `/ads/campaigns/${encodeURIComponent(id)}/pause`, { options });
+  pauseCampaign(id: string, body?: t.PauseAdCampaignData['body'], options?: RequestOptions): Promise<t.PauseAdCampaignResponses[keyof t.PauseAdCampaignResponses]> {
+    return this._client.request('POST', `/ads/campaigns/${encodeURIComponent(id)}/pause`, { body, options });
   }
 
   /** Resume a campaign `POST /ads/campaigns/{id}/resume` */
-  resumeCampaign(id: string, options?: RequestOptions): Promise<t.ResumeAdCampaignResponses[keyof t.ResumeAdCampaignResponses]> {
-    return this._client.request('POST', `/ads/campaigns/${encodeURIComponent(id)}/resume`, { options });
+  resumeCampaign(id: string, body?: t.ResumeAdCampaignData['body'], options?: RequestOptions): Promise<t.ResumeAdCampaignResponses[keyof t.ResumeAdCampaignResponses]> {
+    return this._client.request('POST', `/ads/campaigns/${encodeURIComponent(id)}/resume`, { body, options });
   }
 
   /** Duplicate a campaign `POST /ads/campaigns/{id}/duplicate` */
@@ -97,13 +97,13 @@ export class AdsResource {
   }
 
   /** Pause an ad set `POST /ads/ad-sets/{id}/pause` */
-  pauseSet(id: string, options?: RequestOptions): Promise<t.PauseAdSetResponses[keyof t.PauseAdSetResponses]> {
-    return this._client.request('POST', `/ads/ad-sets/${encodeURIComponent(id)}/pause`, { options });
+  pauseSet(id: string, body?: t.PauseAdSetData['body'], options?: RequestOptions): Promise<t.PauseAdSetResponses[keyof t.PauseAdSetResponses]> {
+    return this._client.request('POST', `/ads/ad-sets/${encodeURIComponent(id)}/pause`, { body, options });
   }
 
   /** Resume an ad set `POST /ads/ad-sets/{id}/resume` */
-  resumeSet(id: string, options?: RequestOptions): Promise<t.ResumeAdSetResponses[keyof t.ResumeAdSetResponses]> {
-    return this._client.request('POST', `/ads/ad-sets/${encodeURIComponent(id)}/resume`, { options });
+  resumeSet(id: string, body?: t.ResumeAdSetData['body'], options?: RequestOptions): Promise<t.ResumeAdSetResponses[keyof t.ResumeAdSetResponses]> {
+    return this._client.request('POST', `/ads/ad-sets/${encodeURIComponent(id)}/resume`, { body, options });
   }
 
   /** Duplicate an ad set `POST /ads/ad-sets/{id}/duplicate` */
@@ -132,13 +132,13 @@ export class AdsResource {
   }
 
   /** Pause an ad `POST /ads/ads/{id}/pause` */
-  pause(id: string, options?: RequestOptions): Promise<t.PauseAdResponses[keyof t.PauseAdResponses]> {
-    return this._client.request('POST', `/ads/ads/${encodeURIComponent(id)}/pause`, { options });
+  pause(id: string, body?: t.PauseAdData['body'], options?: RequestOptions): Promise<t.PauseAdResponses[keyof t.PauseAdResponses]> {
+    return this._client.request('POST', `/ads/ads/${encodeURIComponent(id)}/pause`, { body, options });
   }
 
   /** Resume an ad `POST /ads/ads/{id}/resume` */
-  resume(id: string, options?: RequestOptions): Promise<t.ResumeAdResponses[keyof t.ResumeAdResponses]> {
-    return this._client.request('POST', `/ads/ads/${encodeURIComponent(id)}/resume`, { options });
+  resume(id: string, body?: t.ResumeAdData['body'], options?: RequestOptions): Promise<t.ResumeAdResponses[keyof t.ResumeAdResponses]> {
+    return this._client.request('POST', `/ads/ads/${encodeURIComponent(id)}/resume`, { body, options });
   }
 
   /** Duplicate an ad `POST /ads/ads/{id}/duplicate` */
@@ -272,8 +272,8 @@ export class AnalyticsResource {
   }
 
   /** Get account analytics `GET /analytics/accounts/{account_id}` */
-  getAccount(accountId: string, query?: t.GetAnalyticsAccountData['query'], options?: RequestOptions): Promise<t.GetAnalyticsAccountResponses[keyof t.GetAnalyticsAccountResponses]> {
-    return this._client.request('GET', `/analytics/accounts/${encodeURIComponent(accountId)}`, { query, options });
+  getAccount(accountId: string, options?: RequestOptions): Promise<t.GetAnalyticsAccountResponses[keyof t.GetAnalyticsAccountResponses]> {
+    return this._client.request('GET', `/analytics/accounts/${encodeURIComponent(accountId)}`, { options });
   }
 
   /** Daily metrics `GET /analytics/daily-metrics` */

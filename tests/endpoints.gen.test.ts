@@ -84,14 +84,14 @@ describe('ads', () => {
 
   it('ads.pauseCampaign -> POST /ads/campaigns/{id}/pause', async () => {
     const { client, calls } = mockClient();
-    await client.ads.pauseCampaign('test-id');
+    await client.ads.pauseCampaign('test-id', {} as never);
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/ads/campaigns/test-id/pause');
   });
 
   it('ads.resumeCampaign -> POST /ads/campaigns/{id}/resume', async () => {
     const { client, calls } = mockClient();
-    await client.ads.resumeCampaign('test-id');
+    await client.ads.resumeCampaign('test-id', {} as never);
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/ads/campaigns/test-id/resume');
   });
@@ -140,14 +140,14 @@ describe('ads', () => {
 
   it('ads.pauseSet -> POST /ads/ad-sets/{id}/pause', async () => {
     const { client, calls } = mockClient();
-    await client.ads.pauseSet('test-id');
+    await client.ads.pauseSet('test-id', {} as never);
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/ads/ad-sets/test-id/pause');
   });
 
   it('ads.resumeSet -> POST /ads/ad-sets/{id}/resume', async () => {
     const { client, calls } = mockClient();
-    await client.ads.resumeSet('test-id');
+    await client.ads.resumeSet('test-id', {} as never);
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/ads/ad-sets/test-id/resume');
   });
@@ -189,14 +189,14 @@ describe('ads', () => {
 
   it('ads.pause -> POST /ads/ads/{id}/pause', async () => {
     const { client, calls } = mockClient();
-    await client.ads.pause('test-id');
+    await client.ads.pause('test-id', {} as never);
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/ads/ads/test-id/pause');
   });
 
   it('ads.resume -> POST /ads/ads/{id}/resume', async () => {
     const { client, calls } = mockClient();
-    await client.ads.resume('test-id');
+    await client.ads.resume('test-id', {} as never);
     expect(calls[0].method).toBe('POST');
     expect(calls[0].path).toBe('/ads/ads/test-id/resume');
   });
