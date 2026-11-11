@@ -565,7 +565,7 @@ export type SocialPost = {
      */
     publish_stage?: 'validating' | 'processing_media' | 'publishing';
     /**
-     * Per-platform permalinks of the published posts, keyed by platform (arrays of URLs). Two reserved keys: _errors holds per-platform failure reasons (plus _post for a whole-post failure), and _transcodes lists what auto-transcode fixed per platform (e.g. 'Frame rate was 15fps (below the 23fps minimum); raised to 30fps.').
+     * Per-platform permalinks of the published posts, keyed by platform (arrays of URLs). Three reserved keys: _errors holds per-platform failure reasons (plus _post for a whole-post failure), _transcodes lists what auto-transcode fixed per platform (e.g. 'Frame rate was 15fps (below the 23fps minimum); raised to 30fps.'), and _publish_notes holds the raw form of publish_notes - read publish_notes instead.
      */
     post_urls?: {
         [key: string]: unknown;
@@ -576,6 +576,18 @@ export type SocialPost = {
     post_ids?: {
         [key: string]: unknown;
     };
+    /**
+     * Things that did not go as asked on a post that DID publish. Empty when there are none. first_comment: an Instagram first comment was refused; share_to_story: the Instagram share to story did not go out; privacy_changed: YouTube applied a different privacy than the one requested (for example a forced private). The post itself stays published; reason holds the platform's answer. Returned by GET /social/posts and GET /social/posts/{post_id}.
+     */
+    publish_notes?: Array<{
+        platform?: string;
+        kind?: 'first_comment' | 'share_to_story' | 'privacy_changed';
+        /**
+         * The account's name, when known.
+         */
+        account?: string;
+        reason?: string;
+    }>;
 };
 
 export type SocialPostResponse = {
