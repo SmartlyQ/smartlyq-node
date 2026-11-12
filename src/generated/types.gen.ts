@@ -552,10 +552,59 @@ export type SocialPostUpdateRequest = {
     link?: string;
 };
 
+/**
+ * What happened to the post on ONE social account. Every key is always present (null when empty).
+ */
+export type PostResult = {
+    platform?: string;
+    /**
+     * The account's display name.
+     */
+    account?: string;
+    /**
+     * Social account id (null only for very old posts with no account on record).
+     */
+    account_id?: number;
+    /**
+     * The handle, when the platform has one.
+     */
+    account_username?: string;
+    /**
+     * success: live on this account. failed: not published (see error). scheduled: waiting for its time. pending: draft, waiting for approval or publishing now. cancelled: the post was cancelled. removed: unpublished from the platforms.
+     */
+    status?: 'success' | 'failed' | 'scheduled' | 'pending' | 'cancelled' | 'removed';
+    /**
+     * The platform's id for this account's post.
+     */
+    platform_post_id?: string;
+    /**
+     * Public link to this account's post.
+     */
+    url?: string;
+    published_at?: string;
+    /**
+     * Why this account failed, worded by our error catalog (never the platform's raw text); null unless status is failed.
+     */
+    error?: {
+        code?: string;
+        message?: string;
+        fix?: string;
+        retryable?: boolean;
+        docs_url?: string;
+        /**
+         * The reason in full when we wrote it ourselves (a validation rule, a post stopped mid-publish), else null.
+         */
+        detail?: string;
+    };
+};
+
 export type SocialPost = {
     id?: number;
     content?: string;
     platforms?: Array<string>;
+    /**
+     * draft | scheduled | processing | published | partially_published | failed | external (synced from the platform) | cancelled | unpublished
+     */
     status?: string;
     scheduled_time?: string;
     published_at?: string;
@@ -565,17 +614,31 @@ export type SocialPost = {
      */
     publish_stage?: 'validating' | 'processing_media' | 'publishing';
     /**
-     * Per-platform permalinks of the published posts, keyed by platform (arrays of URLs). Three reserved keys: _errors holds per-platform failure reasons (plus _post for a whole-post failure), _transcodes lists what auto-transcode fixed per platform (e.g. 'Frame rate was 15fps (below the 23fps minimum); raised to 30fps.'), and _publish_notes holds the raw form of publish_notes - read publish_notes instead.
+     * Per-platform permalinks of the published posts: an object keyed by platform name, each an array of URLs. Platform keys only; an empty object {} until something is published. Why a platform failed is in errors; extra steps that did not go as asked are in publish_notes.
      */
     post_urls?: {
         [key: string]: unknown;
     };
     /**
-     * Per-platform remote post IDs assigned by each platform, keyed by platform.
+     * Per-platform remote post IDs assigned by each platform: an object keyed by platform name, each an array of IDs (a single ID comes as a one-item array). Platform keys only; an empty object {} until something is published.
      */
     post_ids?: {
         [key: string]: unknown;
     };
+    /**
+     * Why the post failed, per platform, worded by our error catalog (never the platform's raw text). Present on failed and partially_published posts, an empty list otherwise. platform is null when the whole post failed (for example before any platform was tried). detail holds the reason in full when we wrote it ourselves (a validation rule, a post stopped mid-publish, a Google Business rejection after review), else null. Returned by GET and PATCH /social/posts/{post_id}.
+     */
+    errors?: Array<{
+        platform?: string;
+        code?: string;
+        message?: string;
+        retryable?: boolean;
+        detail?: string;
+    }>;
+    /**
+     * Per-account results: one entry per social account the post goes to (GET and PATCH /social/posts/{post_id}, each row of GET /social/posts, and the post webhooks).
+     */
+    results?: Array<PostResult>;
     /**
      * Things that did not go as asked on a post that DID publish. Empty when there are none. first_comment: an Instagram first comment was refused; share_to_story: the Instagram share to story did not go out; privacy_changed: YouTube applied a different privacy than the one requested (for example a forced private). The post itself stays published; reason holds the platform's answer. Returned by GET /social/posts and GET /social/posts/{post_id}.
      */
@@ -590,9 +653,36 @@ export type SocialPost = {
     }>;
 };
 
+export type SocialPostCreateResult = {
+    post_id?: number;
+    /**
+     * published | partially_published | failed for publish-now; scheduled for a scheduled post.
+     */
+    status?: string;
+    /**
+     * Per account. Publish-now entries also carry details (extra data about a failure). On a staggered schedule: every account of every post created; each `staggered` entry also has its own `results`.
+     */
+    results?: Array<PostResult>;
+    /**
+     * Non-blocking notes, e.g. an aspect ratio outside the platform's range.
+     */
+    warnings?: Array<string>;
+    /**
+     * Only when the post was put in a queue (`queue_id`): the slot it was given.
+     */
+    scheduled_time?: string;
+    queue_id?: number;
+    /**
+     * One entry per post when a staggered schedule created several: `post_id`, `platforms`, `scheduled_time`, `replayed` and that post's `results`.
+     */
+    staggered?: Array<{
+        [key: string]: unknown;
+    }>;
+};
+
 export type SocialPostResponse = {
     success?: true;
-    data?: SocialPost;
+    data?: SocialPostCreateResult;
     usage?: UsageMeta;
     meta?: RequestMeta;
 };
@@ -5282,19 +5372,34 @@ export type RetrySocialPostResponses = {
     200: {
         success?: true;
         data?: {
+            post_id?: number;
+            /**
+             * The post's overall status after the retry (same as final_status).
+             */
+            status?: string;
             success?: boolean;
             /**
              * Platforms that were retried.
              */
             retried?: Array<string>;
             /**
-             * published | partial | failed
+             * published | partially_published | failed
              */
             final_status?: string;
-            platform_results?: Array<{
-                success?: boolean;
-                error?: string;
-            }>;
+            /**
+             * Keyed by platform: {success, error, error_code}. error is our catalog wording (never the platform's raw text).
+             */
+            platform_results?: {
+                [key: string]: {
+                    success?: boolean;
+                    error?: string;
+                    error_code?: string;
+                };
+            };
+            /**
+             * Per account, for the platforms that were retried.
+             */
+            results?: Array<PostResult>;
         };
         meta?: RequestMeta;
     };
