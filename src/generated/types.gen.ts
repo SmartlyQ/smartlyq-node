@@ -610,6 +610,67 @@ export type SocialPost = {
     published_at?: string;
     created_at?: string;
     /**
+     * The social accounts the post goes to (the account_ids you sent, account groups expanded).
+     */
+    account_ids?: Array<number>;
+    /**
+     * When the post last changed.
+     */
+    updated_at?: string;
+    /**
+     * The media attached to the post.
+     */
+    media_urls?: Array<string>;
+    /**
+     * Per-platform options as stored (the same keys you send). The top-level link you sent lives here, under the platform that has a link field (e.g. facebook.link).
+     */
+    platform_options?: {
+        [key: string]: unknown;
+    };
+    /**
+     * Per-platform text or media set in the app ("Customize channel"), keyed by platform; null when every platform got the same content. Read only.
+     */
+    platform_overrides?: {
+        [key: string]: unknown;
+    };
+    /**
+     * The posting queue the post was placed in, or null.
+     */
+    queue_id?: number;
+    /**
+     * Evergreen recycling settings, or null when the post does not recycle.
+     */
+    recycle?: {
+        interval_hours?: number;
+        until?: string;
+        max?: number;
+        /**
+         * Occurrences published so far.
+         */
+        count?: number;
+    };
+    /**
+     * none (no approval needed) | pending | approved | rejected.
+     */
+    approval_status?: string;
+    /**
+     * Why an approver rejected the post.
+     */
+    rejection_reason?: string;
+    approved_at?: string;
+    /**
+     * Where the post was made: api, app, mcp and so on.
+     */
+    created_via?: string;
+    /**
+     * Who wrote the post. Keys of an owner, admin or approver also see teammates' posts (same rule as the app).
+     */
+    author_name?: string;
+    /**
+     * Whether this key may change the post (update, delete, unpublish, edit): its own posts, or any post for an owner or admin key.
+     */
+    can_manage?: boolean;
+    /**
      * Live progress inside a publish run: validating (pre-publish checks), processing_media (auto-transcode inspecting/converting media), publishing (dispatching to platforms). null when the post is idle or has reached a final status.
      */
     publish_stage?: 'validating' | 'processing_media' | 'publishing';
@@ -10266,6 +10327,10 @@ export type UnpublishPostErrors = {
      */
     401: ErrorResponse;
     /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
      * Resource not found
      */
     404: ErrorResponse;
@@ -10475,6 +10540,10 @@ export type StopPostRecycleErrors = {
      * Missing or invalid API key
      */
     401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
     /**
      * Resource not found
      */
@@ -13366,6 +13435,10 @@ export type EditPublishedPostErrors = {
      */
     401: ErrorResponse;
     /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
      * Resource not found
      */
     404: ErrorResponse;
@@ -13421,6 +13494,10 @@ export type UpdatePostMetadataErrors = {
      * Missing or invalid API key
      */
     401: ErrorResponse;
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
     /**
      * Resource not found
      */
