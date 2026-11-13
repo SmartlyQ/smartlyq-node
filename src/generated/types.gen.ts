@@ -10288,19 +10288,40 @@ export type UnpublishPostError = UnpublishPostErrors[keyof UnpublishPostErrors];
 
 export type UnpublishPostResponses = {
     /**
-     * Unpublished
+     * Removed from every platform it could be (see `status` and `still_live`)
      */
     200: {
         success?: true;
         data?: {
             post_id?: number;
-            status?: 'unpublished';
+            /**
+             * `unpublished` once no copy is left live; otherwise the post keeps its status (copies are still up, see `still_live`).
+             */
+            status?: 'unpublished' | 'published' | 'partially_published' | 'partial';
             /**
              * Per-platform deletion results.
              */
             platforms?: {
                 [key: string]: unknown;
             };
+            /**
+             * Per account after this call: `removed` for a copy that is gone, `success` for one still live.
+             */
+            results?: Array<PostResult>;
+            /**
+             * Every copy still on a platform, and why. Empty when the post is fully unpublished.
+             */
+            still_live?: Array<{
+                platform?: string;
+                account?: string;
+                account_id?: number;
+                url?: string;
+                /**
+                 * no_delete_api: the platform lets no app delete posts (Instagram, TikTok, Snapchat) - delete it there. not_requested: left out by `platforms`. delete_not_enabled: deleting from this platform is switched off. reconnect_needed: the account is not connected - reconnect it, then unpublish again. delete_failed: retry.
+                 */
+                reason?: 'no_delete_api' | 'not_requested' | 'delete_not_enabled' | 'reconnect_needed' | 'delete_failed';
+                message?: string;
+            }>;
         };
         meta?: RequestMeta;
     };
