@@ -1267,6 +1267,10 @@ export type EditSettings = {
      */
     apply_brand_template?: boolean;
     /**
+     * The format of the edited video. `auto` (default): a portrait video (height more than 5% over the width) becomes 9:16 (1080x1920), a landscape one (width more than 5% over the height) 16:9 (1920x1080), anything in between 1:1 (1080x1080). `9:16`, `16:9`, `1:1` or `4:5` (1080x1350): that format, whatever the source. In every format the video fills the frame, centred, and what does not fit is cropped; captions, hook, logo and b-roll are placed for that frame. `source`: the video's own aspect ratio with the short side 1080 px (every edit made before 17 November 2026 keeps this format when you change it with PATCH).
+     */
+    aspect?: 'auto' | 'source' | '9:16' | '16:9' | '1:1' | '4:5';
+    /**
      * Names, brand and foreign words spoken in this video, spelled the way the captions must show them. An entry `heard => Right` fixes a known mishearing. Used together with the brand template's custom vocabulary. One word or name per entry, no commas. Changing it with PATCH respells the existing transcript at no extra charge.
      */
     vocabulary?: Array<string>;
