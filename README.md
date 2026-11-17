@@ -225,6 +225,9 @@ All methods below are available on the client. Full request/response documentati
 | `sq.calendar.getBooking(id)` | `GET /calendar/bookings/{id}` | Get a booking |
 | `sq.calendar.setBookingStatus(id, body)` | `POST /calendar/bookings/{id}/status` | Set a booking's status |
 | `sq.calendar.rescheduleBooking(id, body)` | `POST /calendar/bookings/{id}/reschedule` | Reschedule a booking |
+| `sq.calendar.declineBooking(id, body?)` | `POST /calendar/bookings/{id}/decline` | Decline a booking |
+| `sq.calendar.markBookingNoShow(id, body)` | `POST /calendar/bookings/{id}/no-show` | Mark who did not come |
+| `sq.calendar.addBookingGuests(id, body)` | `POST /calendar/bookings/{id}/guests` | Add guests to a booking |
 | `sq.calendar.listBookingNotes(id)` | `GET /calendar/bookings/{id}/notes` | List booking notes |
 | `sq.calendar.addBookingNote(id, body)` | `POST /calendar/bookings/{id}/notes` | Add a booking note |
 | `sq.calendar.deleteBookingNote(id, noteId)` | `DELETE /calendar/bookings/{id}/notes/{note_id}` | Delete a booking note |

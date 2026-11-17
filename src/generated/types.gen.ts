@@ -20971,6 +20971,198 @@ export type RescheduleBookingResponses = {
 
 export type RescheduleBookingResponse = RescheduleBookingResponses[keyof RescheduleBookingResponses];
 
+export type DeclineBookingData = {
+    body?: {
+        /**
+         * Shown to the guest. Optional, at most 500 characters.
+         */
+        reason?: string;
+    };
+    path: {
+        /**
+         * Booking id, as it appears on the CRM contact's bookings and in booking webhooks.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/calendar/bookings/{id}/decline';
+};
+
+export type DeclineBookingErrors = {
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict (e.g. duplicate idempotency or already-finished job)
+     */
+    409: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Rate limit exceeded
+     */
+    429: ErrorResponse;
+    /**
+     * The calendar did not answer in time (`UPSTREAM_UNAVAILABLE`). The booking may or may not have been declined. Read the booking before trying again.
+     */
+    502: unknown;
+};
+
+export type DeclineBookingError = DeclineBookingErrors[keyof DeclineBookingErrors];
+
+export type DeclineBookingResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type DeclineBookingResponse = DeclineBookingResponses[keyof DeclineBookingResponses];
+
+export type MarkBookingNoShowData = {
+    body: {
+        /**
+         * One entry per guest to set, up to 50. Guests not listed keep their mark.
+         */
+        attendees: Array<{
+            /**
+             * The guest's email, as on the booking.
+             */
+            email: string;
+            /**
+             * true = did not come, false = came (undoes a mark).
+             */
+            no_show: boolean;
+        }>;
+    };
+    path: {
+        /**
+         * Booking id, as it appears on the CRM contact's bookings and in booking webhooks.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/calendar/bookings/{id}/no-show';
+};
+
+export type MarkBookingNoShowErrors = {
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict (e.g. duplicate idempotency or already-finished job)
+     */
+    409: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Rate limit exceeded
+     */
+    429: ErrorResponse;
+    /**
+     * The calendar did not answer in time (`UPSTREAM_UNAVAILABLE`). The marks may or may not have been saved. Read the booking before trying again.
+     */
+    502: unknown;
+};
+
+export type MarkBookingNoShowError = MarkBookingNoShowErrors[keyof MarkBookingNoShowErrors];
+
+export type MarkBookingNoShowResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type MarkBookingNoShowResponse = MarkBookingNoShowResponses[keyof MarkBookingNoShowResponses];
+
+export type AddBookingGuestsData = {
+    body: {
+        /**
+         * Guest emails, 1 to 10.
+         */
+        guests: Array<string>;
+    };
+    path: {
+        /**
+         * Booking id, as it appears on the CRM contact's bookings and in booking webhooks.
+         */
+        id: number;
+    };
+    query?: never;
+    url: '/calendar/bookings/{id}/guests';
+};
+
+export type AddBookingGuestsErrors = {
+    /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict (e.g. duplicate idempotency or already-finished job)
+     */
+    409: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+    /**
+     * Rate limit exceeded
+     */
+    429: ErrorResponse;
+    /**
+     * The calendar did not answer in time (`UPSTREAM_UNAVAILABLE`). The guests may or may not have been added. Read the booking before trying again.
+     */
+    502: unknown;
+};
+
+export type AddBookingGuestsError = AddBookingGuestsErrors[keyof AddBookingGuestsErrors];
+
+export type AddBookingGuestsResponses = {
+    /**
+     * Success
+     */
+    200: {
+        success?: true;
+        data?: {
+            [key: string]: unknown;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type AddBookingGuestsResponse = AddBookingGuestsResponses[keyof AddBookingGuestsResponses];
+
 export type ListBookingNotesData = {
     body?: never;
     path: {

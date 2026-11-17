@@ -506,6 +506,21 @@ export class CalendarResource {
     return this._client.request('POST', `/calendar/bookings/${encodeURIComponent(id)}/reschedule`, { body, options });
   }
 
+  /** Decline a booking `POST /calendar/bookings/{id}/decline` */
+  declineBooking(id: string, body?: t.DeclineBookingData['body'], options?: RequestOptions): Promise<t.DeclineBookingResponses[keyof t.DeclineBookingResponses]> {
+    return this._client.request('POST', `/calendar/bookings/${encodeURIComponent(id)}/decline`, { body, options });
+  }
+
+  /** Mark who did not come `POST /calendar/bookings/{id}/no-show` */
+  markBookingNoShow(id: string, body: t.MarkBookingNoShowData['body'], options?: RequestOptions): Promise<t.MarkBookingNoShowResponses[keyof t.MarkBookingNoShowResponses]> {
+    return this._client.request('POST', `/calendar/bookings/${encodeURIComponent(id)}/no-show`, { body, options });
+  }
+
+  /** Add guests to a booking `POST /calendar/bookings/{id}/guests` */
+  addBookingGuests(id: string, body: t.AddBookingGuestsData['body'], options?: RequestOptions): Promise<t.AddBookingGuestsResponses[keyof t.AddBookingGuestsResponses]> {
+    return this._client.request('POST', `/calendar/bookings/${encodeURIComponent(id)}/guests`, { body, options });
+  }
+
   /** List booking notes `GET /calendar/bookings/{id}/notes` */
   listBookingNotes(id: string, options?: RequestOptions): Promise<t.ListBookingNotesResponses[keyof t.ListBookingNotesResponses]> {
     return this._client.request('GET', `/calendar/bookings/${encodeURIComponent(id)}/notes`, { options });

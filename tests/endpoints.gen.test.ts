@@ -682,6 +682,27 @@ describe('calendar', () => {
     expect(calls[0].path).toBe('/calendar/bookings/test-id/reschedule');
   });
 
+  it('calendar.declineBooking -> POST /calendar/bookings/{id}/decline', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.declineBooking('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/calendar/bookings/test-id/decline');
+  });
+
+  it('calendar.markBookingNoShow -> POST /calendar/bookings/{id}/no-show', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.markBookingNoShow('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/calendar/bookings/test-id/no-show');
+  });
+
+  it('calendar.addBookingGuests -> POST /calendar/bookings/{id}/guests', async () => {
+    const { client, calls } = mockClient();
+    await client.calendar.addBookingGuests('test-id', {} as never);
+    expect(calls[0].method).toBe('POST');
+    expect(calls[0].path).toBe('/calendar/bookings/test-id/guests');
+  });
+
   it('calendar.listBookingNotes -> GET /calendar/bookings/{id}/notes', async () => {
     const { client, calls } = mockClient();
     await client.calendar.listBookingNotes('test-id');
