@@ -20970,7 +20970,7 @@ export type RescheduleBookingErrors = {
     /**
      * The calendar did not answer in time (`UPSTREAM_UNAVAILABLE`). The booking may or may not have moved: read it before trying again.
      */
-    502: unknown;
+    503: unknown;
 };
 
 export type RescheduleBookingError = RescheduleBookingErrors[keyof RescheduleBookingErrors];
@@ -21031,7 +21031,7 @@ export type DeclineBookingErrors = {
     /**
      * The calendar did not answer in time (`UPSTREAM_UNAVAILABLE`). The booking may or may not have been declined. Read the booking before trying again.
      */
-    502: unknown;
+    503: unknown;
 };
 
 export type DeclineBookingError = DeclineBookingErrors[keyof DeclineBookingErrors];
@@ -21101,7 +21101,7 @@ export type MarkBookingNoShowErrors = {
     /**
      * The calendar did not answer in time (`UPSTREAM_UNAVAILABLE`). The marks may or may not have been saved. Read the booking before trying again.
      */
-    502: unknown;
+    503: unknown;
 };
 
 export type MarkBookingNoShowError = MarkBookingNoShowErrors[keyof MarkBookingNoShowErrors];
@@ -21162,7 +21162,7 @@ export type AddBookingGuestsErrors = {
     /**
      * The calendar did not answer in time (`UPSTREAM_UNAVAILABLE`). The guests may or may not have been added. Read the booking before trying again.
      */
-    502: unknown;
+    503: unknown;
 };
 
 export type AddBookingGuestsError = AddBookingGuestsErrors[keyof AddBookingGuestsErrors];
