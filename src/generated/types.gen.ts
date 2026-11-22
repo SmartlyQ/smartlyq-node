@@ -356,6 +356,10 @@ export type SocialAccount = {
     id?: number;
     platform?: string;
     name?: string;
+    /**
+     * Whether this account's messages come into the inbox (`GET /social/conversations`). Off until someone turns it on in the app or with `PATCH /social/accounts/{account_id}`; accounts connected before 22 Nov 2026 were turned on. `null` for networks whose messages are not behind this switch (only Facebook, Instagram, X and Bluesky are).
+     */
+    inbox_enabled?: boolean;
 };
 
 export type SocialAccountListResponse = {
@@ -5124,7 +5128,14 @@ export type DisconnectSocialAccountResponse = DisconnectSocialAccountResponses[k
 
 export type UpdateSocialAccountData = {
     body: {
-        account_name: string;
+        /**
+         * New display name, 1-255 characters.
+         */
+        account_name?: string;
+        /**
+         * On: the account's messages come into the inbox. Off: no new ones come in.
+         */
+        inbox_enabled?: boolean;
     };
     path: {
         account_id: number;
@@ -5139,6 +5150,10 @@ export type UpdateSocialAccountErrors = {
      */
     401: ErrorResponse;
     /**
+     * Forbidden (scope or access)
+     */
+    403: ErrorResponse;
+    /**
      * Resource not found
      */
     404: ErrorResponse;
@@ -5152,7 +5167,7 @@ export type UpdateSocialAccountError = UpdateSocialAccountErrors[keyof UpdateSoc
 
 export type UpdateSocialAccountResponses = {
     /**
-     * Renamed
+     * Updated
      */
     200: {
         success?: true;
@@ -5160,6 +5175,10 @@ export type UpdateSocialAccountResponses = {
             id?: number;
             platform?: string;
             account_name?: string;
+            /**
+             * Present for Facebook, Instagram, X and Bluesky accounts.
+             */
+            inbox_enabled?: boolean;
         };
         meta?: RequestMeta;
     };

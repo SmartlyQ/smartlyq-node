@@ -1401,7 +1401,7 @@ export class SocialResource {
     return this._client.request('DELETE', `/social/posts/${encodeURIComponent(postId)}`, { options });
   }
 
-  /** Rename account `PATCH /social/accounts/{account_id}` */
+  /** Update account `PATCH /social/accounts/{account_id}` */
   updateAccount(accountId: string, body: t.UpdateSocialAccountData['body'], options?: RequestOptions): Promise<t.UpdateSocialAccountResponses[keyof t.UpdateSocialAccountResponses]> {
     return this._client.request('PATCH', `/social/accounts/${encodeURIComponent(accountId)}`, { body, options });
   }
