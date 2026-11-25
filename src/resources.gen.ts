@@ -1851,6 +1851,16 @@ export class SocialResource {
     return this._client.request('POST', `/social/accounts/${encodeURIComponent(accountId)}/facebook/page/cover`, { body, options });
   }
 
+  /** Community authors `GET /social/accounts/{account_id}/community/authors` */
+  listCommunityAuthors(accountId: string, query?: t.ListCommunityAuthorsData['query'], options?: RequestOptions): Promise<t.ListCommunityAuthorsResponses[keyof t.ListCommunityAuthorsResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/community/authors`, { query, options });
+  }
+
+  /** Community planner limits `GET /social/accounts/{account_id}/community/limits` */
+  getCommunityLimits(accountId: string, options?: RequestOptions): Promise<t.GetCommunityLimitsResponses[keyof t.GetCommunityLimitsResponses]> {
+    return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/community/limits`, { options });
+  }
+
   /** Get Facebook Reel limit `GET /social/accounts/{account_id}/facebook/reel-limit` */
   getFacebookReelLimit(accountId: string, options?: RequestOptions): Promise<t.GetFacebookReelLimitResponses[keyof t.GetFacebookReelLimitResponses]> {
     return this._client.request('GET', `/social/accounts/${encodeURIComponent(accountId)}/facebook/reel-limit`, { options });

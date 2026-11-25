@@ -2455,6 +2455,20 @@ describe('social', () => {
     expect(calls[0].path).toBe('/social/accounts/test-id/facebook/page/cover');
   });
 
+  it('social.listCommunityAuthors -> GET /social/accounts/{account_id}/community/authors', async () => {
+    const { client, calls } = mockClient();
+    await client.social.listCommunityAuthors('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/community/authors');
+  });
+
+  it('social.getCommunityLimits -> GET /social/accounts/{account_id}/community/limits', async () => {
+    const { client, calls } = mockClient();
+    await client.social.getCommunityLimits('test-id');
+    expect(calls[0].method).toBe('GET');
+    expect(calls[0].path).toBe('/social/accounts/test-id/community/limits');
+  });
+
   it('social.getFacebookReelLimit -> GET /social/accounts/{account_id}/facebook/reel-limit', async () => {
     const { client, calls } = mockClient();
     await client.social.getFacebookReelLimit('test-id');

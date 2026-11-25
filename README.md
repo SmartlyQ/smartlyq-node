@@ -582,6 +582,8 @@ All methods below are available on the client. Full request/response documentati
 | `sq.social.updateFacebookPageSettings(accountId, body)` | `PATCH /social/accounts/{account_id}/facebook/page/settings` | Update Facebook page settings |
 | `sq.social.setFacebookPagePicture(accountId, body)` | `POST /social/accounts/{account_id}/facebook/page/picture` | Set Facebook page profile picture |
 | `sq.social.setFacebookPageCover(accountId, body)` | `POST /social/accounts/{account_id}/facebook/page/cover` | Set Facebook page cover photo |
+| `sq.social.listCommunityAuthors(accountId, query?)` | `GET /social/accounts/{account_id}/community/authors` | Community authors |
+| `sq.social.getCommunityLimits(accountId)` | `GET /social/accounts/{account_id}/community/limits` | Community planner limits |
 | `sq.social.getFacebookReelLimit(accountId)` | `GET /social/accounts/{account_id}/facebook/reel-limit` | Get Facebook Reel limit |
 | `sq.social.updateYoutubePlaylist(accountId, playlistId, body)` | `PATCH /social/accounts/{account_id}/youtube/playlists/{playlist_id}` | Update a YouTube playlist |
 | `sq.social.listMentions(accountId, query?)` | `GET /social/accounts/{account_id}/mentions` | List mentions |

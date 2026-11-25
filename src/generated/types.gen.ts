@@ -376,7 +376,7 @@ export type SocialPostCreateRequest = {
     /**
      * Target platforms. Use `twitter` for X and `gmb` for Google Business. `telegram` posts via the workspace's connected bot (created with @BotFather); `discord` posts via the connected server webhook. Both are connected in the dashboard's Social Accounts page.
      */
-    platforms: Array<'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'gmb' | 'threads' | 'bluesky' | 'tumblr' | 'telegram' | 'discord'>;
+    platforms: Array<'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'gmb' | 'threads' | 'bluesky' | 'tumblr' | 'telegram' | 'discord' | 'community'>;
     /**
      * IDs of connected social accounts to post to. Optional when account_group_ids is sent; at least one of the two is required.
      */
@@ -402,7 +402,8 @@ export type SocialPostCreateRequest = {
      */
     platform_options?: {
         tiktok?: TikTokPlatformOptions;
-        [key: string]: unknown | TikTokPlatformOptions | undefined;
+        community?: CommunityPlatformOptions;
+        [key: string]: unknown | TikTokPlatformOptions | CommunityPlatformOptions | undefined;
     };
 };
 
@@ -417,7 +418,7 @@ export type SocialPostScheduleRequest = {
     /**
      * Target platforms. Use `twitter` for X and `gmb` for Google Business. `telegram` posts via the workspace's connected bot (created with @BotFather); `discord` posts via the connected server webhook. Both are connected in the dashboard's Social Accounts page.
      */
-    platforms: Array<'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'gmb' | 'threads' | 'bluesky' | 'tumblr' | 'telegram' | 'discord'>;
+    platforms: Array<'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'gmb' | 'threads' | 'bluesky' | 'tumblr' | 'telegram' | 'discord' | 'community'>;
     /**
      * IDs of connected social accounts to post to. Optional when account_group_ids is sent; at least one of the two is required.
      */
@@ -472,8 +473,39 @@ export type SocialPostScheduleRequest = {
      */
     platform_options?: {
         tiktok?: TikTokPlatformOptions;
-        [key: string]: unknown | TikTokPlatformOptions | undefined;
+        community?: CommunityPlatformOptions;
+        [key: string]: unknown | TikTokPlatformOptions | CommunityPlatformOptions | undefined;
     };
+};
+
+/**
+ * Options for community channels (platform `community`, the workspace's own community groups; each channel is a connected account, see `GET /social/accounts`). All optional. A community post has up to 10,000 characters of text and up to 4 images (10 MB each) and 1 video (MP4, MOV or WebM, 100 MB); images and video may be mixed.
+ */
+export type CommunityPlatformOptions = {
+    /**
+     * The post's title in the community. Default: the post's title, else its first line (that line is then not repeated in the text).
+     */
+    title?: string;
+    /**
+     * Tell every member of the channel: a bell notice and a push, plus an email when the workspace has its own sending domain. Default false. Limited per group per day (`GET /social/accounts/{account_id}/community/limits`).
+     */
+    notify_all?: boolean;
+    /**
+     * Members may comment. Default true.
+     */
+    comments_on?: boolean;
+    /**
+     * Who the post appears from. Default (or null): the person who created the API key. Only the workspace owner and admins may name someone else, and only someone `GET /social/accounts/{account_id}/community/authors` lists (the group's owner, admins and moderators); anything else is refused with `422 COMMUNITY_AUTHOR_NOT_ALLOWED`.
+     */
+    post_as_user_id?: number | null;
+    /**
+     * Text for the community only, instead of the post's `content`.
+     */
+    content?: string;
+    /**
+     * Media for the community only, instead of the post's `media_urls`.
+     */
+    media_urls?: Array<string>;
 };
 
 /**
@@ -536,13 +568,14 @@ export type SocialPostUpdateRequest = {
      */
     platform_options?: {
         tiktok?: TikTokPlatformOptions;
-        [key: string]: unknown | TikTokPlatformOptions | undefined;
+        community?: CommunityPlatformOptions;
+        [key: string]: unknown | TikTokPlatformOptions | CommunityPlatformOptions | undefined;
     };
     content?: string;
     /**
      * Target platforms. Use `twitter` for X and `gmb` for Google Business. `telegram` posts via the workspace's connected bot (created with @BotFather); `discord` posts via the connected server webhook. Both are connected in the dashboard's Social Accounts page.
      */
-    platforms?: Array<'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'gmb' | 'threads' | 'bluesky' | 'tumblr' | 'telegram' | 'discord'>;
+    platforms?: Array<'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'youtube' | 'tiktok' | 'gmb' | 'threads' | 'bluesky' | 'tumblr' | 'telegram' | 'discord' | 'community'>;
     /**
      * Replaces the accounts the post goes to.
      */
@@ -10633,7 +10666,8 @@ export type BulkSchedulePostsData = {
              */
             platform_options?: {
                 tiktok?: TikTokPlatformOptions;
-                [key: string]: unknown | TikTokPlatformOptions | undefined;
+                community?: CommunityPlatformOptions;
+                [key: string]: unknown | TikTokPlatformOptions | CommunityPlatformOptions | undefined;
             };
         }>;
         /**
@@ -10729,7 +10763,8 @@ export type ValidateBulkBatchData = {
              */
             platform_options?: {
                 tiktok?: TikTokPlatformOptions;
-                [key: string]: unknown | TikTokPlatformOptions | undefined;
+                community?: CommunityPlatformOptions;
+                [key: string]: unknown | TikTokPlatformOptions | CommunityPlatformOptions | undefined;
             };
         }>;
         /**
@@ -17815,6 +17850,144 @@ export type SetFacebookPageCoverResponses = {
 };
 
 export type SetFacebookPageCoverResponse = SetFacebookPageCoverResponses[keyof SetFacebookPageCoverResponses];
+
+export type ListCommunityAuthorsData = {
+    body?: never;
+    path: {
+        /**
+         * Community channel account id (platform `community`).
+         */
+        account_id: number;
+    };
+    query?: {
+        /**
+         * Part of a name or email to filter by (owners and admins only).
+         */
+        search?: string;
+    };
+    url: '/social/accounts/{account_id}/community/authors';
+};
+
+export type ListCommunityAuthorsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type ListCommunityAuthorsError = ListCommunityAuthorsErrors[keyof ListCommunityAuthorsErrors];
+
+export type ListCommunityAuthorsResponses = {
+    /**
+     * Community authors
+     */
+    200: {
+        success?: true;
+        data?: {
+            account_id?: number;
+            group?: {
+                id?: number;
+                name?: string;
+            };
+            /**
+             * True when the key's creator is the workspace owner or an admin.
+             */
+            can_pick_others?: boolean;
+            me?: {
+                user_id?: number;
+                /**
+                 * May the key's creator post in this group.
+                 */
+                allowed?: boolean;
+            };
+            authors?: Array<{
+                user_id?: number;
+                name?: string;
+                role?: 'owner' | 'admin' | 'moderator';
+            }>;
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type ListCommunityAuthorsResponse = ListCommunityAuthorsResponses[keyof ListCommunityAuthorsResponses];
+
+export type GetCommunityLimitsData = {
+    body?: never;
+    path: {
+        /**
+         * Community channel account id (platform `community`).
+         */
+        account_id: number;
+    };
+    query?: never;
+    url: '/social/accounts/{account_id}/community/limits';
+};
+
+export type GetCommunityLimitsErrors = {
+    /**
+     * Missing or invalid API key
+     */
+    401: ErrorResponse;
+    /**
+     * Resource not found
+     */
+    404: ErrorResponse;
+    /**
+     * Validation error
+     */
+    422: ErrorResponse;
+};
+
+export type GetCommunityLimitsError = GetCommunityLimitsErrors[keyof GetCommunityLimitsErrors];
+
+export type GetCommunityLimitsResponses = {
+    /**
+     * Community planner limits
+     */
+    200: {
+        success?: true;
+        data?: {
+            account_id?: number;
+            posting_blocked?: boolean;
+            /**
+             * Posts per channel in 24 hours.
+             */
+            per_channel_day?: number;
+            /**
+             * Posts per group (all its channels) in 24 hours.
+             */
+            per_group_day?: number;
+            /**
+             * Posts with notify_all per group in 24 hours.
+             */
+            notify_per_group_day?: number;
+            /**
+             * Minutes between two planner posts in one channel.
+             */
+            gap_minutes?: number;
+            /**
+             * Days the same title and text is refused again in a channel.
+             */
+            duplicate_days?: number;
+            new_workspace_halved?: boolean;
+            maximums?: {
+                [key: string]: number;
+            };
+        };
+        meta?: RequestMeta;
+    };
+};
+
+export type GetCommunityLimitsResponse = GetCommunityLimitsResponses[keyof GetCommunityLimitsResponses];
 
 export type GetFacebookReelLimitData = {
     body?: never;
